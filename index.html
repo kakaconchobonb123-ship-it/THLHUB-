@@ -5,146 +5,222 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THLHUB</title>
     <style>
-        /* Thiết lập giao diện tổng quan và viền đỏ xung quanh màn hình */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            padding: 20px;
-            background-color: #121212;
+            padding: 0;
+            background-color: #0b0b0f;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            box-sizing: border-box;
             overflow: hidden;
+            /* Tạo hình nền mờ ảo phong cách gaming/cyberpunk */
+            background-image: linear-gradient(rgba(11, 11, 15, 0.85), rgba(11, 11, 15, 0.85)), 
+                              url('image.png'); /* Hoặc ảnh nền cyberpunk của bạn */
+            background-size: cover;
+            background-position: center;
         }
 
+        /* Khung giao diện chính với viền neon đỏ sáng rực */
         .web-frame {
-            width: 100%;
-            max-width: 500px;
-            height: 90vh;
-            border: 4px solid #ff2a2a; /* Viền đỏ yêu cầu */
-            border-radius: 15px;
-            padding: 20px;
+            width: 90%;
+            max-width: 420px;
+            background: rgba(18, 18, 24, 0.9);
+            border: 2px solid #ff2a2a;
+            border-radius: 20px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            background-color: #1a1a1a;
-            box-shadow: 0 0 20px rgba(255, 42, 42, 0.4);
-            box-sizing: border-box;
+            box-shadow: 0 0 25px rgba(255, 42, 42, 0.5), inset 0 0 15px rgba(255, 42, 42, 0.2);
             position: relative;
         }
 
-        /* Hình ảnh phía trên chữ THLHUB */
+        /* Logo/Ảnh phía trên chữ THLHUB */
         .header-img {
-            width: 90px;
-            height: 90px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 2px solid #ff2a2a;
-            margin-bottom: 10px;
-            box-shadow: 0 0 10px rgba(255, 42, 42, 0.5);
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 0 8px rgba(255, 42, 42, 0.7));
         }
 
         /* Tiêu đề THLHUB */
         h1 {
-            font-size: 28px;
-            margin: 5px 0;
-            color: #ff4d4d;
+            font-size: 26px;
+            margin: 10px 0 5px 0;
+            color: #ff3b3b;
             letter-spacing: 2px;
-            min-height: 35px;
+            text-shadow: 0 0 10px rgba(255, 59, 59, 0.6);
+            font-weight: 800;
+            min-height: 32px;
         }
 
-        /* Dòng phụ mô tả */
+        /* Dòng chữ phụ mô tả */
         p.subtitle {
             font-size: 14px;
-            color: #b0b0b0;
-            margin-bottom: 30px;
+            color: #e0e0e0;
+            margin-bottom: 25px;
             min-height: 20px;
             text-align: center;
+            letter-spacing: 0.5px;
         }
 
         /* Khu vực chứa 2 Tab */
         .tab-container {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             width: 100%;
-            justify-content: center;
+            background: #15151c;
+            padding: 5px;
+            border-radius: 12px;
+            border: 1px solid #ff2a2a;
         }
 
-        /* Thiết kế nút Tab hiện đại */
+        /* Nút Tab */
         .tab-btn {
-            background-color: #2a2a2a;
-            color: white;
-            border: 2px solid #ff2a2a;
-            padding: 12px 20px;
-            font-size: 15px;
+            background-color: transparent;
+            color: #cccccc;
+            border: none;
+            padding: 12px 0;
+            font-size: 14px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-            outline: none;
+            transition: all 0.2s ease;
             flex: 1;
             text-align: center;
         }
 
-        /* Hiệu ứng khi ấn xuống (Active) */
-        .tab-btn:active {
-            transform: scale(0.92); /* Thu nhỏ, tạo cảm giác bị ấn xuống */
+        /* Trạng thái khi chọn hoặc bấm tab */
+        .tab-btn.active, .tab-btn:active {
             background-color: #ff2a2a;
             color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(255, 42, 42, 0.8);
+            transform: scale(0.97);
         }
 
-        /* Hiệu ứng nảy lên nhẹ khi rê chuột hoặc sau khi click */
-        .tab-btn:hover {
-            background-color: #3a3a3a;
-            box-shadow: 0 0 10px rgba(255, 42, 42, 0.6);
-        }
-
-        /* Khung hiển thị nội dung khi bấm Tab */
+        /* Khung hiển thị nội dung bên dưới */
         .content-box {
-            margin-top: 25px;
+            margin-top: 20px;
             width: 100%;
-            background: #222;
+            background: rgba(25, 25, 35, 0.7);
             padding: 15px;
-            border-radius: 8px;
-            border: 1px dashed #444;
+            border-radius: 10px;
+            border: 1px dashed rgba(255, 42, 42, 0.4);
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
+            color: #bbb;
+        }
+
+        /* --- POPUP THÔNG BÁO GIỮA MÀN HÌNH --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-box {
+            width: 85%;
+            max-width: 350px;
+            background: #181822;
+            border: 2px solid #ff2a2a;
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(255, 42, 42, 0.7);
+            animation: popUp 0.3s ease;
+        }
+
+        .modal-box h3 {
+            color: #ff3b3b;
+            margin-top: 0;
+            font-size: 20px;
+            text-shadow: 0 0 8px rgba(255, 59, 59, 0.5);
+        }
+
+        .modal-box p {
             color: #ddd;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .modal-btn {
+            background-color: #ff2a2a;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 42, 42, 0.6);
+            transition: transform 0.1s ease;
+        }
+
+        .modal-btn:active {
+            transform: scale(0.93);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes popUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
 <body>
 
+    <!-- BẢNG THÔNG BÁO KHI VỪA VÀO WEB -->
+    <div class="modal-overlay" id="notificationModal">
+        <div class="modal-box">
+            <h3>⚠️ THÔNG BÁO</h3>
+            <p>Web mới tạo nên gặp nhiều lỗi chưa fix, admin đang fix lỗi sẽ sớm thôi!</p>
+            <button class="modal-btn" onclick="closeModal()">Đã hiểu</button>
+        </div>
+    </div>
+
+    <!-- KHUNG GIAO DIỆN WEB -->
     <div class="web-frame">
-        <!-- Ảnh gắn trên chữ THLHUB (Sử dụng ảnh trực tiếp từ yêu cầu) -->
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD..." alt="THLHUB Logo" class="header-img" id="myImage">
+        <!-- Ảnh logo (Đổi src thành tên file ảnh của bạn, ví dụ image.png) -->
+        <img src="image.png" alt="Logo" class="header-img">
         
-        <!-- Tiêu đề và chữ hiện từ từ -->
+        <!-- Tiêu đề chữ chạy -->
         <h1 id="title-text"></h1>
         <p class="subtitle" id="sub-text"></p>
 
         <!-- 2 Tab lựa chọn -->
         <div class="tab-container">
-            <button class="tab-btn" onclick="showContent('Hack Roblox')">1. Hack Roblox</button>
-            <button class="tab-btn" onclick="showContent('Script')">2. Script</button>
+            <button class="tab-btn active" id="tab1" onclick="switchTab('roblox')">hack Roblox</button>
+            <button class="tab-btn" id="tab2" onclick="switchTab('script')">script</button>
         </div>
 
         <div class="content-box" id="display-content">
-            Chọn một mục ở trên để hiển thị thông tin!
+            🚀 Đang hiển thị danh sách Hack Roblox...
         </div>
     </div>
 
     <script>
-        // Gán link ảnh chính xác bạn gửi vào thẻ img thông qua javascript hoặc base64
-        // (Ở đây dùng link trực tiếp file ảnh của bạn)
-        document.getElementById('myImage').src = "image.png";
-
-        // Hiệu ứng chữ chạy từ từ nhưng nhanh
+        // Hiệu ứng chữ chạy tự động khi vào web
         const titleString = "THLHUB";
         const subString = "các script hack đều ở đây";
         
@@ -155,9 +231,9 @@
             if (i < titleString.length) {
                 document.getElementById("title-text").innerHTML += titleString.charAt(i);
                 i++;
-                setTimeout(typeTitle, 80); // Tốc độ chạy chữ tiêu đề
+                setTimeout(typeTitle, 100);
             } else {
-                typeSub();
+                setTimeout(typeSub, 200);
             }
         }
 
@@ -165,22 +241,34 @@
             if (j < subString.length) {
                 document.getElementById("sub-text").innerHTML += subString.charAt(j);
                 j++;
-                setTimeout(typeSub, 40); // Tốc độ chạy chữ phụ nhanh hơn một chút
+                setTimeout(typeSub, 50);
             }
         }
 
-        // Bắt đầu hiệu ứng chạy chữ ngay khi load trang
+        // Chạy hiệu ứng chữ ngay khi load trang
         window.onload = function() {
-            setTimeout(typeTitle, 300);
+            setTimeout(typeTitle, 400);
         };
 
-        // Hàm xử lý khi bấm vào các Tab
-        function showContent(tabName) {
+        // Hàm tắt bảng thông báo
+        function closeModal() {
+            document.getElementById("notificationModal").style.display = "none";
+        }
+
+        // Hàm chuyển đổi qua lại giữa 2 Tab
+        function switchTab(type) {
+            const tab1 = document.getElementById("tab1");
+            const tab2 = document.getElementById("tab2");
             const box = document.getElementById("display-content");
-            if (tabName === 'Hack Roblox') {
+
+            if (type === 'roblox') {
+                tab1.classList.add("active");
+                tab2.classList.remove("active");
                 box.innerHTML = "🚀 Danh sách các bản Hack Roblox mới nhất đang sẵn sàng!";
             } else {
-                box.innerHTML = "📜 Kho tổng hợp các Script tổng hợp chất lượng cao!";
+                tab2.classList.add("active");
+                tab1.classList.remove("active");
+                box.innerHTML = "📜 Kho tổng hợp Script tổng hợp chất lượng cao!";
             }
         }
     </script>
