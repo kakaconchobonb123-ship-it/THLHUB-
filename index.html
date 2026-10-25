@@ -22,15 +22,14 @@
             background-position: center;
         }
 
-        /* Khung giao diện chính to và hiện đại hơn */
         .web-frame {
             width: 92%;
             max-width: 460px;
-            height: 520px;
+            height: 540px;
             background: rgba(18, 18, 24, 0.95);
             border: 2px solid #ff2a2a;
             border-radius: 22px;
-            padding: 30px 20px;
+            padding: 25px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -38,13 +37,13 @@
             position: relative;
         }
 
-        /* Điểm bấm bí mật cho Admin ở góc trên bên phải */
+        /* Điểm bấm bí mật mở Menu Admin (Góc trên bên phải - bấm 5 lần) */
         .secret-admin-trigger {
             position: absolute;
             top: 10px;
             right: 15px;
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             cursor: pointer;
             z-index: 50;
         }
@@ -85,7 +84,6 @@
             outline: none;
         }
 
-        /* Các tab trên menu chính */
         .tab-container {
             display: flex;
             gap: 8px;
@@ -166,101 +164,49 @@
         .link-btn { background-color: #00bfff; }
         .copy-btn:active, .link-btn:active { transform: scale(0.9); }
 
-        /* --- NÚT 3 GẠCH GÓC DƯỚI BÊN TRÁI --- */
+        /* NÚT 3 GẠCH BÊN TRÁI */
         .hamburger-menu {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: #181822;
-            border: 2px solid #ff2a2a;
-            border-radius: 12px;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 42, 42, 0.5);
-            z-index: 100;
+            position: fixed; bottom: 20px; left: 20px;
+            background: #181822; border: 2px solid #ff2a2a; border-radius: 12px;
+            width: 45px; height: 45px; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; gap: 5px; cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 42, 42, 0.5); z-index: 100;
         }
-        .hamburger-menu span {
-            width: 22px;
-            height: 3px;
-            background: #ff2a2a;
-            border-radius: 2px;
-        }
+        .hamburger-menu span { width: 22px; height: 3px; background: #ff2a2a; border-radius: 2px; }
 
-        /* Bảng chọn khi bấm 3 gạch */
         .side-popup {
-            display: none;
-            position: fixed;
-            bottom: 75px;
-            left: 20px;
-            background: #181822;
-            border: 2px solid #ff2a2a;
-            border-radius: 12px;
-            width: 180px;
-            padding: 10px;
-            z-index: 100;
-            box-shadow: 0 0 20px rgba(255, 42, 42, 0.6);
+            display: none; position: fixed; bottom: 75px; left: 20px;
+            background: #181822; border: 2px solid #ff2a2a; border-radius: 12px;
+            width: 200px; padding: 10px; z-index: 100; box-shadow: 0 0 20px rgba(255, 42, 42, 0.6);
         }
         .side-popup button {
-            width: 100%;
-            background: transparent;
-            color: white;
-            border: none;
-            padding: 10px;
-            text-align: left;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 6px;
+            width: 100%; background: transparent; color: white; border: none;
+            padding: 10px; text-align: left; font-size: 14px; font-weight: bold;
+            cursor: pointer; border-radius: 6px;
         }
         .side-popup button:hover { background: #ff2a2a; }
 
-        /* --- GIAO DIỆN EMAIL 10 PHÚT --- */
-        .email-view {
-            display: none;
-            width: 100%;
-            height: 100%;
-            flex-direction: column;
-            gap: 12px;
+        /* GIAO DIỆN EMAIL ẢO & BYPASS */
+        .sub-view {
+            display: none; width: 100%; height: 100%; flex-direction: column; gap: 10px;
         }
-        .email-header-box {
-            background: #15151c;
-            border: 1px solid #ff2a2a;
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
+        .sub-header-box {
+            background: #15151c; border: 1px solid #00ffcc; padding: 10px; border-radius: 10px; text-align: center;
         }
         .email-address {
-            font-size: 13px;
-            color: #00ffcc;
-            font-weight: bold;
-            margin: 6px 0;
-            word-break: break-all;
+            font-size: 12px; color: #00ffcc; font-weight: bold; margin: 4px 0; word-break: break-all;
         }
-        .email-inbox {
-            background: rgba(20, 20, 28, 0.9);
-            border: 1px dashed #555;
-            border-radius: 10px;
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-            font-size: 13px;
+        .sub-inbox {
+            background: rgba(20, 20, 28, 0.9); border: 1px dashed #555; border-radius: 10px;
+            flex: 1; padding: 8px; overflow-y: auto; font-size: 13px;
         }
         .inbox-item {
-            background: #252535;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            border-left: 3px solid #00ffcc;
+            background: #252535; padding: 10px; border-radius: 6px; margin-bottom: 6px;
+            cursor: pointer; border-left: 3px solid #00ffcc;
         }
+        .inbox-item:hover { background: #2f2f45; }
 
-        /* --- MENU ẨN ADMIN (TO & HIỆN ĐẠI) --- */
+        /* MENU ẨN ADMIN */
         .admin-panel {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.92); z-index: 2000; justify-content: center; align-items: center;
@@ -272,7 +218,7 @@
         }
         .admin-content h3 { color: #00ffcc; text-align: center; font-size: 20px; margin-top: 0; }
         .admin-content label { font-size: 13px; color: #bbb; display: block; margin-top: 10px; }
-        .admin-content input, .admin-content select {
+        .admin-content input {
             width: 100%; padding: 10px; background: #222; border: 1px solid #444; border-radius: 8px; color: #fff; font-size: 14px; margin-top: 4px;
         }
         .admin-save-btn {
@@ -282,7 +228,7 @@
             width: 100%; background: #444; color: #fff; font-weight: bold; border: none; padding: 10px; border-radius: 8px; cursor: pointer; margin-top: 8px;
         }
 
-        /* --- MODAL HỎI KHI BẤM LINK / SAO CHÉP --- */
+        /* MODAL LỰA CHỌN LINK / SAO CHÉP */
         .choice-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 3000; justify-content: center; align-items: center;
@@ -298,7 +244,7 @@
         .btn-copy { background: #ff2a2a; color: white; }
         .btn-cancel { background: #444; color: white; }
 
-        /* Toast thông báo sao chép */
+        /* TOAST THÔNG BÁO */
         #toast {
             visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 10px; position: fixed; z-index: 4000; left: 50%; bottom: 30px; transform: translateX(-50%); border: 1px solid #00ffcc; font-size: 14px;
         }
@@ -309,7 +255,7 @@
 </head>
 <body>
 
-    <!-- THÔNG BÁO LỖI BAN ĐẦU -->
+    <!-- THÔNG BÁO BAN ĐẦU -->
     <div class="choice-modal" id="notificationModal" style="display: flex;">
         <div class="choice-box" style="border-color: #ff2a2a;">
             <h3>⚠️ THÔNG BÁO</h3>
@@ -318,21 +264,21 @@
         </div>
     </div>
 
-    <!-- NÚT 3 GẠCH GÓC DƯỚI BÊN TRÁI -->
+    <!-- NÚT 3 GẠCH BÊN TRÁI -->
     <div class="hamburger-menu" onclick="toggleSideMenu()">
         <span></span><span></span><span></span>
     </div>
 
-    <!-- BẢNG CHỌN SIDEBAR -->
     <div class="side-popup" id="sidePopup">
         <button onclick="switchView('home')">🏠 Trang chủ</button>
         <button onclick="switchView('email')">📧 Email 10 Phút</button>
+        <button onclick="switchView('bypass')">🔑 Bypass Key Delta</button>
     </div>
 
     <!-- MENU ẨN ADMIN -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-content">
-            <h3>⚙️ MENU ẨN ADMIN (QUẢN LÝ SCRIPT)</h3>
+            <h3>⚙️ MENU ẨN ADMIN (QUẢN LÝ TAB & SCRIPT)</h3>
             <div id="adminScriptList"></div>
             <button class="admin-save-btn" onclick="addNewScriptInput()">➕ Thêm Tab/Script Mới</button>
             <button class="admin-save-btn" style="background:#ff3b3b; color:white;" onclick="saveAdminData()">💾 Lưu & Cập Nhật</button>
@@ -353,7 +299,7 @@
 
     <!-- GIAO DIỆN CHÍNH -->
     <div class="web-frame">
-        <!-- Vùng bấm bí mật mở Admin (Góc trên bên phải) -->
+        <!-- Vùng bấm bí mật mở Admin (Góc trên bên phải - bấm 5 lần) -->
         <div class="secret-admin-trigger" onclick="triggerAdminSecret()"></div>
 
         <!-- VIEW TRANG CHỦ -->
@@ -370,17 +316,30 @@
         </div>
 
         <!-- VIEW EMAIL 10 PHÚT -->
-        <div class="email-view" id="emailView">
-            <h2 style="color:#00ffcc; text-align:center; margin:0; font-size:20px;">📧 Hộp Thư 10 Phút</h2>
-            <div class="email-header-box">
-                <span style="font-size:12px; color:#aaa;">Thời gian còn lại: <strong id="emailTimer" style="color:#ff3b3b;">09:59</strong></span>
-                <div class="email-address" id="tempEmailAddr">thlhub_temp928@dustmail.net</div>
+        <div class="sub-view" id="emailView">
+            <h2 style="color:#00ffcc; text-align:center; margin:0; font-size:18px;">📧 Hộp Thư Ảo Nhận Mã</h2>
+            <div class="sub-header-box">
+                <span style="font-size:11px; color:#aaa;">Email của bạn (tự làm mới mỗi 5 giây):</span>
+                <div class="email-address" id="tempEmailAddr">Đang tạo email...</div>
                 <button class="copy-btn" onclick="copyEmail()">Sao chép Email</button>
+                <button class="copy-btn" style="background:#00bfff; margin-left:5px;" onclick="generateNewEmail()">Đổi Email khác</button>
             </div>
-            <div class="email-inbox" id="emailInbox">
-                <div class="inbox-item" onclick="viewEmailDetail('Mã xác nhận Roblox: 849201 từ Web Hack A')">
-                    <strong>Hệ thống xác thực</strong>: Mã xác nhận Roblox mới...
-                </div>
+            <div class="sub-inbox" id="emailInbox">
+                <div style="text-align:center; color:#888; margin-top:20px; font-size:12px;">Đang đợi thư đến từ web khác...</div>
+            </div>
+        </div>
+
+        <!-- VIEW BYPASS KEY DELTA -->
+        <div class="sub-view" id="bypassView">
+            <h2 style="color:#ff2a2a; text-align:center; margin:0; font-size:18px;">🔑 Bypass Key Delta</h2>
+            <div class="sub-header-box" style="border-color: #ff2a2a;">
+                <span style="font-size:11px; color:#aaa;">Dán link linkvertise / delta vào bên dưới:</span>
+                <input type="text" id="bypassInputLink" class="search-box" placeholder="Dán link vào đây..." style="margin-top:6px; margin-bottom:6px; padding:8px 12px;">
+                <button class="copy-btn" onclick="startBypass()">Mở công cụ Bypass</button>
+            </div>
+            <div class="sub-inbox" style="display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 2px;">
+                <!-- Khung tích hợp trang baconbypass.xyz -->
+                <iframe id="bypassIframe" src="https://baconbypass.xyz" style="width: 100%; height: 100%; border: none; border-radius: 8px; background: #12121c;"></iframe>
             </div>
         </div>
     </div>
@@ -388,7 +347,7 @@
     <div id="toast">Sao chép thành công!</div>
 
     <script>
-        // --- DỮ LIỆU SCRIPT MẶC ĐỊNH ---
+        // DỮ LIỆU SCRIPT
         let scriptData = [
             { name: "Hack Roblox V1", link: "https://example.com/script1", content: "loadstring(game:HttpGet('script1'))()" },
             { name: "Script Tổng Hợp", link: "https://example.com/script2", content: "loadstring(game:HttpGet('script2'))()" }
@@ -397,19 +356,22 @@
         let currentTabIdx = 0;
         let selectedScript = null;
 
+        let currentEmail = "";
+        let emailInterval = null;
+
         window.onload = function() {
             let saved = localStorage.getItem("thlhub_custom_scripts");
             if (saved) scriptData = JSON.parse(saved);
             renderTabs();
             renderScripts();
-            startEmailTimer();
+            initTempEmail();
         };
 
         function closeModal() {
             document.getElementById("notificationModal").style.display = "none";
         }
 
-        // --- BÍ MẬT MỞ ADMIN (Bấm 5 lần góc trên phải) ---
+        // BÍ MẬT MỞ ADMIN (Bấm 5 lần góc trên phải)
         let secretClicks = 0;
         function triggerAdminSecret() {
             secretClicks++;
@@ -471,7 +433,7 @@
             document.getElementById("adminPanel").style.display = "none";
         }
 
-        // --- MENU SIDEBAR 3 GẠCH ---
+        // MENU SIDEBAR 3 GẠCH
         function toggleSideMenu() {
             let popup = document.getElementById("sidePopup");
             popup.style.display = (popup.style.display === "block") ? "none" : "block";
@@ -479,16 +441,23 @@
 
         function switchView(viewName) {
             document.getElementById("sidePopup").style.display = "none";
-            if (viewName === 'home') {
-                document.getElementById("homeView").style.display = "flex";
-                document.getElementById("emailView").style.display = "none";
+            document.getElementById("homeView").style.display = (viewName === 'home') ? "flex" : "none";
+            document.getElementById("emailView").style.display = (viewName === 'email') ? "flex" : "none";
+            document.getElementById("bypassView").style.display = (viewName === 'bypass') ? "flex" : "none";
+        }
+
+        // CHỨC NĂNG BYPASS
+        function startBypass() {
+            let linkVal = document.getElementById("bypassInputLink").value.trim();
+            if(linkVal) {
+                // Mở trang baconbypass trong tab mới kèm link của người dùng hoặc load trực tiếp
+                window.open("https://baconbypass.xyz/?link=" + encodeURIComponent(linkVal), "_blank");
             } else {
-                document.getElementById("homeView").style.display = "none";
-                document.getElementById("emailView").style.display = "flex";
+                window.open("https://baconbypass.xyz", "_blank");
             }
         }
 
-        // --- RENDER GIAO DIỆN CHÍNH ---
+        // RENDER GIAO DIỆN CHÍNH
         function renderTabs() {
             let container = document.getElementById("mainTabContainer");
             container.innerHTML = "";
@@ -523,7 +492,6 @@
             });
         }
 
-        // --- XỬ LÝ KHI BẤM SCRIPT (HỎI MỞ TAB MỚI HAY LẤY THỦ CÔNG) ---
         function promptScriptAction(idx) {
             selectedScript = scriptData[idx];
             document.getElementById("modalScriptName").innerText = selectedScript.name;
@@ -563,24 +531,66 @@
             setTimeout(() => { t.className = t.className.replace("show", ""); }, 2300);
         }
 
-        // --- EMAIL 10 PHÚT LOGIC ---
+        // --- HỆ THỐNG EMAIL TẠM THỜI (1secmail API) ---
+        function initTempEmail() {
+            generateNewEmail();
+        }
+
+        function generateNewEmail() {
+            fetch('https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1')
+                .then(response => response.json())
+                .then(data => {
+                    currentEmail = data[0];
+                    document.getElementById("tempEmailAddr").innerText = currentEmail;
+                    document.getElementById("emailInbox").innerHTML = `<div style="text-align:center; color:#888; margin-top:20px; font-size:12px;">Đang đợi thư đến từ web khác...</div>`;
+                    
+                    if (emailInterval) clearInterval(emailInterval);
+                    emailInterval = setInterval(checkInbox, 5000);
+                })
+                .catch(err => {
+                    document.getElementById("tempEmailAddr").innerText = "Lỗi tạo email, bấm đổi lại!";
+                });
+        }
+
         function copyEmail() {
-            navigator.clipboard.writeText(document.getElementById("tempEmailAddr").innerText);
-            showToast("Đã sao chép email ảo!");
+            if (currentEmail) {
+                navigator.clipboard.writeText(currentEmail);
+                showToast("Đã sao chép email ảo!");
+            }
         }
 
-        function viewEmailDetail(msg) {
-            alert("Nội dung thư nhận được:\n" + msg);
+        function checkInbox() {
+            if (!currentEmail) return;
+            let parts = currentEmail.split('@');
+            let login = parts[0];
+            let domain = parts[1];
+
+            fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`)
+                .then(response => response.json())
+                .then(messages => {
+                    let inboxBox = document.getElementById("emailInbox");
+                    if (messages.length === 0) return;
+
+                    inboxBox.innerHTML = "";
+                    messages.forEach(msg => {
+                        inboxBox.innerHTML += `
+                            <div class="inbox-item" onclick="readEmailMessage('${login}', '${domain}', ${msg.id})">
+                                <strong style="color:#00ffcc;">Từ: ${msg.from}</strong><br>
+                                <span style="font-size:12px; color:#ddd;">Tiêu đề: ${msg.subject}</span>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(err => console.log(err));
         }
 
-        function startEmailTimer() {
-            let seconds = 600;
-            setInterval(() => {
-                let m = Math.floor(seconds / 60);
-                let s = seconds % 60;
-                document.getElementById("emailTimer").innerText = `${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`;
-                if (seconds > 0) seconds--;
-            }, 1000);
+        function readEmailMessage(login, domain, id) {
+            fetch(`https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`)
+                .then(response => response.json())
+                .then(res => {
+                    alert("📨 NỘI DUNG THƯ / MÃ XÁC NHẬN:\n\n" + res.textBody);
+                })
+                .catch(err => alert("Không thể tải nội dung thư!"));
         }
     </script>
 </body>
