@@ -22,349 +22,565 @@
             background-position: center;
         }
 
+        /* Khung giao diện chính to và hiện đại hơn */
         .web-frame {
-            width: 90%;
-            max-width: 420px;
-            background: rgba(18, 18, 24, 0.9);
+            width: 92%;
+            max-width: 460px;
+            height: 520px;
+            background: rgba(18, 18, 24, 0.95);
             border: 2px solid #ff2a2a;
-            border-radius: 20px;
-            padding: 25px 20px;
+            border-radius: 22px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 0 25px rgba(255, 42, 42, 0.5);
+            box-shadow: 0 0 35px rgba(255, 42, 42, 0.6);
             position: relative;
         }
 
-        .header-img {
-            width: 65px;
-            height: 65px;
-            object-fit: contain;
-            margin-bottom: 5px;
-            filter: drop-shadow(0 0 8px rgba(255, 42, 42, 0.7));
+        /* Điểm bấm bí mật cho Admin ở góc trên bên phải */
+        .secret-admin-trigger {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 50;
         }
 
-        /* Bấm vào chữ THLHUB 3 lần để mở menu admin ẩn */
+        .header-img {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 0 10px rgba(255, 42, 42, 0.8));
+        }
+
         h1 {
-            font-size: 26px;
+            font-size: 28px;
             margin: 10px 0 5px 0;
             color: #ff3b3b;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 59, 59, 0.6);
+            text-shadow: 0 0 12px rgba(255, 59, 59, 0.7);
             font-weight: 800;
-            cursor: pointer;
-            user-select: none;
         }
 
         p.subtitle {
-            font-size: 13px;
-            color: #e0e0e0;
+            font-size: 14px;
+            color: #d0d0d0;
             margin-bottom: 20px;
             text-align: center;
         }
 
-        /* Ô tìm kiếm script */
         .search-box {
             width: 100%;
-            padding: 10px 15px;
+            padding: 12px 18px;
             background: #15151c;
             border: 1px solid #ff2a2a;
-            border-radius: 8px;
+            border-radius: 10px;
             color: white;
             font-size: 14px;
             margin-bottom: 15px;
             outline: none;
         }
-        .search-box::placeholder { color: #888; }
 
+        /* Các tab trên menu chính */
         .tab-container {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             width: 100%;
             background: #15151c;
-            padding: 5px;
+            padding: 6px;
             border-radius: 12px;
             border: 1px solid #ff2a2a;
             margin-bottom: 15px;
+            overflow-x: auto;
         }
 
         .tab-btn {
             background-color: transparent;
-            color: #cccccc;
+            color: #ccc;
             border: none;
-            padding: 10px 0;
+            padding: 10px 14px;
             font-size: 13px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            flex: 1;
-            text-align: center;
+            white-space: nowrap;
             transition: 0.2s;
         }
 
         .tab-btn.active {
             background-color: #ff2a2a;
             color: white;
-            box-shadow: 0 0 10px rgba(255, 42, 42, 0.8);
+            box-shadow: 0 0 12px rgba(255, 42, 42, 0.9);
         }
 
         .content-box {
             width: 100%;
-            background: rgba(25, 25, 35, 0.8);
+            background: rgba(25, 25, 35, 0.9);
             padding: 15px;
-            border-radius: 10px;
-            border: 1px dashed rgba(255, 42, 42, 0.4);
-            min-height: 100px;
+            border-radius: 12px;
+            border: 1px dashed rgba(255, 42, 42, 0.5);
+            flex: 1;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            max-height: 160px;
-            overflow-y: auto;
         }
 
-        /* Giao diện mỗi item script + nút sao chép */
         .script-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: #1f1f2b;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #333;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
         }
 
         .script-name {
-            font-size: 13px;
+            font-size: 14px;
             color: #fff;
             word-break: break-all;
             max-width: 65%;
+            font-weight: 600;
         }
 
-        .copy-btn {
+        .action-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .copy-btn, .link-btn {
             background-color: #ff2a2a;
             color: white;
             border: none;
-            padding: 6px 12px;
-            font-size: 12px;
+            padding: 6px 10px;
+            font-size: 11px;
             font-weight: bold;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: 0.1s;
         }
-        .copy-btn:active { transform: scale(0.9); }
+        .link-btn { background-color: #00bfff; }
+        .copy-btn:active, .link-btn:active { transform: scale(0.9); }
 
-        /* --- POPUP THÔNG BÁO LỖI BAN ĐẦU --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 1000;
+        /* --- NÚT 3 GẠCH GÓC DƯỚI BÊN TRÁI --- */
+        .hamburger-menu {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #181822;
+            border: 2px solid #ff2a2a;
+            border-radius: 12px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 42, 42, 0.5);
+            z-index: 100;
         }
-        .modal-box {
-            width: 85%; max-width: 330px; background: #181822; border: 2px solid #ff2a2a;
-            border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 0 30px rgba(255, 42, 42, 0.7);
-        }
-        .modal-box h3 { color: #ff3b3b; margin-top: 0; font-size: 18px; }
-        .modal-box p { color: #ddd; font-size: 13px; line-height: 1.4; margin-bottom: 15px; }
-        .modal-btn {
-            background-color: #ff2a2a; color: white; border: none; padding: 8px 20px;
-            font-size: 13px; font-weight: bold; border-radius: 6px; cursor: pointer;
+        .hamburger-menu span {
+            width: 22px;
+            height: 3px;
+            background: #ff2a2a;
+            border-radius: 2px;
         }
 
-        /* --- MENU ẨN DÀNH CHO ADMIN --- */
+        /* Bảng chọn khi bấm 3 gạch */
+        .side-popup {
+            display: none;
+            position: fixed;
+            bottom: 75px;
+            left: 20px;
+            background: #181822;
+            border: 2px solid #ff2a2a;
+            border-radius: 12px;
+            width: 180px;
+            padding: 10px;
+            z-index: 100;
+            box-shadow: 0 0 20px rgba(255, 42, 42, 0.6);
+        }
+        .side-popup button {
+            width: 100%;
+            background: transparent;
+            color: white;
+            border: none;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        .side-popup button:hover { background: #ff2a2a; }
+
+        /* --- GIAO DIỆN EMAIL 10 PHÚT --- */
+        .email-view {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .email-header-box {
+            background: #15151c;
+            border: 1px solid #ff2a2a;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .email-address {
+            font-size: 13px;
+            color: #00ffcc;
+            font-weight: bold;
+            margin: 6px 0;
+            word-break: break-all;
+        }
+        .email-inbox {
+            background: rgba(20, 20, 28, 0.9);
+            border: 1px dashed #555;
+            border-radius: 10px;
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 13px;
+        }
+        .inbox-item {
+            background: #252535;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border-left: 3px solid #00ffcc;
+        }
+
+        /* --- MENU ẨN ADMIN (TO & HIỆN ĐẠI) --- */
         .admin-panel {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.92); z-index: 2000; justify-content: center; align-items: center;
         }
         .admin-content {
-            width: 90%; max-width: 380px; background: #15151f; border: 2px solid #00ffcc;
-            border-radius: 15px; padding: 20px; color: #fff; box-shadow: 0 0 25px rgba(0,255,204,0.4);
-            max-height: 90vh; overflow-y: auto;
+            width: 92%; max-width: 440px; background: #15151f; border: 2px solid #00ffcc;
+            border-radius: 20px; padding: 25px; color: #fff; box-shadow: 0 0 35px rgba(0,255,204,0.5);
+            max-height: 85vh; overflow-y: auto;
         }
-        .admin-content h3 { color: #00ffcc; margin-top: 0; text-align: center; font-size: 18px; }
-        .admin-content label { font-size: 12px; color: #aaa; display: block; margin-top: 10px; }
-        .admin-content input {
-            width: 100%; padding: 8px; background: #222; border: 1px solid #444; border-radius: 5px; color: #fff; font-size: 13px; margin-top: 4px;
+        .admin-content h3 { color: #00ffcc; text-align: center; font-size: 20px; margin-top: 0; }
+        .admin-content label { font-size: 13px; color: #bbb; display: block; margin-top: 10px; }
+        .admin-content input, .admin-content select {
+            width: 100%; padding: 10px; background: #222; border: 1px solid #444; border-radius: 8px; color: #fff; font-size: 14px; margin-top: 4px;
         }
         .admin-save-btn {
-            width: 100%; background: #00ffcc; color: #000; font-weight: bold; border: none; padding: 10px; border-radius: 6px; cursor: pointer; margin-top: 15px;
+            width: 100%; background: #00ffcc; color: #000; font-weight: bold; border: none; padding: 12px; border-radius: 8px; cursor: pointer; margin-top: 15px; font-size: 15px;
         }
         .admin-close-btn {
-            width: 100%; background: #444; color: #fff; font-weight: bold; border: none; padding: 8px; border-radius: 6px; cursor: pointer; margin-top: 8px;
+            width: 100%; background: #444; color: #fff; font-weight: bold; border: none; padding: 10px; border-radius: 8px; cursor: pointer; margin-top: 8px;
         }
+
+        /* --- MODAL HỎI KHI BẤM LINK / SAO CHÉP --- */
+        .choice-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 3000; justify-content: center; align-items: center;
+        }
+        .choice-box {
+            width: 85%; max-width: 320px; background: #181825; border: 2px solid #ff2a2a; border-radius: 15px; padding: 20px; text-align: center;
+        }
+        .choice-box h3 { color: #ff3b3b; margin-top: 0; }
+        .choice-box button {
+            width: 100%; margin-top: 10px; padding: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer;
+        }
+        .btn-newtab { background: #00bfff; color: white; }
+        .btn-copy { background: #ff2a2a; color: white; }
+        .btn-cancel { background: #444; color: white; }
+
+        /* Toast thông báo sao chép */
+        #toast {
+            visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 10px; position: fixed; z-index: 4000; left: 50%; bottom: 30px; transform: translateX(-50%); border: 1px solid #00ffcc; font-size: 14px;
+        }
+        #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 2.0s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
     </style>
 </head>
 <body>
 
-    <!-- Thông báo lỗi ban đầu -->
-    <div class="modal-overlay" id="notificationModal">
-        <div class="modal-box">
+    <!-- THÔNG BÁO LỖI BAN ĐẦU -->
+    <div class="choice-modal" id="notificationModal" style="display: flex;">
+        <div class="choice-box" style="border-color: #ff2a2a;">
             <h3>⚠️ THÔNG BÁO</h3>
-            <p>Web mới tạo nên gặp nhiều lỗi chưa fix, admin đang fix lỗi sẽ sớm thôi!</p>
-            <button class="modal-btn" onclick="closeModal()">Đã hiểu</button>
+            <p style="font-size:13px; color:#ddd;">Web mới tạo nên gặp nhiều lỗi chưa fix, admin đang fix lỗi sẽ sớm thôi!</p>
+            <button class="choice-btn btn-copy" onclick="closeModal()">Đã hiểu</button>
         </div>
     </div>
 
-    <!-- MENU ẨN ĐĂNG NHẬP & CÀI ĐẶT ADMIN -->
+    <!-- NÚT 3 GẠCH GÓC DƯỚI BÊN TRÁI -->
+    <div class="hamburger-menu" onclick="toggleSideMenu()">
+        <span></span><span></span><span></span>
+    </div>
+
+    <!-- BẢNG CHỌN SIDEBAR -->
+    <div class="side-popup" id="sidePopup">
+        <button onclick="switchView('home')">🏠 Trang chủ</button>
+        <button onclick="switchView('email')">📧 Email 10 Phút</button>
+    </div>
+
+    <!-- MENU ẨN ADMIN -->
     <div class="admin-panel" id="adminPanel">
         <div class="admin-content">
-            <h3>⚙️ MENU ẨN ADMIN</h3>
-            
-            <p style="font-size:12px; color:#ffcc00; text-align:center; margin:5px 0;">Cấu hình dữ liệu cho Tab 1 (Hack Roblox)</p>
-            <label>Tên Script Tab 1:</label>
-            <input type="text" id="admName1" placeholder="Ví dụ: Hub Blox Fruit V3">
-            <label>Link Script Tab 1:</label>
-            <input type="text" id="admLink1" placeholder="Dán link script vào đây">
-
-            <p style="font-size:12px; color:#ffcc00; text-align:center; margin:15px 0 5px 0;">Cấu hình dữ liệu cho Tab 2 (Script)</p>
-            <label>Tên Script Tab 2:</label>
-            <input type="text" id="admName2" placeholder="Ví dụ: Key System Bypass">
-            <label>Link Script Tab 2:</label>
-            <input type="text" id="admLink2" placeholder="Dán link script vào đây">
-
-            <button class="admin-save-btn" onclick="saveAdminData()">💾 Lưu & Cập Nhật Web</button>
+            <h3>⚙️ MENU ẨN ADMIN (QUẢN LÝ SCRIPT)</h3>
+            <div id="adminScriptList"></div>
+            <button class="admin-save-btn" onclick="addNewScriptInput()">➕ Thêm Tab/Script Mới</button>
+            <button class="admin-save-btn" style="background:#ff3b3b; color:white;" onclick="saveAdminData()">💾 Lưu & Cập Nhật</button>
             <button class="admin-close-btn" onclick="closeAdminPanel()">Đóng Menu Ẩn</button>
         </div>
     </div>
 
-    <!-- GIAO DIỆN CHÍNH NGƯỜI CHƠI NHÌN THẤY -->
-    <div class="web-frame">
-        <img src="image.png" alt="Logo" class="header-img">
-        
-        <!-- Bấm 3 lần vào chữ THLHUB để mở bảng mật khẩu Admin -->
-        <h1 onclick="checkAdminAccess()">THLHUB</h1>
-        <p class="subtitle">các script hack đều ở đây</p>
-
-        <!-- Thanh tìm kiếm script -->
-        <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm kiếm tên script..." onkeyup="filterScripts()">
-
-        <!-- 2 Tab lựa chọn -->
-        <div class="tab-container">
-            <button class="tab-btn active" id="btnTab1" onclick="switchTab(1)">Hack Roblox</button>
-            <button class="tab-btn" id="btnTab2" onclick="switchTab(2)">Script</button>
-        </div>
-
-        <!-- Khung hiển thị danh sách script -->
-        <div class="content-box" id="display-content">
-            <!-- Dữ liệu hiển thị tự động -->
+    <!-- MODAL HỎI KHI BẤM SCRIPT -->
+    <div class="choice-modal" id="choiceModal">
+        <div class="choice-box">
+            <h3>Tùy chọn Script</h3>
+            <p style="font-size:13px; color:#ccc;" id="modalScriptName">Tên script</p>
+            <button class="btn-newtab" onclick="actionOpenNewTab()">🌐 Mở tab mới gắn link</button>
+            <button class="btn-copy" onclick="actionCopyManual()">📋 Sao chép nội dung script</button>
+            <button class="btn-cancel" onclick="closeChoiceModal()">Hủy</button>
         </div>
     </div>
 
+    <!-- GIAO DIỆN CHÍNH -->
+    <div class="web-frame">
+        <!-- Vùng bấm bí mật mở Admin (Góc trên bên phải) -->
+        <div class="secret-admin-trigger" onclick="triggerAdminSecret()"></div>
+
+        <!-- VIEW TRANG CHỦ -->
+        <div id="homeView" style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center;">
+            <img src="image.png" alt="Logo" class="header-img">
+            <h1>THLHUB</h1>
+            <p class="subtitle">các script hack đều ở đây</p>
+
+            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm kiếm script..." onkeyup="renderScripts()">
+
+            <div class="tab-container" id="mainTabContainer"></div>
+
+            <div class="content-box" id="display-content"></div>
+        </div>
+
+        <!-- VIEW EMAIL 10 PHÚT -->
+        <div class="email-view" id="emailView">
+            <h2 style="color:#00ffcc; text-align:center; margin:0; font-size:20px;">📧 Hộp Thư 10 Phút</h2>
+            <div class="email-header-box">
+                <span style="font-size:12px; color:#aaa;">Thời gian còn lại: <strong id="emailTimer" style="color:#ff3b3b;">09:59</strong></span>
+                <div class="email-address" id="tempEmailAddr">thlhub_temp928@dustmail.net</div>
+                <button class="copy-btn" onclick="copyEmail()">Sao chép Email</button>
+            </div>
+            <div class="email-inbox" id="emailInbox">
+                <div class="inbox-item" onclick="viewEmailDetail('Mã xác nhận Roblox: 849201 từ Web Hack A')">
+                    <strong>Hệ thống xác thực</strong>: Mã xác nhận Roblox mới...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast">Sao chép thành công!</div>
+
     <script>
-        // --- DỮ LIỆU MẶC ĐỊNH (Admin có thể thay đổi qua Menu ẩn) ---
-        let scriptData = {
-            tab1: { name: "Roblox Hub VIP (Mẫu)", link: "loadstring(game:HttpGet('...'))()" },
-            tab2: { name: "Aimbot & ESP Script (Mẫu)", link: "loadstring(game:HttpGet('...'))()" }
-        };
+        // --- DỮ LIỆU SCRIPT MẶC ĐỊNH ---
+        let scriptData = [
+            { name: "Hack Roblox V1", link: "https://example.com/script1", content: "loadstring(game:HttpGet('script1'))()" },
+            { name: "Script Tổng Hợp", link: "https://example.com/script2", content: "loadstring(game:HttpGet('script2'))()" }
+        ];
 
-        let currentTab = 1;
+        let currentTabIdx = 0;
+        let selectedScript = null;
 
-        // Tải dữ liệu đã lưu trước đó (nếu có) từ bộ nhớ trình duyệt
         window.onload = function() {
-            let saved = localStorage.getItem("thlhub_data");
-            if (saved) {
-                scriptData = JSON.parse(saved);
-            }
+            let saved = localStorage.getItem("thlhub_custom_scripts");
+            if (saved) scriptData = JSON.parse(saved);
+            renderTabs();
             renderScripts();
+            startEmailTimer();
         };
 
         function closeModal() {
             document.getElementById("notificationModal").style.display = "none";
         }
 
-        // Biến đếm số lần bấm vào chữ THLHUB để mở khóa admin ẩn
-        let clickCount = 0;
-        function checkAdminAccess() {
-            clickCount++;
-            if (clickCount >= 3) {
-                clickCount = 0;
-                let pass = prompt("Nhập mật khẩu Admin để vào Menu ẩn:");
-                if (pass === "admin123") { // Mật khẩu mặc định là admin123, bạn có thể đổi ở đây
-                    document.getElementById("adminPanel").style.display = "flex";
-                    // Điền sẵn dữ liệu cũ vào form admin
-                    document.getElementById("admName1").value = scriptData.tab1.name;
-                    document.getElementById("admLink1").value = scriptData.tab1.link;
-                    document.getElementById("admName2").value = scriptData.tab2.name;
-                    document.getElementById("admLink2").value = scriptData.tab2.link;
+        // --- BÍ MẬT MỞ ADMIN (Bấm 5 lần góc trên phải) ---
+        let secretClicks = 0;
+        function triggerAdminSecret() {
+            secretClicks++;
+            if (secretClicks >= 5) {
+                secretClicks = 0;
+                let pass = prompt("Nhập mật khẩu Admin:");
+                if (pass === "admin123") {
+                    openAdminPanel();
                 } else if (pass !== null) {
                     alert("Sai mật khẩu!");
                 }
             }
-            setTimeout(() => { clickCount = 0; }, 2000); // Reset sau 2 giây nếu bấm không đủ
+            setTimeout(() => { secretClicks = 0; }, 3000);
+        }
+
+        function openAdminPanel() {
+            document.getElementById("adminPanel").style.display = "flex";
+            let listDiv = document.getElementById("adminScriptList");
+            listDiv.innerHTML = "";
+            scriptData.forEach((item, index) => {
+                listDiv.innerHTML += `
+                    <div style="background:#1e1e2d; padding:10px; border-radius:8px; margin-bottom:10px; border:1px solid #444;">
+                        <label>Tên Tab / Script ${index+1}:</label>
+                        <input type="text" id="admName_${index}" value="${item.name}">
+                        <label>Link gắn vào:</label>
+                        <input type="text" id="admLink_${index}" value="${item.link}">
+                        <label>Nội dung Script (để sao chép):</label>
+                        <input type="text" id="admContent_${index}" value="${item.content}">
+                        <button onclick="removeAdminScript(${index})" style="background:#ff3b3b; color:white; border:none; padding:5px 10px; margin-top:8px; border-radius:4px; cursor:pointer;">Xóa mục này</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addNewScriptInput() {
+            scriptData.push({ name: "Script Mới", link: "", content: "" });
+            openAdminPanel();
+        }
+
+        function removeAdminScript(index) {
+            scriptData.splice(index, 1);
+            openAdminPanel();
+        }
+
+        function saveAdminData() {
+            scriptData.forEach((item, index) => {
+                item.name = document.getElementById(`admName_${index}`).value;
+                item.link = document.getElementById(`admLink_${index}`).value;
+                item.content = document.getElementById(`admContent_${index}`).value;
+            });
+            localStorage.setItem("thlhub_custom_scripts", JSON.stringify(scriptData));
+            alert("Đã lưu thành công!");
+            document.getElementById("adminPanel").style.display = "none";
+            renderTabs();
+            renderScripts();
         }
 
         function closeAdminPanel() {
             document.getElementById("adminPanel").style.display = "none";
         }
 
-        // Lưu thông tin từ menu ẩn admin
-        function saveAdminData() {
-            scriptData.tab1.name = document.getElementById("admName1").value || "Chưa có tên";
-            scriptData.tab1.link = document.getElementById("admLink1").value || "";
-            scriptData.tab2.name = document.getElementById("admName2").value || "Chưa có tên";
-            scriptData.tab2.link = document.getElementById("admLink2").value || "";
-
-            localStorage.setItem("thlhub_data", JSON.stringify(scriptData));
-            alert("Đã cập nhật thành công!");
-            closeAdminPanel();
-            renderScripts();
+        // --- MENU SIDEBAR 3 GẠCH ---
+        function toggleSideMenu() {
+            let popup = document.getElementById("sidePopup");
+            popup.style.display = (popup.style.display === "block") ? "none" : "block";
         }
 
-        function switchTab(tabNum) {
-            currentTab = tabNum;
-            if (tabNum === 1) {
-                document.getElementById("btnTab1").classList.add("active");
-                document.getElementById("btnTab2").classList.remove("active");
+        function switchView(viewName) {
+            document.getElementById("sidePopup").style.display = "none";
+            if (viewName === 'home') {
+                document.getElementById("homeView").style.display = "flex";
+                document.getElementById("emailView").style.display = "none";
             } else {
-                document.getElementById("btnTab2").classList.add("active");
-                document.getElementById("btnTab1").classList.remove("active");
-            }
-            renderScripts();
-        }
-
-        // Hiển thị danh sách script kèm nút sao chép
-        function renderScripts() {
-            const box = document.getElementById("display-content");
-            let data = (currentTab === 1) ? scriptData.tab1 : scriptData.tab2;
-
-            box.innerHTML = `
-                <div class="script-item" data-name="${data.name.toLowerCase()}">
-                    <span class="script-name">${data.name}</span>
-                    <button class="copy-btn" onclick="copyLink('${data.link}')">Sao chép</button>
-                </div>
-            `;
-        }
-
-        // Tính năng tìm kiếm script
-        function filterScripts() {
-            let keyword = document.getElementById("searchInput").value.toLowerCase();
-            const box = document.getElementById("display-content");
-            let data = (currentTab === 1) ? scriptData.tab1 : scriptData.tab2;
-
-            if (data.name.toLowerCase().includes(keyword) || keyword === "") {
-                box.innerHTML = `
-                    <div class="script-item">
-                        <span class="script-name">${data.name}</span>
-                        <button class="copy-btn" onclick="copyLink('${data.link}')">Sao chép</button>
-                    </div>
-                `;
-            } else {
-                box.innerHTML = `<p style="text-align:center; color:#888; font-size:13px; margin:auto;">Không tìm thấy script phù hợp!</p>`;
+                document.getElementById("homeView").style.display = "none";
+                document.getElementById("emailView").style.display = "flex";
             }
         }
 
-        // Hàm sao chép link/script vào bộ nhớ tạm
-        function copyLink(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Đã sao chép script thành công!");
-            }).catch(err => {
-                // Hỗ trợ dự phòng cho một số trình duyệt điện thoại cũ
-                let textArea = document.createElement("textarea");
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand("copy");
-                document.body.removeChild(textArea);
-                alert("Đã sao chép script thành công!");
+        // --- RENDER GIAO DIỆN CHÍNH ---
+        function renderTabs() {
+            let container = document.getElementById("mainTabContainer");
+            container.innerHTML = "";
+            scriptData.forEach((item, idx) => {
+                container.innerHTML += `<button class="tab-btn ${idx === currentTabIdx ? 'active' : ''}" onclick="switchTab(${idx})">${item.name}</button>`;
             });
+        }
+
+        function switchTab(idx) {
+            currentTabIdx = idx;
+            renderTabs();
+            renderScripts();
+        }
+
+        function renderScripts() {
+            let keyword = document.getElementById("searchInput").value.toLowerCase();
+            let box = document.getElementById("display-content");
+            box.innerHTML = "";
+
+            scriptData.forEach((item, idx) => {
+                if (item.name.toLowerCase().includes(keyword) || keyword === "") {
+                    box.innerHTML += `
+                        <div class="script-item">
+                            <span class="script-name">${item.name}</span>
+                            <div class="action-btns">
+                                <button class="link-btn" onclick="promptScriptAction(${idx})">Chọn Link</button>
+                                <button class="copy-btn" onclick="directCopy('${item.content}')">Sao chép</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        // --- XỬ LÝ KHI BẤM SCRIPT (HỎI MỞ TAB MỚI HAY LẤY THỦ CÔNG) ---
+        function promptScriptAction(idx) {
+            selectedScript = scriptData[idx];
+            document.getElementById("modalScriptName").innerText = selectedScript.name;
+            document.getElementById("choiceModal").style.display = "flex";
+        }
+
+        function closeChoiceModal() {
+            document.getElementById("choiceModal").style.display = "none";
+        }
+
+        function actionOpenNewTab() {
+            if (selectedScript && selectedScript.link) {
+                window.open(selectedScript.link, '_blank');
+            } else {
+                alert("Chưa có link được gắn cho script này!");
+            }
+            closeChoiceModal();
+        }
+
+        function actionCopyManual() {
+            if (selectedScript) {
+                navigator.clipboard.writeText(selectedScript.content);
+                showToast("Đã sao chép nội dung script thành công!");
+            }
+            closeChoiceModal();
+        }
+
+        function directCopy(text) {
+            navigator.clipboard.writeText(text);
+            showToast("Sao chép thành công!");
+        }
+
+        function showToast(msg) {
+            let t = document.getElementById("toast");
+            t.innerText = msg;
+            t.className = "show";
+            setTimeout(() => { t.className = t.className.replace("show", ""); }, 2300);
+        }
+
+        // --- EMAIL 10 PHÚT LOGIC ---
+        function copyEmail() {
+            navigator.clipboard.writeText(document.getElementById("tempEmailAddr").innerText);
+            showToast("Đã sao chép email ảo!");
+        }
+
+        function viewEmailDetail(msg) {
+            alert("Nội dung thư nhận được:\n" + msg);
+        }
+
+        function startEmailTimer() {
+            let seconds = 600;
+            setInterval(() => {
+                let m = Math.floor(seconds / 60);
+                let s = seconds % 60;
+                document.getElementById("emailTimer").innerText = `${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`;
+                if (seconds > 0) seconds--;
+            }, 1000);
         }
     </script>
 </body>
