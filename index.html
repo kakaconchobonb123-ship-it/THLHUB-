@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THLHUB</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body {
             margin: 0;
             padding: 0;
@@ -20,38 +17,34 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
-            /* Tạo hình nền mờ ảo phong cách gaming/cyberpunk */
-            background-image: linear-gradient(rgba(11, 11, 15, 0.85), rgba(11, 11, 15, 0.85)), 
-                              url('image.png'); /* Hoặc ảnh nền cyberpunk của bạn */
+            background-image: linear-gradient(rgba(11, 11, 15, 0.85), rgba(11, 11, 15, 0.85)), url('image.png');
             background-size: cover;
             background-position: center;
         }
 
-        /* Khung giao diện chính với viền neon đỏ sáng rực */
         .web-frame {
             width: 90%;
             max-width: 420px;
             background: rgba(18, 18, 24, 0.9);
             border: 2px solid #ff2a2a;
             border-radius: 20px;
-            padding: 30px 20px;
+            padding: 25px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 0 25px rgba(255, 42, 42, 0.5), inset 0 0 15px rgba(255, 42, 42, 0.2);
+            box-shadow: 0 0 25px rgba(255, 42, 42, 0.5);
             position: relative;
         }
 
-        /* Logo/Ảnh phía trên chữ THLHUB */
         .header-img {
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             object-fit: contain;
             margin-bottom: 5px;
             filter: drop-shadow(0 0 8px rgba(255, 42, 42, 0.7));
         }
 
-        /* Tiêu đề THLHUB */
+        /* Bấm vào chữ THLHUB 3 lần để mở menu admin ẩn */
         h1 {
             font-size: 26px;
             margin: 10px 0 5px 0;
@@ -59,20 +52,31 @@
             letter-spacing: 2px;
             text-shadow: 0 0 10px rgba(255, 59, 59, 0.6);
             font-weight: 800;
-            min-height: 32px;
+            cursor: pointer;
+            user-select: none;
         }
 
-        /* Dòng chữ phụ mô tả */
         p.subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: #e0e0e0;
-            margin-bottom: 25px;
-            min-height: 20px;
+            margin-bottom: 20px;
             text-align: center;
-            letter-spacing: 0.5px;
         }
 
-        /* Khu vực chứa 2 Tab */
+        /* Ô tìm kiếm script */
+        .search-box {
+            width: 100%;
+            padding: 10px 15px;
+            background: #15151c;
+            border: 1px solid #ff2a2a;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+        .search-box::placeholder { color: #888; }
+
         .tab-container {
             display: flex;
             gap: 10px;
@@ -81,116 +85,116 @@
             padding: 5px;
             border-radius: 12px;
             border: 1px solid #ff2a2a;
+            margin-bottom: 15px;
         }
 
-        /* Nút Tab */
         .tab-btn {
             background-color: transparent;
             color: #cccccc;
             border: none;
-            padding: 12px 0;
-            font-size: 14px;
+            padding: 10px 0;
+            font-size: 13px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
             flex: 1;
             text-align: center;
+            transition: 0.2s;
         }
 
-        /* Trạng thái khi chọn hoặc bấm tab */
-        .tab-btn.active, .tab-btn:active {
+        .tab-btn.active {
             background-color: #ff2a2a;
             color: white;
             box-shadow: 0 0 10px rgba(255, 42, 42, 0.8);
-            transform: scale(0.97);
         }
 
-        /* Khung hiển thị nội dung bên dưới */
         .content-box {
-            margin-top: 20px;
             width: 100%;
-            background: rgba(25, 25, 35, 0.7);
+            background: rgba(25, 25, 35, 0.8);
             padding: 15px;
             border-radius: 10px;
             border: 1px dashed rgba(255, 42, 42, 0.4);
-            text-align: center;
-            font-size: 13px;
-            color: #bbb;
-        }
-
-        /* --- POPUP THÔNG BÁO GIỮA MÀN HÌNH --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            min-height: 100px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 160px;
+            overflow-y: auto;
+        }
+
+        /* Giao diện mỗi item script + nút sao chép */
+        .script-item {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            animation: fadeIn 0.3s ease;
+            background: #1f1f2b;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #333;
         }
 
-        .modal-box {
-            width: 85%;
-            max-width: 350px;
-            background: #181822;
-            border: 2px solid #ff2a2a;
-            border-radius: 15px;
-            padding: 25px 20px;
-            text-align: center;
-            box-shadow: 0 0 30px rgba(255, 42, 42, 0.7);
-            animation: popUp 0.3s ease;
+        .script-name {
+            font-size: 13px;
+            color: #fff;
+            word-break: break-all;
+            max-width: 65%;
         }
 
-        .modal-box h3 {
-            color: #ff3b3b;
-            margin-top: 0;
-            font-size: 20px;
-            text-shadow: 0 0 8px rgba(255, 59, 59, 0.5);
-        }
-
-        .modal-box p {
-            color: #ddd;
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .modal-btn {
+        .copy-btn {
             background-color: #ff2a2a;
             color: white;
             border: none;
-            padding: 10px 25px;
-            font-size: 14px;
+            padding: 6px 12px;
+            font-size: 12px;
             font-weight: bold;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 42, 42, 0.6);
-            transition: transform 0.1s ease;
+            transition: 0.1s;
+        }
+        .copy-btn:active { transform: scale(0.9); }
+
+        /* --- POPUP THÔNG BÁO LỖI BAN ĐẦU --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-box {
+            width: 85%; max-width: 330px; background: #181822; border: 2px solid #ff2a2a;
+            border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 0 30px rgba(255, 42, 42, 0.7);
+        }
+        .modal-box h3 { color: #ff3b3b; margin-top: 0; font-size: 18px; }
+        .modal-box p { color: #ddd; font-size: 13px; line-height: 1.4; margin-bottom: 15px; }
+        .modal-btn {
+            background-color: #ff2a2a; color: white; border: none; padding: 8px 20px;
+            font-size: 13px; font-weight: bold; border-radius: 6px; cursor: pointer;
         }
 
-        .modal-btn:active {
-            transform: scale(0.93);
+        /* --- MENU ẨN DÀNH CHO ADMIN --- */
+        .admin-panel {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .admin-content {
+            width: 90%; max-width: 380px; background: #15151f; border: 2px solid #00ffcc;
+            border-radius: 15px; padding: 20px; color: #fff; box-shadow: 0 0 25px rgba(0,255,204,0.4);
+            max-height: 90vh; overflow-y: auto;
         }
-
-        @keyframes popUp {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        .admin-content h3 { color: #00ffcc; margin-top: 0; text-align: center; font-size: 18px; }
+        .admin-content label { font-size: 12px; color: #aaa; display: block; margin-top: 10px; }
+        .admin-content input {
+            width: 100%; padding: 8px; background: #222; border: 1px solid #444; border-radius: 5px; color: #fff; font-size: 13px; margin-top: 4px;
+        }
+        .admin-save-btn {
+            width: 100%; background: #00ffcc; color: #000; font-weight: bold; border: none; padding: 10px; border-radius: 6px; cursor: pointer; margin-top: 15px;
+        }
+        .admin-close-btn {
+            width: 100%; background: #444; color: #fff; font-weight: bold; border: none; padding: 8px; border-radius: 6px; cursor: pointer; margin-top: 8px;
         }
     </style>
 </head>
 <body>
 
-    <!-- BẢNG THÔNG BÁO KHI VỪA VÀO WEB -->
+    <!-- Thông báo lỗi ban đầu -->
     <div class="modal-overlay" id="notificationModal">
         <div class="modal-box">
             <h3>⚠️ THÔNG BÁO</h3>
@@ -199,77 +203,168 @@
         </div>
     </div>
 
-    <!-- KHUNG GIAO DIỆN WEB -->
+    <!-- MENU ẨN ĐĂNG NHẬP & CÀI ĐẶT ADMIN -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-content">
+            <h3>⚙️ MENU ẨN ADMIN</h3>
+            
+            <p style="font-size:12px; color:#ffcc00; text-align:center; margin:5px 0;">Cấu hình dữ liệu cho Tab 1 (Hack Roblox)</p>
+            <label>Tên Script Tab 1:</label>
+            <input type="text" id="admName1" placeholder="Ví dụ: Hub Blox Fruit V3">
+            <label>Link Script Tab 1:</label>
+            <input type="text" id="admLink1" placeholder="Dán link script vào đây">
+
+            <p style="font-size:12px; color:#ffcc00; text-align:center; margin:15px 0 5px 0;">Cấu hình dữ liệu cho Tab 2 (Script)</p>
+            <label>Tên Script Tab 2:</label>
+            <input type="text" id="admName2" placeholder="Ví dụ: Key System Bypass">
+            <label>Link Script Tab 2:</label>
+            <input type="text" id="admLink2" placeholder="Dán link script vào đây">
+
+            <button class="admin-save-btn" onclick="saveAdminData()">💾 Lưu & Cập Nhật Web</button>
+            <button class="admin-close-btn" onclick="closeAdminPanel()">Đóng Menu Ẩn</button>
+        </div>
+    </div>
+
+    <!-- GIAO DIỆN CHÍNH NGƯỜI CHƠI NHÌN THẤY -->
     <div class="web-frame">
-        <!-- Ảnh logo (Đổi src thành tên file ảnh của bạn, ví dụ image.png) -->
         <img src="image.png" alt="Logo" class="header-img">
         
-        <!-- Tiêu đề chữ chạy -->
-        <h1 id="title-text"></h1>
-        <p class="subtitle" id="sub-text"></p>
+        <!-- Bấm 3 lần vào chữ THLHUB để mở bảng mật khẩu Admin -->
+        <h1 onclick="checkAdminAccess()">THLHUB</h1>
+        <p class="subtitle">các script hack đều ở đây</p>
+
+        <!-- Thanh tìm kiếm script -->
+        <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm kiếm tên script..." onkeyup="filterScripts()">
 
         <!-- 2 Tab lựa chọn -->
         <div class="tab-container">
-            <button class="tab-btn active" id="tab1" onclick="switchTab('roblox')">hack Roblox</button>
-            <button class="tab-btn" id="tab2" onclick="switchTab('script')">script</button>
+            <button class="tab-btn active" id="btnTab1" onclick="switchTab(1)">Hack Roblox</button>
+            <button class="tab-btn" id="btnTab2" onclick="switchTab(2)">Script</button>
         </div>
 
+        <!-- Khung hiển thị danh sách script -->
         <div class="content-box" id="display-content">
-            🚀 Đang hiển thị danh sách Hack Roblox...
+            <!-- Dữ liệu hiển thị tự động -->
         </div>
     </div>
 
     <script>
-        // Hiệu ứng chữ chạy tự động khi vào web
-        const titleString = "THLHUB";
-        const subString = "các script hack đều ở đây";
-        
-        let i = 0;
-        let j = 0;
-
-        function typeTitle() {
-            if (i < titleString.length) {
-                document.getElementById("title-text").innerHTML += titleString.charAt(i);
-                i++;
-                setTimeout(typeTitle, 100);
-            } else {
-                setTimeout(typeSub, 200);
-            }
-        }
-
-        function typeSub() {
-            if (j < subString.length) {
-                document.getElementById("sub-text").innerHTML += subString.charAt(j);
-                j++;
-                setTimeout(typeSub, 50);
-            }
-        }
-
-        // Chạy hiệu ứng chữ ngay khi load trang
-        window.onload = function() {
-            setTimeout(typeTitle, 400);
+        // --- DỮ LIỆU MẶC ĐỊNH (Admin có thể thay đổi qua Menu ẩn) ---
+        let scriptData = {
+            tab1: { name: "Roblox Hub VIP (Mẫu)", link: "loadstring(game:HttpGet('...'))()" },
+            tab2: { name: "Aimbot & ESP Script (Mẫu)", link: "loadstring(game:HttpGet('...'))()" }
         };
 
-        // Hàm tắt bảng thông báo
+        let currentTab = 1;
+
+        // Tải dữ liệu đã lưu trước đó (nếu có) từ bộ nhớ trình duyệt
+        window.onload = function() {
+            let saved = localStorage.getItem("thlhub_data");
+            if (saved) {
+                scriptData = JSON.parse(saved);
+            }
+            renderScripts();
+        };
+
         function closeModal() {
             document.getElementById("notificationModal").style.display = "none";
         }
 
-        // Hàm chuyển đổi qua lại giữa 2 Tab
-        function switchTab(type) {
-            const tab1 = document.getElementById("tab1");
-            const tab2 = document.getElementById("tab2");
-            const box = document.getElementById("display-content");
-
-            if (type === 'roblox') {
-                tab1.classList.add("active");
-                tab2.classList.remove("active");
-                box.innerHTML = "🚀 Danh sách các bản Hack Roblox mới nhất đang sẵn sàng!";
-            } else {
-                tab2.classList.add("active");
-                tab1.classList.remove("active");
-                box.innerHTML = "📜 Kho tổng hợp Script tổng hợp chất lượng cao!";
+        // Biến đếm số lần bấm vào chữ THLHUB để mở khóa admin ẩn
+        let clickCount = 0;
+        function checkAdminAccess() {
+            clickCount++;
+            if (clickCount >= 3) {
+                clickCount = 0;
+                let pass = prompt("Nhập mật khẩu Admin để vào Menu ẩn:");
+                if (pass === "admin123") { // Mật khẩu mặc định là admin123, bạn có thể đổi ở đây
+                    document.getElementById("adminPanel").style.display = "flex";
+                    // Điền sẵn dữ liệu cũ vào form admin
+                    document.getElementById("admName1").value = scriptData.tab1.name;
+                    document.getElementById("admLink1").value = scriptData.tab1.link;
+                    document.getElementById("admName2").value = scriptData.tab2.name;
+                    document.getElementById("admLink2").value = scriptData.tab2.link;
+                } else if (pass !== null) {
+                    alert("Sai mật khẩu!");
+                }
             }
+            setTimeout(() => { clickCount = 0; }, 2000); // Reset sau 2 giây nếu bấm không đủ
+        }
+
+        function closeAdminPanel() {
+            document.getElementById("adminPanel").style.display = "none";
+        }
+
+        // Lưu thông tin từ menu ẩn admin
+        function saveAdminData() {
+            scriptData.tab1.name = document.getElementById("admName1").value || "Chưa có tên";
+            scriptData.tab1.link = document.getElementById("admLink1").value || "";
+            scriptData.tab2.name = document.getElementById("admName2").value || "Chưa có tên";
+            scriptData.tab2.link = document.getElementById("admLink2").value || "";
+
+            localStorage.setItem("thlhub_data", JSON.stringify(scriptData));
+            alert("Đã cập nhật thành công!");
+            closeAdminPanel();
+            renderScripts();
+        }
+
+        function switchTab(tabNum) {
+            currentTab = tabNum;
+            if (tabNum === 1) {
+                document.getElementById("btnTab1").classList.add("active");
+                document.getElementById("btnTab2").classList.remove("active");
+            } else {
+                document.getElementById("btnTab2").classList.add("active");
+                document.getElementById("btnTab1").classList.remove("active");
+            }
+            renderScripts();
+        }
+
+        // Hiển thị danh sách script kèm nút sao chép
+        function renderScripts() {
+            const box = document.getElementById("display-content");
+            let data = (currentTab === 1) ? scriptData.tab1 : scriptData.tab2;
+
+            box.innerHTML = `
+                <div class="script-item" data-name="${data.name.toLowerCase()}">
+                    <span class="script-name">${data.name}</span>
+                    <button class="copy-btn" onclick="copyLink('${data.link}')">Sao chép</button>
+                </div>
+            `;
+        }
+
+        // Tính năng tìm kiếm script
+        function filterScripts() {
+            let keyword = document.getElementById("searchInput").value.toLowerCase();
+            const box = document.getElementById("display-content");
+            let data = (currentTab === 1) ? scriptData.tab1 : scriptData.tab2;
+
+            if (data.name.toLowerCase().includes(keyword) || keyword === "") {
+                box.innerHTML = `
+                    <div class="script-item">
+                        <span class="script-name">${data.name}</span>
+                        <button class="copy-btn" onclick="copyLink('${data.link}')">Sao chép</button>
+                    </div>
+                `;
+            } else {
+                box.innerHTML = `<p style="text-align:center; color:#888; font-size:13px; margin:auto;">Không tìm thấy script phù hợp!</p>`;
+            }
+        }
+
+        // Hàm sao chép link/script vào bộ nhớ tạm
+        function copyLink(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Đã sao chép script thành công!");
+            }).catch(err => {
+                // Hỗ trợ dự phòng cho một số trình duyệt điện thoại cũ
+                let textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textArea);
+                alert("Đã sao chép script thành công!");
+            });
         }
     </script>
 </body>
