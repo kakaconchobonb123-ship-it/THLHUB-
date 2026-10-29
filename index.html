@@ -255,12 +255,12 @@
 </head>
 <body>
 
-    <!-- THÔNG BÁO BAN ĐẦU -->
+    <!-- THÔNG BÁO BAN ĐẦU (ĐÃ FIX NÚT TẮT) -->
     <div class="choice-modal" id="notificationModal" style="display: flex;">
         <div class="choice-box" style="border-color: #ff2a2a;">
             <h3>⚠️ THÔNG BÁO</h3>
             <p style="font-size:13px; color:#ddd;">Web mới tạo nên gặp nhiều lỗi chưa fix, admin đang fix lỗi sẽ sớm thôi!</p>
-            <button class="choice-btn btn-copy" onclick="closeModal()">Đã hiểu</button>
+            <button type="button" class="choice-btn btn-copy" onclick="closeModal()">Đã hiểu</button>
         </div>
     </div>
 
@@ -368,8 +368,12 @@
             initDustmail();
         };
 
+        // Fix hàm đóng thông báo mượt mà
         function closeModal() {
-            document.getElementById("notificationModal").style.display = "none";
+            let modal = document.getElementById("notificationModal");
+            if (modal) {
+                modal.style.display = "none";
+            }
         }
 
         // BÍ MẬT MỞ ADMIN (Bấm 5 lần góc trên phải)
@@ -558,7 +562,6 @@
         }
 
         function generateNewEmail() {
-            // Sử dụng dịch vụ API trung gian chống chặn CORS và phân giải tên miền dustmail ổn định
             const apiRandom = 'https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1';
             
             fetch(apiRandom)
@@ -578,8 +581,7 @@
                     emailInterval = setInterval(() => checkInboxCore(baseLogin, baseDomain), 5000);
                 })
                 .catch(err => {
-                    // Cơ chế dự phòng tự tạo mail giả lập thông minh nếu mạng bị nghẽn
-                    let fallbackId = Math.random().toString(36.substring(2, 9));
+                    let fallbackId = Math.random().toString(36).substring(2, 9);
                     currentEmail = `thlhub_${fallbackId}@dustmail.net`;
                     document.getElementById("tempEmailAddr").innerText = currentEmail;
                     document.getElementById("emailInbox").innerHTML = `<div style="text-align:center; color:#00ffcc; margin-top:15px; font-size:12px;">Đã kích hoạt chế độ dự phòng an toàn.<br>Sẵn sàng nhận mã xác nhận!</div>`;
