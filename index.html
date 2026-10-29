@@ -228,7 +228,22 @@
             width: 100%; background: #444; color: #fff; font-weight: bold; border: none; padding: 10px; border-radius: 8px; cursor: pointer; margin-top: 8px;
         }
 
-        /* MODAL LỰA CHỌN LINK / SAO CHÉP */
+        /* MODAL CAPTCHA GIẢ LẬP DỪNG ĐỂ NGƯỜI CHƠI BẤM */
+        .captcha-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.88); z-index: 5000; justify-content: center; align-items: center;
+        }
+        .captcha-box {
+            width: 85%; max-width: 320px; background: #181825; border: 2px solid #00ffcc; border-radius: 15px; padding: 20px; text-align: center;
+            box-shadow: 0 0 25px rgba(0,255,204,0.4);
+        }
+        .captcha-box h3 { color: #00ffcc; margin-top: 0; font-size: 17px; }
+        .captcha-box p { font-size: 13px; color: #ddd; margin-bottom: 15px; }
+        .captcha-btn {
+            width: 100%; background: #00ffcc; color: #000; font-weight: bold; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 14px;
+        }
+
+        /* MODAL LỰA CHỌN SCRIPT */
         .choice-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 3000; justify-content: center; align-items: center;
@@ -255,12 +270,21 @@
 </head>
 <body>
 
-    <!-- THÔNG BÁO BAN ĐẦU (ĐÃ FIX NÚT TẮT) -->
+    <!-- THÔNG BÁO BAN ĐẦU -->
     <div class="choice-modal" id="notificationModal" style="display: flex;">
         <div class="choice-box" style="border-color: #ff2a2a;">
             <h3>⚠️ THÔNG BÁO</h3>
             <p style="font-size:13px; color:#ddd;">Web mới tạo nên gặp nhiều lỗi chưa fix, admin đang fix lỗi sẽ sớm thôi!</p>
             <button type="button" class="choice-btn btn-copy" onclick="closeModal()">Đã hiểu</button>
+        </div>
+    </div>
+
+    <!-- MODAL XÁC THỰC CAPTCHA ĐỂ NGƯỜI CHƠI BẤM -->
+    <div class="captcha-modal" id="captchaModal">
+        <div class="captcha-box">
+            <h3>🤖 XÁC THỰC ROBOT</h3>
+            <p>Bot đang làm nhiệm vụ đến bước kiểm tra bảo mật. Vui lòng bấm vào nút bên dưới để xác thực và tiếp tục!</p>
+            <button class="captcha-btn" onclick="resolveCaptcha()">👉 Tôi không phải người máy (Xác nhận)</button>
         </div>
     </div>
 
@@ -272,7 +296,7 @@
     <div class="side-popup" id="sidePopup">
         <button onclick="switchView('home')">🏠 Trang chủ</button>
         <button onclick="switchView('email')">📧 Email 10 Phút</button>
-        <button onclick="switchView('bypass4m')">⚡ Bypass Link4m</button>
+        <button onclick="switchView('bypass4m')">⚡ Bot Link4m</button>
     </div>
 
     <!-- MENU ẨN ADMIN -->
@@ -329,16 +353,16 @@
             </div>
         </div>
 
-        <!-- VIEW BYPASS LINK4M BOT GIẢ LẬP -->
+        <!-- VIEW BOT LINK4M (TỰ ĐỘNG + DỪNG ĐỂ BẤM XÁC THỰC) -->
         <div class="sub-view" id="bypass4mView">
-            <h2 style="color:#ff2a2a; text-align:center; margin:0; font-size:17px;">⚡ Bot Bypass Link4m (Nhanh 30s)</h2>
+            <h2 style="color:#ff2a2a; text-align:center; margin:0; font-size:17px;">⚡ Bot Link4m Tự Động (30s)</h2>
             <div class="sub-header-box" style="border-color: #ff2a2a;">
-                <span style="font-size:11px; color:#aaa;">Dán link Link4m cần vượt:</span>
+                <span style="font-size:11px; color:#aaa;">Dán link Link4m cần xử lý:</span>
                 <input type="text" id="link4mInput" class="search-box" placeholder="https://link4m.com/..." style="margin-top:6px; margin-bottom:6px; padding:8px 12px;">
-                <button class="copy-btn" onclick="runLink4mBot()">🤖 Chạy Bot Bypass (30s)</button>
+                <button class="copy-btn" onclick="startBotProcess()">🤖 Chạy Bot Tự Động</button>
             </div>
             <div class="sub-inbox" id="bypassResultBox" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                <p style="font-size: 13px; color: #aaa; margin: 0;">Bot đang sẵn sàng.<br>Dán link và bấm chạy để nhận kết quả tự động!</p>
+                <p style="font-size: 13px; color: #aaa; margin: 0;">Bot đã sẵn sàng.<br>Dán link và bấm chạy, bot sẽ tự làm nhiệm vụ!</p>
             </div>
         </div>
     </div>
@@ -359,6 +383,7 @@
         let emailInterval = null;
         let countdownTimer = null;
         let timeLeft = 600;
+        let botInterval = null;
 
         window.onload = function() {
             let saved = localStorage.getItem("thlhub_custom_scripts");
@@ -368,12 +393,9 @@
             initDustmail();
         };
 
-        // Fix hàm đóng thông báo mượt mà
         function closeModal() {
             let modal = document.getElementById("notificationModal");
-            if (modal) {
-                modal.style.display = "none";
-            }
+            if (modal) modal.style.display = "none";
         }
 
         // BÍ MẬT MỞ ADMIN (Bấm 5 lần góc trên phải)
@@ -451,34 +473,48 @@
             document.getElementById("bypass4mView").style.display = (viewName === 'bypass4m') ? "flex" : "none";
         }
 
-        // --- BOT BYPASS LINK4M (NHANH 30 GIÂY) ---
-        function runLink4mBot() {
+        // --- QUY TRÌNH BOT TỰ ĐỘNG + DỪNG LẤY XÁC THỰC CAPTCHA ---
+        function startBotProcess() {
             let link = document.getElementById("link4mInput").value.trim();
             if(!link) {
                 alert("Vui lòng dán link Link4m!");
                 return;
             }
             let rBox = document.getElementById("bypassResultBox");
-            rBox.innerHTML = `<div style="color:#00ffcc; font-size:13px;">🤖 Bot đang vượt link và giải mã captcha...<br><strong id="botTimer" style="font-size:16px; color:#ff3b3b;">30</strong> giây</div>`;
+            rBox.innerHTML = `<div style="color:#00ffcc; font-size:13px;">🤖 Bot đang tự động làm nhiệm vụ:<br><strong id="botTimer" style="font-size:16px; color:#ff3b3b;">15</strong> giây nữa đến bước xác thực...</div>`;
             
-            let secondsLeft = 30;
-            let botInterval = setInterval(() => {
+            let secondsLeft = 15;
+            if(botInterval) clearInterval(botInterval);
+
+            botInterval = setInterval(() => {
                 secondsLeft--;
                 let tElem = document.getElementById("botTimer");
                 if(tElem) tElem.innerText = secondsLeft;
                 
                 if(secondsLeft <= 0) {
                     clearInterval(botInterval);
-                    let bypassSuccessLink = "https://example.com/clean-script-result?token=bypassed";
-                    rBox.innerHTML = `
-                        <div style="width:100%; text-align:left;">
-                            <p style="color:#00ffcc; font-size:13px; margin:0 0 6px 0;">✅ Bypass thành công bởi Bot!</p>
-                            <input type="text" class="search-box" value="${bypassSuccessLink}" readonly style="margin-bottom:8px; font-size:12px; padding:8px;">
-                            <button class="copy-btn" style="width:100%; background:#00ffcc; color:#000;" onclick="directCopy('${bypassSuccessLink}')">Sao chép Link Gốc</button>
-                        </div>
-                    `;
+                    // Dừng bot lại và bật bảng xác thực cho người chơi bấm
+                    document.getElementById("captchaModal").style.display = "flex";
                 }
             }, 1000);
+        }
+
+        // Khi người chơi bấm nút xác thực trên bảng popup
+        function resolveCaptcha() {
+            document.getElementById("captchaModal").style.display = "none";
+            let rBox = document.getElementById("bypassResultBox");
+            rBox.innerHTML = `<div style="color:#00ffcc; font-size:13px;">✅ Đã xác thực thành công!<br>Bot đang thu thập kết quả cuối cùng...</div>`;
+
+            setTimeout(() => {
+                let successLink = "https://example.com/final-clean-script?bypassed=true";
+                rBox.innerHTML = `
+                    <div style="width:100%; text-align:left;">
+                        <p style="color:#00ffcc; font-size:13px; margin:0 0 6px 0;">🎉 Hoàn thành xuất sắc!</p>
+                        <input type="text" class="search-box" value="${successLink}" readonly style="margin-bottom:8px; font-size:12px; padding:8px;">
+                        <button class="copy-btn" style="width:100%; background:#00ffcc; color:#000;" onclick="directCopy('${successLink}')">Sao chép Link Gốc</button>
+                    </div>
+                `;
+            }, 3000); // Mất thêm 3 giây để bot lấy kết quả trả về menu
         }
 
         // RENDER GIAO DIỆN CHÍNH
@@ -555,7 +591,7 @@
             setTimeout(() => { t.className = t.className.replace("show", ""); }, 2300);
         }
 
-        // --- HỆ THỐNG DUSTMAIL (FIX KẾT NỐI AN TOÀN) ---
+        // --- HỆ THỐNG DUSTMAIL ---
         function initDustmail() {
             generateNewEmail();
             startEmailTimer();
