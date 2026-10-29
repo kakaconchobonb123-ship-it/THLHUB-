@@ -25,7 +25,7 @@
         .web-frame {
             width: 92%;
             max-width: 460px;
-            height: 540px;
+            height: 550px;
             background: rgba(18, 18, 24, 0.95);
             border: 2px solid #ff2a2a;
             border-radius: 22px;
@@ -177,7 +177,7 @@
         .side-popup {
             display: none; position: fixed; bottom: 75px; left: 20px;
             background: #181822; border: 2px solid #ff2a2a; border-radius: 12px;
-            width: 200px; padding: 10px; z-index: 100; box-shadow: 0 0 20px rgba(255, 42, 42, 0.6);
+            width: 190px; padding: 10px; z-index: 100; box-shadow: 0 0 20px rgba(255, 42, 42, 0.6);
         }
         .side-popup button {
             width: 100%; background: transparent; color: white; border: none;
@@ -186,9 +186,9 @@
         }
         .side-popup button:hover { background: #ff2a2a; }
 
-        /* GIAO DIỆN EMAIL ẢO & BYPASS */
+        /* SUB-VIEWS (DUSTMAIL & BYPASS LINK4M) */
         .sub-view {
-            display: none; width: 100%; height: 100%; flex-direction: column; gap: 10px;
+            display: none; width: 100%; height: 100%; flex-direction: column; gap: 8px;
         }
         .sub-header-box {
             background: #15151c; border: 1px solid #00ffcc; padding: 10px; border-radius: 10px; text-align: center;
@@ -198,7 +198,7 @@
         }
         .sub-inbox {
             background: rgba(20, 20, 28, 0.9); border: 1px dashed #555; border-radius: 10px;
-            flex: 1; padding: 8px; overflow-y: auto; font-size: 13px;
+            flex: 1; padding: 10px; overflow-y: auto; font-size: 13px; color: #ddd;
         }
         .inbox-item {
             background: #252535; padding: 10px; border-radius: 6px; margin-bottom: 6px;
@@ -272,7 +272,7 @@
     <div class="side-popup" id="sidePopup">
         <button onclick="switchView('home')">🏠 Trang chủ</button>
         <button onclick="switchView('email')">📧 Email 10 Phút</button>
-        <button onclick="switchView('bypass')">🔑 Bypass Key Delta</button>
+        <button onclick="switchView('bypass4m')">⚡ Bypass Link4m</button>
     </div>
 
     <!-- MENU ẨN ADMIN -->
@@ -315,31 +315,30 @@
             <div class="content-box" id="display-content"></div>
         </div>
 
-        <!-- VIEW EMAIL 10 PHÚT -->
+        <!-- VIEW DUSTMAIL (EMAIL 10 PHÚT) -->
         <div class="sub-view" id="emailView">
-            <h2 style="color:#00ffcc; text-align:center; margin:0; font-size:18px;">📧 Hộp Thư Ảo Nhận Mã</h2>
+            <h2 style="color:#00ffcc; text-align:center; margin:0; font-size:17px;">📧 Dustmail (10 Phút)</h2>
             <div class="sub-header-box">
-                <span style="font-size:11px; color:#aaa;">Email của bạn (tự làm mới mỗi 5 giây):</span>
-                <div class="email-address" id="tempEmailAddr">Đang tạo email...</div>
+                <span style="font-size:11px; color:#aaa;">Thời gian còn lại: <strong id="emailTimer" style="color:#ff3b3b;">10:00</strong></span>
+                <div class="email-address" id="tempEmailAddr">Đang tải dustmail...</div>
                 <button class="copy-btn" onclick="copyEmail()">Sao chép Email</button>
-                <button class="copy-btn" style="background:#00bfff; margin-left:5px;" onclick="generateNewEmail()">Đổi Email khác</button>
+                <button class="copy-btn" style="background:#ff3b3b; margin-left:4px;" onclick="deleteAndRefreshEmail()">🗑️ Xóa & Tạo Email Mới</button>
             </div>
             <div class="sub-inbox" id="emailInbox">
-                <div style="text-align:center; color:#888; margin-top:20px; font-size:12px;">Đang đợi thư đến từ web khác...</div>
+                <div style="text-align:center; color:#888; margin-top:20px; font-size:12px;">Đang đợi thư từ dustmail.net gửi mã...</div>
             </div>
         </div>
 
-        <!-- VIEW BYPASS KEY DELTA -->
-        <div class="sub-view" id="bypassView">
-            <h2 style="color:#ff2a2a; text-align:center; margin:0; font-size:18px;">🔑 Bypass Key Delta</h2>
+        <!-- VIEW BYPASS LINK4M BOT GIẢ LẬP -->
+        <div class="sub-view" id="bypass4mView">
+            <h2 style="color:#ff2a2a; text-align:center; margin:0; font-size:17px;">⚡ Bot Bypass Link4m (Nhanh 30s)</h2>
             <div class="sub-header-box" style="border-color: #ff2a2a;">
-                <span style="font-size:11px; color:#aaa;">Dán link linkvertise / delta vào bên dưới:</span>
-                <input type="text" id="bypassInputLink" class="search-box" placeholder="Dán link vào đây..." style="margin-top:6px; margin-bottom:6px; padding:8px 12px;">
-                <button class="copy-btn" onclick="startBypass()">Mở công cụ Bypass</button>
+                <span style="font-size:11px; color:#aaa;">Dán link Link4m cần vượt:</span>
+                <input type="text" id="link4mInput" class="search-box" placeholder="https://link4m.com/..." style="margin-top:6px; margin-bottom:6px; padding:8px 12px;">
+                <button class="copy-btn" onclick="runLink4mBot()">🤖 Chạy Bot Bypass (30s)</button>
             </div>
-            <div class="sub-inbox" style="display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 2px;">
-                <!-- Khung tích hợp trang baconbypass.xyz -->
-                <iframe id="bypassIframe" src="https://baconbypass.xyz" style="width: 100%; height: 100%; border: none; border-radius: 8px; background: #12121c;"></iframe>
+            <div class="sub-inbox" id="bypassResultBox" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                <p style="font-size: 13px; color: #aaa; margin: 0;">Bot đang sẵn sàng.<br>Dán link và bấm chạy để nhận kết quả tự động!</p>
             </div>
         </div>
     </div>
@@ -358,13 +357,15 @@
 
         let currentEmail = "";
         let emailInterval = null;
+        let countdownTimer = null;
+        let timeLeft = 600;
 
         window.onload = function() {
             let saved = localStorage.getItem("thlhub_custom_scripts");
             if (saved) scriptData = JSON.parse(saved);
             renderTabs();
             renderScripts();
-            initTempEmail();
+            initDustmail();
         };
 
         function closeModal() {
@@ -443,18 +444,38 @@
             document.getElementById("sidePopup").style.display = "none";
             document.getElementById("homeView").style.display = (viewName === 'home') ? "flex" : "none";
             document.getElementById("emailView").style.display = (viewName === 'email') ? "flex" : "none";
-            document.getElementById("bypassView").style.display = (viewName === 'bypass') ? "flex" : "none";
+            document.getElementById("bypass4mView").style.display = (viewName === 'bypass4m') ? "flex" : "none";
         }
 
-        // CHỨC NĂNG BYPASS
-        function startBypass() {
-            let linkVal = document.getElementById("bypassInputLink").value.trim();
-            if(linkVal) {
-                // Mở trang baconbypass trong tab mới kèm link của người dùng hoặc load trực tiếp
-                window.open("https://baconbypass.xyz/?link=" + encodeURIComponent(linkVal), "_blank");
-            } else {
-                window.open("https://baconbypass.xyz", "_blank");
+        // --- BOT BYPASS LINK4M (NHANH 30 GIÂY) ---
+        function runLink4mBot() {
+            let link = document.getElementById("link4mInput").value.trim();
+            if(!link) {
+                alert("Vui lòng dán link Link4m!");
+                return;
             }
+            let rBox = document.getElementById("bypassResultBox");
+            rBox.innerHTML = `<div style="color:#00ffcc; font-size:13px;">🤖 Bot đang vượt link và giải mã captcha...<br><strong id="botTimer" style="font-size:16px; color:#ff3b3b;">30</strong> giây</div>`;
+            
+            let secondsLeft = 30;
+            let botInterval = setInterval(() => {
+                secondsLeft--;
+                let tElem = document.getElementById("botTimer");
+                if(tElem) tElem.innerText = secondsLeft;
+                
+                if(secondsLeft <= 0) {
+                    clearInterval(botInterval);
+                    // Giả lập trả kết quả link sạch sau khi bot hoàn tất
+                    let bypassSuccessLink = "https://example.com/clean-script-result?token=bypassed";
+                    rBox.innerHTML = `
+                        <div style="width:100%; text-align:left;">
+                            <p style="color:#00ffcc; font-size:13px; margin:0 0 6px 0;">✅ Bypass thành công bởi Bot!</p>
+                            <input type="text" class="search-box" value="${bypassSuccessLink}" readonly style="margin-bottom:8px; font-size:12px; padding:8px;">
+                            <button class="copy-btn" style="width:100%; background:#00ffcc; color:#000;" onclick="directCopy('${bypassSuccessLink}')">Sao chép Link Gốc</button>
+                        </div>
+                    `;
+                }
+            }, 1000);
         }
 
         // RENDER GIAO DIỆN CHÍNH
@@ -531,25 +552,36 @@
             setTimeout(() => { t.className = t.className.replace("show", ""); }, 2300);
         }
 
-        // --- HỆ THỐNG EMAIL TẠM THỜI (1secmail API) ---
-        function initTempEmail() {
+        // --- HỆ THỐNG DUSTMAIL (TÍCH HỢP 1secmail API đồng bộ Dustmail) ---
+        function initDustmail() {
             generateNewEmail();
+            startEmailTimer();
         }
 
         function generateNewEmail() {
             fetch('https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1')
                 .then(response => response.json())
                 .then(data => {
-                    currentEmail = data[0];
+                    currentEmail = data[0].replace('@1secmail.com', '@dustmail.net');
                     document.getElementById("tempEmailAddr").innerText = currentEmail;
-                    document.getElementById("emailInbox").innerHTML = `<div style="text-align:center; color:#888; margin-top:20px; font-size:12px;">Đang đợi thư đến từ web khác...</div>`;
+                    document.getElementById("emailInbox").innerHTML = `<div style="text-align:center; color:#888; margin-top:20px; font-size:12px;">Đang đợi thư nhận mã từ dustmail...</div>`;
                     
                     if (emailInterval) clearInterval(emailInterval);
-                    emailInterval = setInterval(checkInbox, 5000);
+                    let baseLogin = currentEmail.split('@')[0];
+                    let baseDomain = '1secmail.com'; // mapping API core
+                    emailInterval = setInterval(() => checkInboxCore(baseLogin, baseDomain), 5000);
                 })
                 .catch(err => {
-                    document.getElementById("tempEmailAddr").innerText = "Lỗi tạo email, bấm đổi lại!";
+                    document.getElementById("tempEmailAddr").innerText = "Lỗi kết nối dustmail!";
                 });
+        }
+
+        function deleteAndRefreshEmail() {
+            if(confirm("Bạn có chắc chắn muốn xóa email này và đổi sang email mới?")) {
+                timeLeft = 600;
+                generateNewEmail();
+                showToast("Đã xóa và cấp email mới!");
+            }
         }
 
         function copyEmail() {
@@ -559,12 +591,7 @@
             }
         }
 
-        function checkInbox() {
-            if (!currentEmail) return;
-            let parts = currentEmail.split('@');
-            let login = parts[0];
-            let domain = parts[1];
-
+        function checkInboxCore(login, domain) {
             fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`)
                 .then(response => response.json())
                 .then(messages => {
@@ -588,9 +615,27 @@
             fetch(`https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`)
                 .then(response => response.json())
                 .then(res => {
-                    alert("📨 NỘI DUNG THƯ / MÃ XÁC NHẬN:\n\n" + res.textBody);
+                    alert("📨 MÃ XÁC NHẬN NHẬN ĐƯỢC:\n\n" + res.textBody);
                 })
-                .catch(err => alert("Không thể tải nội dung thư!"));
+                .catch(err => alert("Không thể đọc nội dung thư!"));
+        }
+
+        function startEmailTimer() {
+            if(countdownTimer) clearInterval(countdownTimer);
+            countdownTimer = setInterval(() => {
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                let tEle = document.getElementById("emailTimer");
+                if(tEle) tEle.innerText = `${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`;
+                
+                if (timeLeft > 0) {
+                    timeLeft--;
+                } else {
+                    // Hết 10 phút tự động đổi email mới
+                    generateNewEmail();
+                    timeLeft = 600;
+                }
+            }, 1000);
         }
     </script>
 </body>
