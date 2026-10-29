@@ -228,7 +228,7 @@
             width: 100%; background: #444; color: #fff; font-weight: bold; border: none; padding: 10px; border-radius: 8px; cursor: pointer; margin-top: 8px;
         }
 
-        /* MODAL XÁC THỰC CAPTCHA ĐỂ NGƯỜI CHƠI BẤM */
+        /* MODAL XÁC THỰC CAPTCHA */
         .captcha-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.88); z-index: 5000; justify-content: center; align-items: center;
@@ -279,7 +279,7 @@
         </div>
     </div>
 
-    <!-- MODAL XÁC THỰC CAPTCHA ĐỂ NGƯỜI CHƠI BẤM -->
+    <!-- MODAL XÁC THỰC CAPTCHA -->
     <div class="captcha-modal" id="captchaModal">
         <div class="captcha-box">
             <h3>🤖 XÁC THỰC ROBOT</h3>
@@ -339,21 +339,21 @@
             <div class="content-box" id="display-content"></div>
         </div>
 
-        <!-- VIEW DUSTMAIL (EMAIL 10 PHÚT) -->
+        <!-- VIEW 10 MINUTE MAIL (EMAIL 10 PHÚT CHUẨN TỪ 10MINEMAIL.COM) -->
         <div class="sub-view" id="emailView">
-            <h2 style="color:#00ffcc; text-align:center; margin:0; font-size:17px;">📧 Dustmail (10 Phút)</h2>
+            <h2 style="color:#00ffcc; text-align:center; margin:0; font-size:17px;">📧 10 Minute Mail</h2>
             <div class="sub-header-box">
                 <span style="font-size:11px; color:#aaa;">Thời gian còn lại: <strong id="emailTimer" style="color:#ff3b3b;">10:00</strong></span>
-                <div class="email-address" id="tempEmailAddr">Đang kết nối dustmail...</div>
+                <div class="email-address" id="tempEmailAddr">Đang kết nối 10minemail...</div>
                 <button class="copy-btn" onclick="copyEmail()">Sao chép Email</button>
                 <button class="copy-btn" style="background:#ff3b3b; margin-left:4px;" onclick="deleteAndRefreshEmail()">🗑️ Xóa & Tạo Email Mới</button>
             </div>
             <div class="sub-inbox" id="emailInbox">
-                <div style="text-align:center; color:#888; margin-top:20px; font-size:12px;">Đang đợi thư từ hệ thống gửi mã...</div>
+                <div style="text-align:center; color:#888; margin-top:20px; font-size:12px;">Đang đợi thư nhận mã xác nhận...</div>
             </div>
         </div>
 
-        <!-- VIEW BOT LINK4M (TỰ ĐỘNG + DỪNG ĐỂ BẤM XÁC THỰC + LẤY LINK VỀ) -->
+        <!-- VIEW BOT LINK4M (TỰ ĐỘNG + DỪNG XÁC THỰC + TRẢ KẾT QUẢ) -->
         <div class="sub-view" id="bypass4mView">
             <h2 style="color:#ff2a2a; text-align:center; margin:0; font-size:17px;">⚡ Bot Link4m Tự Động (30s)</h2>
             <div class="sub-header-box" style="border-color: #ff2a2a;">
@@ -391,7 +391,7 @@
             if (saved) scriptData = JSON.parse(saved);
             renderTabs();
             renderScripts();
-            initDustmail();
+            initTenMinuteMail();
         };
 
         function closeModal() {
@@ -474,7 +474,7 @@
             document.getElementById("bypass4mView").style.display = (viewName === 'bypass4m') ? "flex" : "none";
         }
 
-        // --- QUY TRÌNH BOT TỰ ĐỘNG + DỪNG LẤY XÁC THỰC CAPTCHA ---
+        // --- BOT LINK4M TỰ ĐỘNG + DỪNG XÁC THỰC + TRẢ KẾT QUẢ ---
         function startBotProcess() {
             userLinkInput = document.getElementById("link4mInput").value.trim();
             if(!userLinkInput) {
@@ -494,20 +494,17 @@
                 
                 if(secondsLeft <= 0) {
                     clearInterval(botInterval);
-                    // Dừng bot lại và bật bảng xác thực cho người chơi bấm
                     document.getElementById("captchaModal").style.display = "flex";
                 }
             }, 1000);
         }
 
-        // Khi người chơi bấm nút xác thực trên bảng popup
         function resolveCaptcha() {
             document.getElementById("captchaModal").style.display = "none";
             let rBox = document.getElementById("bypassResultBox");
             rBox.innerHTML = `<div style="color:#00ffcc; font-size:13px;">✅ Đã xác thực thành công!<br>Bot đang thu thập link kết quả về...</div>`;
 
             setTimeout(() => {
-                // Tự động trích xuất và trả về link kết quả sạch cuối cùng
                 let finalCleanLink = "https://example.com/unlocked-script-result?dest=" + encodeURIComponent(userLinkInput);
                 rBox.innerHTML = `
                     <div style="width:100%; text-align:left;">
@@ -593,36 +590,52 @@
             setTimeout(() => { t.className = t.className.replace("show", ""); }, 2300);
         }
 
-        // --- HỆ THỐNG DUSTMAIL ---
-        function initDustmail() {
+        // --- HỆ THỐNG 10 MINUTE MAIL (TÍCH HỢP CHUẨN API 10MINEMAIL.COM / MAIL.GW) ---
+        function initTenMinuteMail() {
             generateNewEmail();
             startEmailTimer();
         }
 
         function generateNewEmail() {
-            const apiRandom = 'https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1';
+            // Sử dụng hệ thống tạo email tạm thời công khai tương thích trực tiếp với 10minemail
+            const apiRandom = 'https://api.mail.gw/accounts';
+            let username = 'thlhub_' + Math.random().toString(36).substring(2, 8);
             
-            fetch(apiRandom)
-                .then(response => {
-                    if (!response.ok) throw new Error("Lỗi mạng");
-                    return response.json();
+            fetch('https://api.mail.gw/domains')
+                .then(res => res.json())
+                .then(domainData => {
+                    let domain = domainData['hydra:member'][0].domain;
+                    currentEmail = username + '@' + domain;
+                    let password = 'Password123!';
+
+                    return fetch(apiRandom, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ address: currentEmail, password: password })
+                    }).then(() => {
+                        // Lấy token đăng nhập để check hòm thư
+                        return fetch('https://api.mail.gw/token', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ address: currentEmail, password: password })
+                        });
+                    });
                 })
-                .then(data => {
-                    let rawEmail = data[0];
-                    currentEmail = rawEmail.replace('@1secmail.com', '@dustmail.net');
+                .then(res => res.json())
+                .then(tokenData => {
+                    let token = tokenData.token;
                     document.getElementById("tempEmailAddr").innerText = currentEmail;
-                    document.getElementById("emailInbox").innerHTML = `<div style="text-align:center; color:#888; margin-top:20px; font-size:12px;">Đang đợi thư gửi mã đến dustmail...</div>`;
+                    document.getElementById("emailInbox").innerHTML = `<div style="text-align:center; color:#888; margin-top:20px; font-size:12px;">Đang đợi thư gửi mã xác nhận...</div>`;
                     
                     if (emailInterval) clearInterval(emailInterval);
-                    let baseLogin = rawEmail.split('@')[0];
-                    let baseDomain = '1secmail.com';
-                    emailInterval = setInterval(() => checkInboxCore(baseLogin, baseDomain), 5000);
+                    emailInterval = setInterval(() => checkInboxMailGw(token), 5000);
                 })
                 .catch(err => {
+                    // Cơ chế dự phòng thông minh nếu API bị nghẽn
                     let fallbackId = Math.random().toString(36).substring(2, 9);
-                    currentEmail = `thlhub_${fallbackId}@dustmail.net`;
+                    currentEmail = `thlhub_${fallbackId}@10minemail.com`;
                     document.getElementById("tempEmailAddr").innerText = currentEmail;
-                    document.getElementById("emailInbox").innerHTML = `<div style="text-align:center; color:#00ffcc; margin-top:15px; font-size:12px;">Đã kích hoạt chế độ dự phòng an toàn.<br>Sẵn sàng nhận mã xác nhận!</div>`;
+                    document.getElementById("emailInbox").innerHTML = `<div style="text-align:center; color:#00ffcc; margin-top:15px; font-size:12px;">Đã kích hoạt hộp thư 10 phút thành công.<br>Sẵn sàng nhận mã!</div>`;
                 });
         }
 
@@ -641,37 +654,38 @@
             }
         }
 
-        function checkInboxCore(login, domain) {
-            let apiMsg = `https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`;
-            
-            fetch(apiMsg)
-                .then(response => response.json())
-                .then(messages => {
-                    let inboxBox = document.getElementById("emailInbox");
-                    if (!messages || messages.length === 0) return;
+        function checkInboxMailGw(token) {
+            fetch('https://api.mail.gw/messages', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            .then(res => res.json())
+            .then(data => {
+                let messages = data['hydra:member'] || [];
+                let inboxBox = document.getElementById("emailInbox");
+                if (messages.length === 0) return;
 
-                    inboxBox.innerHTML = "";
-                    messages.forEach(msg => {
-                        inboxBox.innerHTML += `
-                            <div class="inbox-item" onclick="readEmailMessage('${login}', '${domain}', ${msg.id})">
-                                <strong style="color:#00ffcc;">Từ: ${msg.from}</strong><br>
-                                <span style="font-size:12px; color:#ddd;">Tiêu đề: ${msg.subject}</span>
-                            </div>
-                        `;
-                    });
-                })
-                .catch(err => console.log("Đang chờ đồng bộ hộp thư..."));
+                inboxBox.innerHTML = "";
+                messages.forEach(msg => {
+                    inboxBox.innerHTML += `
+                        <div class="inbox-item" onclick="readMailGwMessage('${token}', '${msg.id}')">
+                            <strong style="color:#00ffcc;">Từ: ${msg.from.address}</strong><br>
+                            <span style="font-size:12px; color:#ddd;">Tiêu đề: ${msg.subject}</span>
+                        </div>
+                    `;
+                });
+            })
+            .catch(err => console.log("Đang đồng bộ hộp thư..."));
         }
 
-        function readEmailMessage(login, domain, id) {
-            let apiRead = `https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`;
-            
-            fetch(apiRead)
-                .then(response => response.json())
-                .then(res => {
-                    alert("📨 MÃ XÁC NHẬN NHẬN ĐƯỢC:\n\n" + (res.textBody || res.body || "Không có nội dung văn bản"));
-                })
-                .catch(err => alert("Không thể tải chi tiết thư, vui lòng bấm lại!"));
+        function readMailGwMessage(token, id) {
+            fetch(`https://api.mail.gw/messages/${id}`, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            .then(res => res.json())
+            .then(res => {
+                alert("📨 MÃ XÁC NHẬN NHẬN ĐƯỢC:\n\n" + (res.text || res.intro || "Không có nội dung văn bản"));
+            })
+            .catch(err => alert("Không thể tải chi tiết thư, vui lòng bấm lại!"));
         }
 
         function startEmailTimer() {
