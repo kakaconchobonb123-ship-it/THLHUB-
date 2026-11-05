@@ -45,16 +45,16 @@
             100% { transform: translateY(105vh); opacity: 0; }
         }
 
-        /* KHUNG WEB CHÍNH - MỞ RỘNG RỘNG HƠN VÀ DÀI HƠN */
+        /* KHUNG WEB CHÍNH - MỞ RỘNG VÀ DÀI RA */
         .web-frame {
             width: 95%;
-            max-width: 520px; /* Tăng chiều rộng menu */
-            height: 680px; /* Tăng chiều cao menu */
+            max-width: 520px;
+            height: 700px;
             background: rgba(18, 18, 24, 0.88);
             backdrop-filter: blur(14px);
             border: 2px solid #ff2a2a;
             border-radius: 24px;
-            padding: 30px 25px;
+            padding: 25px 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -83,12 +83,14 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
+        /* FIX LỖI LOGO BỊ CHE MỘT NỬA VÀ LÀM TO LÊN */
         .header-img {
-            width: 75px;
-            height: 75px;
+            width: 100px;
+            height: 100px;
             object-fit: contain;
+            margin-top: 10px;
             margin-bottom: 5px;
-            filter: drop-shadow(0 0 12px rgba(255, 42, 42, 0.9));
+            filter: drop-shadow(0 0 14px rgba(255, 42, 42, 0.9));
         }
 
         h1 {
@@ -103,7 +105,7 @@
         p.subtitle {
             font-size: 14px;
             color: #d0d0d0;
-            margin-bottom: 18px; /* Tăng khoảng cách */
+            margin-bottom: 18px;
             text-align: center;
         }
 
@@ -115,7 +117,7 @@
             border-radius: 10px;
             color: white;
             font-size: 14px;
-            margin-bottom: 15px; /* Tăng khoảng cách */
+            margin-bottom: 15px;
             outline: none;
             transition: 0.3s;
         }
@@ -129,7 +131,7 @@
             padding: 6px;
             border-radius: 12px;
             border: 1px solid #ff2a2a;
-            margin-bottom: 15px; /* Tăng khoảng cách */
+            margin-bottom: 15px;
         }
 
         .tab-btn {
@@ -163,8 +165,8 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            max-height: 350px;
-            margin-bottom: 15px;
+            max-height: 360px;
+            margin-bottom: 12px;
         }
 
         .script-item {
@@ -216,7 +218,7 @@
         }
         .copy-btn:hover { background-color: #ff4d4d; box-shadow: 0 0 10px rgba(255, 42, 42, 0.6); }
 
-        /* KHUNG ICON MẠNG XÃ HỘI (DISCORD, TIKTOK, YOUTUBE) */
+        /* KHUNG ICON MẠNG XÃ HỘI */
         .social-container {
             display: flex;
             justify-content: center;
@@ -401,7 +403,7 @@
                 </div>
             </div>
 
-            <!-- PHẦN 3: QUẢN LÝ LIÊN KẾT MÃNG XÃ HỘI (DISCORD, TIKTOK, YOUTUBE) -->
+            <!-- PHẦN 3: QUẢN LÝ LIÊN KẾT MẠNG XÃ HỘI -->
             <div class="admin-card" id="adminCardSocial">
                 <div style="margin-bottom: 15px;">
                     <strong style="color: #ff3b3b;">Cài Đặt Liên Kết Mạng Xã Hội</strong>
