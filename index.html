@@ -45,16 +45,16 @@
             100% { transform: translateY(105vh); opacity: 0; }
         }
 
-        /* KHUNG WEB CHÍNH - LÀM TO DÀI RA VÀ HIỆN TỪ TỪ */
+        /* KHUNG WEB CHÍNH - MỞ RỘNG RỘNG HƠN VÀ DÀI HƠN */
         .web-frame {
-            width: 92%;
-            max-width: 480px;
-            height: 640px; /* Tăng chiều cao để phần chọn hack to và dài hơn */
+            width: 95%;
+            max-width: 520px; /* Tăng chiều rộng menu */
+            height: 680px; /* Tăng chiều cao menu */
             background: rgba(18, 18, 24, 0.88);
             backdrop-filter: blur(14px);
             border: 2px solid #ff2a2a;
             border-radius: 24px;
-            padding: 25px 20px;
+            padding: 30px 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -84,16 +84,16 @@
         }
 
         .header-img {
-            width: 70px;
-            height: 70px;
+            width: 75px;
+            height: 75px;
             object-fit: contain;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
             filter: drop-shadow(0 0 12px rgba(255, 42, 42, 0.9));
         }
 
         h1 {
-            font-size: 26px;
-            margin: 5px 0;
+            font-size: 28px;
+            margin: 8px 0;
             color: #ff3b3b;
             letter-spacing: 2px;
             text-shadow: 0 0 15px rgba(255, 59, 59, 0.8);
@@ -101,21 +101,21 @@
         }
 
         p.subtitle {
-            font-size: 13px;
+            font-size: 14px;
             color: #d0d0d0;
-            margin-bottom: 15px;
+            margin-bottom: 18px; /* Tăng khoảng cách */
             text-align: center;
         }
 
         .search-box {
             width: 100%;
-            padding: 11px 16px;
+            padding: 12px 18px;
             background: #15151c;
             border: 1px solid #ff2a2a;
             border-radius: 10px;
             color: white;
             font-size: 14px;
-            margin-bottom: 12px;
+            margin-bottom: 15px; /* Tăng khoảng cách */
             outline: none;
             transition: 0.3s;
         }
@@ -123,13 +123,13 @@
 
         .tab-container {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             width: 100%;
             background: #15151c;
             padding: 6px;
             border-radius: 12px;
             border: 1px solid #ff2a2a;
-            margin-bottom: 12px;
+            margin-bottom: 15px; /* Tăng khoảng cách */
         }
 
         .tab-btn {
@@ -163,7 +163,8 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            max-height: 330px; /* Làm khung chứa dài và rộng hơn */
+            max-height: 350px;
+            margin-bottom: 15px;
         }
 
         .script-item {
@@ -201,7 +202,6 @@
             transition: 0.2s;
         }
         .link-btn:hover { background-color: #33ccff; box-shadow: 0 0 10px rgba(0, 191, 255, 0.6); }
-        .link-btn:active { transform: scale(0.9); }
 
         .copy-btn {
             background-color: #ff2a2a;
@@ -215,7 +215,36 @@
             transition: 0.2s;
         }
         .copy-btn:hover { background-color: #ff4d4d; box-shadow: 0 0 10px rgba(255, 42, 42, 0.6); }
-        .copy-btn:active { transform: scale(0.9); }
+
+        /* KHUNG ICON MẠNG XÃ HỘI (DISCORD, TIKTOK, YOUTUBE) */
+        .social-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            margin-top: 5px;
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: #1f1f2b;
+            border: 1px solid #ff2a2a;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+            box-shadow: 0 0 10px rgba(255,42,42,0.3);
+        }
+        .social-icon:hover {
+            background: #ff2a2a;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255,42,42,0.8);
+        }
 
         /* NÚT 3 GẠCH BÊN TRÁI */
         .hamburger-menu {
@@ -323,6 +352,7 @@
             <h2>THLHUB Admin</h2>
             <button class="sidebar-btn active" id="btnSideLinks" onclick="switchAdminSection('links')">🔗 Links (Hack Roblox)</button>
             <button class="sidebar-btn" id="btnSideScripts" onclick="switchAdminSection('scripts')">📜 Script Tổng Hợp</button>
+            <button class="sidebar-btn" id="btnSideSocial" onclick="switchAdminSection('social')">🌐 Mạng Xã Hội</button>
             <button class="sidebar-btn" onclick="closeAdminDashboard()" style="margin-top: auto; background: #ff3b3b; color: white;">❌ Thoát Admin</button>
         </div>
         <div class="admin-main">
@@ -370,6 +400,28 @@
                     </table>
                 </div>
             </div>
+
+            <!-- PHẦN 3: QUẢN LÝ LIÊN KẾT MÃNG XÃ HỘI (DISCORD, TIKTOK, YOUTUBE) -->
+            <div class="admin-card" id="adminCardSocial">
+                <div style="margin-bottom: 15px;">
+                    <strong style="color: #ff3b3b;">Cài Đặt Liên Kết Mạng Xã Hội</strong>
+                    <p style="font-size: 12px; color: #aaa; margin-top: 5px;">Dán đường dẫn tài khoản của bạn vào các ô bên dưới:</p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div>
+                        <label style="font-size: 13px; color: #00ffcc;">💬 Link Discord:</label>
+                        <input type="text" class="admin-input" id="socialDiscord" placeholder="https://discord.gg/...">
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; color: #00ffcc;">🎵 Link TikTok:</label>
+                        <input type="text" class="admin-input" id="socialTiktok" placeholder="https://tiktok.com/@...">
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; color: #00ffcc;">▶️ Link YouTube:</label>
+                        <input type="text" class="admin-input" id="socialYoutube" placeholder="https://youtube.com/@...">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -388,6 +440,13 @@
             </div>
 
             <div class="content-box fade-in-text delay-3" id="display-content"></div>
+
+            <!-- CÁC ICON MẠNG XÃ HỘI Ở DƯỚI CÙNG -->
+            <div class="social-container fade-in-text delay-3">
+                <a href="#" class="social-icon" id="linkDiscord" target="_blank" title="Discord">💬</a>
+                <a href="#" class="social-icon" id="linkTiktok" target="_blank" title="TikTok">🎵</a>
+                <a href="#" class="social-icon" id="linkYoutube" target="_blank" title="YouTube">▶️</a>
+            </div>
         </div>
     </div>
 
@@ -419,13 +478,24 @@
             { name: "Script Tổng Hợp 2", content: "loadstring(game:HttpGet('https://example.com/script2.lua'))()" }
         ];
 
+        let socialData = {
+            discord: "https://discord.com",
+            tiktok: "https://tiktok.com",
+            youtube: "https://youtube.com"
+        };
+
         let currentMainTab = 1;
 
         window.onload = function() {
             let savedLinks = localStorage.getItem("thlhub_links_data");
             let savedScripts = localStorage.getItem("thlhub_scripts_data");
+            let savedSocial = localStorage.getItem("thlhub_social_data");
+
             if (savedLinks) linksData = JSON.parse(savedLinks);
             if (savedScripts) scriptsData = JSON.parse(savedScripts);
+            if (savedSocial) socialData = JSON.parse(savedSocial);
+
+            updateSocialLinks();
             renderCurrentTabContent();
         };
 
@@ -446,32 +516,46 @@
         function openAdminDashboard() {
             document.getElementById("adminDashboard").style.display = "flex";
             renderAdminTables();
+            document.getElementById("socialDiscord").value = socialData.discord;
+            document.getElementById("socialTiktok").value = socialData.tiktok;
+            document.getElementById("socialYoutube").value = socialData.youtube;
         }
 
         function closeAdminDashboard() {
             document.getElementById("adminDashboard").style.display = "none";
+            updateSocialLinks();
             renderCurrentTabContent();
         }
 
         function switchAdminSection(section) {
             let btnLinks = document.getElementById("btnSideLinks");
             let btnScripts = document.getElementById("btnSideScripts");
+            let btnSocial = document.getElementById("btnSideSocial");
+
             let cardLinks = document.getElementById("adminCardLinks");
             let cardScripts = document.getElementById("adminCardScripts");
+            let cardSocial = document.getElementById("adminCardSocial");
             let title = document.getElementById("adminSectionTitle");
+
+            btnLinks.classList.remove("active");
+            btnScripts.classList.remove("active");
+            btnSocial.classList.remove("active");
+            cardLinks.classList.remove("active");
+            cardScripts.classList.remove("active");
+            cardSocial.classList.remove("active");
 
             if(section === 'links') {
                 btnLinks.classList.add("active");
-                btnScripts.classList.remove("active");
                 cardLinks.classList.add("active");
-                cardScripts.classList.remove("active");
                 title.innerText = "Quản Lý Hack Roblox & Links";
-            } else {
+            } else if(section === 'scripts') {
                 btnScripts.classList.add("active");
-                btnLinks.classList.remove("active");
                 cardScripts.classList.add("active");
-                cardLinks.classList.remove("active");
                 title.innerText = "Quản Lý Script Tổng Hợp";
+            } else {
+                btnSocial.classList.add("active");
+                cardSocial.classList.add("active");
+                title.innerText = "Quản Lý Liên Kết Mạng Xã Hội";
             }
         }
 
@@ -544,11 +628,24 @@
             }
             if(newScripts.length > 0) scriptsData = newScripts;
 
+            socialData.discord = document.getElementById("socialDiscord").value;
+            socialData.tiktok = document.getElementById("socialTiktok").value;
+            socialData.youtube = document.getElementById("socialYoutube").value;
+
             localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
             localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
+            localStorage.setItem("thlhub_social_data", JSON.stringify(socialData));
+
             showToast("💾 Đã lưu thay đổi thành công!");
+            updateSocialLinks();
             renderAdminTables();
             renderCurrentTabContent();
+        }
+
+        function updateSocialLinks() {
+            document.getElementById("linkDiscord").href = socialData.discord || "#";
+            document.getElementById("linkTiktok").href = socialData.tiktok || "#";
+            document.getElementById("linkYoutube").href = socialData.youtube || "#";
         }
 
         function toggleSideMenu() {
@@ -601,7 +698,6 @@
             }
         }
 
-        // Sao chép chính xác nội dung bên trong script ra bộ nhớ tạm
         function directCopy(content) {
             navigator.clipboard.writeText(content).then(() => {
                 showToast("📋 Đã sao chép nội dung script thành công!");
