@@ -135,7 +135,7 @@
             font-weight: 600;
         }
 
-        /* Ở ngoài trang chủ CHỈ CÓ NÚT MỞ TAB */
+        /* Nút Mở Tab (Dành cho Hack Roblox) */
         .link-btn {
             background-color: #00bfff;
             color: white;
@@ -147,6 +147,19 @@
             cursor: pointer;
         }
         .link-btn:active { transform: scale(0.9); }
+
+        /* Nút Sao chép (Dành cho Script Tổng Hợp) */
+        .copy-btn {
+            background-color: #ff2a2a;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .copy-btn:active { transform: scale(0.9); }
 
         /* NÚT 3 GẠCH BÊN TRÁI */
         .hamburger-menu {
@@ -170,10 +183,10 @@
         }
         .side-popup button:hover { background: #ff2a2a; }
 
-        /* GIAO DIỆN DASHBOARD ADMIN (CHUẨN HÌNH ẢNH) */
+        /* GIAO DIỆN DASHBOARD ADMIN */
         .admin-dashboard {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0f0f14; z-index: 2000; display: none; flex-direction: row; color: #fff;
+            background: #0f0f14; z-index: 2000; flex-direction: row; color: #fff;
         }
         .admin-sidebar {
             width: 220px; background: #14141c; border-right: 2px solid #ff2a2a; padding: 20px; display: flex; flex-direction: column; gap: 10px;
@@ -192,7 +205,9 @@
         }
         .admin-card {
             background: #181822; border: 1px solid #ff2a2a; border-radius: 14px; padding: 20px; box-shadow: 0 0 15px rgba(255,42,42,0.2);
+            display: none;
         }
+        .admin-card.active { display: block; }
         .admin-table {
             width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px;
         }
@@ -239,41 +254,56 @@
         <button onclick="checkAdminPassword()">⚙️ Quản lý Admin</button>
     </div>
 
-    <!-- GIAO DIỆN DASHBOARD ADMIN (CHUẨN DASHBOARD) -->
+    <!-- GIAO DIỆN DASHBOARD ADMIN -->
     <div class="admin-dashboard" id="adminDashboard">
         <div class="admin-sidebar">
             <h2>THLHUB Admin</h2>
-            <button class="sidebar-btn active">📊 Dashboard</button>
-            <button class="sidebar-btn">👥 Users</button>
-            <button class="sidebar-btn" onclick="switchAdminTab('links')">🔗 Links Management</button>
-            <button class="sidebar-btn" onclick="switchAdminTab('scripts')">📜 Script Library</button>
+            <button class="sidebar-btn active" id="btnSideLinks" onclick="switchAdminSection('links')">🔗 Links Management (Hack Roblox)</button>
+            <button class="sidebar-btn" id="btnSideScripts" onclick="switchAdminSection('scripts')">📜 Script Library (Script Tổng Hợp)</button>
             <button class="sidebar-btn" onclick="closeAdminDashboard()" style="margin-top: auto; background: #ff3b3b; color: white;">❌ Thoát Admin</button>
         </div>
         <div class="admin-main">
             <div class="admin-header-title">
-                <span>Quản Lý Hệ Thống & Script Hack</span>
+                <span id="adminSectionTitle">Quản Lý Hack Roblox & Links</span>
                 <button onclick="saveAdminData()" style="background: #00ffcc; color: #000; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer;">💾 Lưu Thay Đổi</button>
             </div>
 
-            <!-- BẢNG QUẢN LÝ LINK & SCRIPT -->
-            <div class="admin-card">
+            <!-- PHẦN 1: QUẢN LÝ LINK HACK ROBLOX -->
+            <div class="admin-card active" id="adminCardLinks">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <strong style="color: #ff3b3b;">Danh Sách Script & Link Gắn Vào</strong>
-                    <button onclick="addNewScriptInput()" class="admin-action-btn btn-save-row">➕ Thêm Mới</button>
+                    <strong style="color: #ff3b3b;">Danh Sách Link Hack Roblox (Mở Tab)</strong>
+                    <button onclick="addLinkRow()" class="admin-action-btn btn-save-row">➕ Thêm Link Mới</button>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Tên Hack / Game</th>
+                                <th>Đường Dẫn URL (Link)</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminLinksTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PHẦN 2: QUẢN LÝ SCRIPT TỔNG HỢP -->
+            <div class="admin-card" id="adminCardScripts">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <strong style="color: #00ffcc;">Danh Sách Script Tổng Hợp (Sao Chép)</strong>
+                    <button onclick="addScriptRow()" class="admin-action-btn btn-save-row">➕ Thêm Script Mới</button>
                 </div>
                 <div style="overflow-x: auto;">
                     <table class="admin-table">
                         <thead>
                             <tr>
                                 <th>Tên Script</th>
-                                <th>Link Mở Tab Mới</th>
-                                <th>Nội Dung Script (Sao chép)</th>
+                                <th>Nội Dung Script (Loadstring)</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
-                        <tbody id="adminTableBody">
-                            <!-- Dữ liệu được load bằng JavaScript -->
-                        </tbody>
+                        <tbody id="adminScriptsTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -287,9 +317,12 @@
             <h1>THLHUB</h1>
             <p class="subtitle">các script hack đều ở đây</p>
 
-            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm kiếm script..." onkeyup="renderScripts()">
+            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm kiếm..." onkeyup="renderCurrentTabContent()">
 
-            <div class="tab-container" id="mainTabContainer"></div>
+            <div class="tab-container">
+                <button class="tab-btn active" id="mainTab1" onclick="switchMainTab(1)">🎮 Hack Roblox</button>
+                <button class="tab-btn" id="mainTab2" onclick="switchMainTab(2)">📜 Script Tổng Hợp</button>
+            </div>
 
             <div class="content-box" id="display-content"></div>
         </div>
@@ -298,18 +331,25 @@
     <div id="toast">Thành công!</div>
 
     <script>
-        let scriptData = [
-            { name: "Hack Roblox V1", link: "https://example.com/script1", content: "loadstring(game:HttpGet('script1'))()" },
-            { name: "Script Tổng Hợp", link: "https://example.com/script2", content: "loadstring(game:HttpGet('script2'))()" }
+        // Dữ liệu mẫu ban đầu
+        let linksData = [
+            { name: "Delta VNG v1.5", link: "https://example.com/link1" },
+            { name: "Fluxus Mobile", link: "https://example.com/link2" }
         ];
 
-        let currentTabIdx = 0;
+        let scriptsData = [
+            { name: "Auto Farm Blox Fruit", content: "loadstring(game:HttpGet('autofarm.lua'))()" },
+            { name: "Aimbot Universal", content: "loadstring(game:HttpGet('aimbot.lua'))()" }
+        ];
+
+        let currentMainTab = 1; // 1: Hack Roblox, 2: Script Tổng Hợp
 
         window.onload = function() {
-            let saved = localStorage.getItem("thlhub_custom_scripts");
-            if (saved) scriptData = JSON.parse(saved);
-            renderTabs();
-            renderScripts();
+            let savedLinks = localStorage.getItem("thlhub_links_data");
+            let savedScripts = localStorage.getItem("thlhub_scripts_data");
+            if (savedLinks) linksData = JSON.parse(savedLinks);
+            if (savedScripts) scriptsData = JSON.parse(savedScripts);
+            renderCurrentTabContent();
         };
 
         function closeModal() {
@@ -329,54 +369,106 @@
 
         function openAdminDashboard() {
             document.getElementById("adminDashboard").style.display = "flex";
-            renderAdminTable();
+            renderAdminTables();
         }
 
         function closeAdminDashboard() {
             document.getElementById("adminDashboard").style.display = "none";
-            renderTabs();
-            renderScripts();
+            renderCurrentTabContent();
         }
 
-        function renderAdminTable() {
-            let tbody = document.getElementById("adminTableBody");
-            tbody.innerHTML = "";
-            scriptData.forEach((item, index) => {
-                tbody.innerHTML += `
+        // Chuyển qua lại giữa các mục quản lý trong Admin Dashboard
+        function switchAdminSection(section) {
+            let btnLinks = document.getElementById("btnSideLinks");
+            let btnScripts = document.getElementById("btnSideScripts");
+            let cardLinks = document.getElementById("adminCardLinks");
+            let cardScripts = document.getElementById("adminCardScripts");
+            let title = document.getElementById("adminSectionTitle");
+
+            if(section === 'links') {
+                btnLinks.classList.add("active");
+                btnScripts.classList.remove("active");
+                cardLinks.classList.add("active");
+                cardScripts.classList.remove("active");
+                title.innerText = "Quản Lý Hack Roblox & Links";
+            } else {
+                btnScripts.classList.add("active");
+                btnLinks.classList.remove("active");
+                cardScripts.classList.add("active");
+                cardLinks.classList.remove("active");
+                title.innerText = "Quản Lý Script Tổng Hợp";
+            }
+        }
+
+        function renderAdminTables() {
+            // Render bảng Links
+            let tbodyLinks = document.getElementById("adminLinksTableBody");
+            tbodyLinks.innerHTML = "";
+            linksData.forEach((item, index) => {
+                tbodyLinks.innerHTML += `
                     <tr>
-                        <td><input type="text" class="admin-input" id="admName_${index}" value="${item.name}"></td>
-                        <td><input type="text" class="admin-input" id="admLink_${index}" value="${item.link}"></td>
-                        <td><input type="text" class="admin-input" id="admContent_${index}" value="${item.content}"></td>
-                        <td>
-                            <button class="admin-action-btn btn-del-row" onclick="removeAdminScript(${index})">Xóa</button>
-                        </td>
+                        <td><input type="text" class="admin-input" id="admLinkName_${index}" value="${item.name}"></td>
+                        <td><input type="text" class="admin-input" id="admLinkVal_${index}" value="${item.link}"></td>
+                        <td><button class="admin-action-btn btn-del-row" onclick="removeLinkRow(${index})">Xóa</button></td>
+                    </tr>
+                `;
+            });
+
+            // Render bảng Scripts
+            let tbodyScripts = document.getElementById("adminScriptsTableBody");
+            tbodyScripts.innerHTML = "";
+            scriptsData.forEach((item, index) => {
+                tbodyScripts.innerHTML += `
+                    <tr>
+                        <td><input type="text" class="admin-input" id="admScriptName_${index}" value="${item.name}"></td>
+                        <td><input type="text" class="admin-input" id="admScriptVal_${index}" value="${item.content}"></td>
+                        <td><button class="admin-action-btn btn-del-row" onclick="removeScriptRow(${index})">Xóa</button></td>
                     </tr>
                 `;
             });
         }
 
-        function addNewScriptInput() {
-            scriptData.push({ name: "Script Mới", link: "", content: "" });
-            renderAdminTable();
+        function addLinkRow() {
+            linksData.push({ name: "Link Mới", link: "" });
+            renderAdminTables();
         }
 
-        function removeAdminScript(index) {
-            scriptData.splice(index, 1);
-            renderAdminTable();
+        function removeLinkRow(index) {
+            linksData.splice(index, 1);
+            renderAdminTables();
+        }
+
+        function addScriptRow() {
+            scriptsData.push({ name: "Script Mới", content: "" });
+            renderAdminTables();
+        }
+
+        function removeScriptRow(index) {
+            scriptsData.splice(index, 1);
+            renderAdminTables();
         }
 
         function saveAdminData() {
-            scriptData.forEach((item, index) => {
-                let nameEl = document.getElementById(`admName_${index}`);
-                let linkEl = document.getElementById(`admLink_${index}`);
-                let contentEl = document.getElementById(`admContent_${index}`);
+            // Lưu dữ liệu Links
+            linksData.forEach((item, index) => {
+                let nameEl = document.getElementById(`admLinkName_${index}`);
+                let valEl = document.getElementById(`admLinkVal_${index}`);
                 if(nameEl) item.name = nameEl.value;
-                if(linkEl) item.link = linkEl.value;
-                if(contentEl) item.content = contentEl.value;
+                if(valEl) item.link = valEl.value;
             });
-            localStorage.setItem("thlhub_custom_scripts", JSON.stringify(scriptData));
+
+            // Lưu dữ liệu Scripts
+            scriptsData.forEach((item, index) => {
+                let nameEl = document.getElementById(`admScriptName_${index}`);
+                let valEl = document.getElementById(`admScriptVal_${index}`);
+                if(nameEl) item.name = nameEl.value;
+                if(valEl) item.content = valEl.value;
+            });
+
+            localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
+            localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
             showToast("Đã lưu dữ liệu thành công!");
-            renderAdminTable();
+            renderAdminTables();
         }
 
         // MENU SIDEBAR 3 GẠCH
@@ -385,36 +477,44 @@
             popup.style.display = (popup.style.display === "block") ? "none" : "block";
         }
 
-        // RENDER GIAO DIỆN CHÍNH
-        function renderTabs() {
-            let container = document.getElementById("mainTabContainer");
-            container.innerHTML = "";
-            scriptData.forEach((item, idx) => {
-                container.innerHTML += `<button class="tab-btn ${idx === currentTabIdx ? 'active' : ''}" onclick="switchTab(${idx})">${item.name}</button>`;
-            });
+        // CHUYỂN TAB CHÍNH (TRANG CHỦ)
+        function switchMainTab(tabNum) {
+            currentMainTab = tabNum;
+            document.getElementById("mainTab1").className = tabNum === 1 ? "tab-btn active" : "tab-btn";
+            document.getElementById("mainTab2").className = tabNum === 2 ? "tab-btn active" : "tab-btn";
+            renderCurrentTabContent();
         }
 
-        function switchTab(idx) {
-            currentTabIdx = idx;
-            renderTabs();
-            renderScripts();
-        }
-
-        function renderScripts() {
+        function renderCurrentTabContent() {
             let keyword = document.getElementById("searchInput").value.toLowerCase();
             let box = document.getElementById("display-content");
             box.innerHTML = "";
 
-            scriptData.forEach((item) => {
-                if (item.name.toLowerCase().includes(keyword) || keyword === "") {
-                    box.innerHTML += `
-                        <div class="script-item">
-                            <span class="script-name">${item.name}</span>
-                            <button class="link-btn" onclick="openLink('${item.link}')">Mở Tab</button>
-                        </div>
-                    `;
-                }
-            });
+            if (currentMainTab === 1) {
+                // TAB 1: HACK ROBLOX (CHỈ CÓ NÚT MỞ TAB)
+                linksData.forEach((item) => {
+                    if (item.name.toLowerCase().includes(keyword) || keyword === "") {
+                        box.innerHTML += `
+                            <div class="script-item">
+                                <span class="script-name">${item.name}</span>
+                                <button class="link-btn" onclick="openLink('${item.link}')">Mở Tab</button>
+                            </div>
+                        `;
+                    }
+                });
+            } else {
+                // TAB 2: SCRIPT TỔNG HỢP (CHỈ CÓ NÚT SAO CHÉP)
+                scriptsData.forEach((item) => {
+                    if (item.name.toLowerCase().includes(keyword) || keyword === "") {
+                        box.innerHTML += `
+                            <div class="script-item">
+                                <span class="script-name">${item.name}</span>
+                                <button class="copy-btn" onclick="directCopy('${item.content}')">Sao chép</button>
+                            </div>
+                        `;
+                    }
+                });
+            }
         }
 
         function openLink(url) {
@@ -423,6 +523,11 @@
             } else {
                 alert("Chưa có link được gắn cho mục này!");
             }
+        }
+
+        function directCopy(text) {
+            navigator.clipboard.writeText(text);
+            showToast("Đã sao chép script thành công!");
         }
 
         function showToast(msg) {
@@ -434,3 +539,4 @@
     </script>
 </body>
 </html>
+
