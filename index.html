@@ -20,21 +20,58 @@
             background-image: linear-gradient(rgba(11, 11, 15, 0.85), rgba(11, 11, 15, 0.85)), url('image.png');
             background-size: cover;
             background-position: center;
+            position: relative;
         }
 
+        /* HIỆU ỨNG VIỀN WEB CÓ MƯA ĐỎ / ÁNH SÁNG ĐỎ RƠI XUỐNG TỪ TỪ */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 3px solid transparent;
+            border-image: linear-gradient(to bottom, #ff2a2a, rgba(255, 42, 42, 0.1), transparent) 1;
+            pointer-events: none;
+            animation: borderRain 4s linear infinite;
+        }
+
+        @keyframes borderRain {
+            0% { clip-path: inset(0 0 100% 0); opacity: 0.2; }
+            50% { clip-path: inset(0 0 0 0); opacity: 1; }
+            100% { clip-path: inset(100% 0 0 0); opacity: 0.2; }
+        }
+
+        /* KHUNG WEB CHÍNH CÓ HIỆU ỨNG XUẤT HIỆN TỪ TỪ (FADE IN + SCALE) */
         .web-frame {
             width: 92%;
             max-width: 460px;
             height: 520px;
-            background: rgba(18, 18, 24, 0.95);
+            background: rgba(18, 18, 24, 0.85);
+            backdrop-filter: blur(12px); /* Menu/Nền phía sau mờ ảo hiện đại */
             border: 2px solid #ff2a2a;
             border-radius: 22px;
             padding: 25px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 0 35px rgba(255, 42, 42, 0.6);
+            box-shadow: 0 0 45px rgba(255, 42, 42, 0.5);
             position: relative;
+            z-index: 10;
+            animation: fadeInSmooth 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInSmooth {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* HIỆU ỨNG CHỮ XUẤT HIỆN TỪ TỪ */
+        .header-img, h1, p.subtitle, .search-box, .tab-container, .content-box {
+            animation: textFadeIn 1.5s ease-out forwards;
+        }
+
+        @keyframes textFadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .header-img {
@@ -42,7 +79,7 @@
             height: 75px;
             object-fit: contain;
             margin-bottom: 5px;
-            filter: drop-shadow(0 0 10px rgba(255, 42, 42, 0.8));
+            filter: drop-shadow(0 0 12px rgba(255, 42, 42, 0.9));
         }
 
         h1 {
@@ -50,7 +87,7 @@
             margin: 10px 0 5px 0;
             color: #ff3b3b;
             letter-spacing: 2px;
-            text-shadow: 0 0 12px rgba(255, 59, 59, 0.7);
+            text-shadow: 0 0 15px rgba(255, 59, 59, 0.8);
             font-weight: 800;
         }
 
@@ -71,6 +108,10 @@
             font-size: 14px;
             margin-bottom: 15px;
             outline: none;
+            transition: 0.3s;
+        }
+        .search-box:focus {
+            box-shadow: 0 0 12px rgba(255, 42, 42, 0.6);
         }
 
         .tab-container {
@@ -95,13 +136,13 @@
             border-radius: 8px;
             cursor: pointer;
             white-space: nowrap;
-            transition: 0.2s;
+            transition: 0.3s;
         }
 
         .tab-btn.active {
             background-color: #ff2a2a;
             color: white;
-            box-shadow: 0 0 12px rgba(255, 42, 42, 0.9);
+            box-shadow: 0 0 15px rgba(255, 42, 42, 0.9);
         }
 
         .content-box {
@@ -125,6 +166,11 @@
             padding: 12px;
             border-radius: 8px;
             border: 1px solid #444;
+            transition: 0.2s;
+        }
+        .script-item:hover {
+            border-color: #ff2a2a;
+            transform: translateX(3px);
         }
 
         .script-name {
@@ -135,7 +181,6 @@
             font-weight: 600;
         }
 
-        /* Nút Mở Tab (Dành cho Hack Roblox) */
         .link-btn {
             background-color: #00bfff;
             color: white;
@@ -145,10 +190,11 @@
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
+            transition: 0.2s;
         }
+        .link-btn:hover { background-color: #33ccff; box-shadow: 0 0 10px rgba(0, 191, 255, 0.6); }
         .link-btn:active { transform: scale(0.9); }
 
-        /* Nút Sao chép (Dành cho Script Tổng Hợp) */
         .copy-btn {
             background-color: #ff2a2a;
             color: white;
@@ -158,53 +204,60 @@
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
+            transition: 0.2s;
         }
+        .copy-btn:hover { background-color: #ff4d4d; box-shadow: 0 0 10px rgba(255, 42, 42, 0.6); }
         .copy-btn:active { transform: scale(0.9); }
 
         /* NÚT 3 GẠCH BÊN TRÁI */
         .hamburger-menu {
             position: fixed; bottom: 20px; left: 20px;
-            background: #181822; border: 2px solid #ff2a2a; border-radius: 12px;
+            background: rgba(24, 24, 34, 0.9); border: 2px solid #ff2a2a; border-radius: 12px;
             width: 45px; height: 45px; display: flex; flex-direction: column;
             justify-content: center; align-items: center; gap: 5px; cursor: pointer;
             box-shadow: 0 0 15px rgba(255, 42, 42, 0.5); z-index: 100;
+            transition: 0.3s;
         }
+        .hamburger-menu:hover { transform: scale(1.1); }
         .hamburger-menu span { width: 22px; height: 3px; background: #ff2a2a; border-radius: 2px; }
 
         .side-popup {
             display: none; position: fixed; bottom: 75px; left: 20px;
-            background: #181822; border: 2px solid #ff2a2a; border-radius: 12px;
-            width: 170px; padding: 10px; z-index: 100; box-shadow: 0 0 20px rgba(255, 42, 42, 0.6);
+            background: rgba(24, 24, 34, 0.95); backdrop-filter: blur(10px);
+            border: 2px solid #ff2a2a; border-radius: 12px;
+            width: 170px; padding: 10px; z-index: 100; box-shadow: 0 0 25px rgba(255, 42, 42, 0.6);
+            animation: fadeInSmooth 0.3s ease-out forwards;
         }
         .side-popup button {
             width: 100%; background: transparent; color: white; border: none;
             padding: 10px; text-align: left; font-size: 14px; font-weight: bold;
-            cursor: pointer; border-radius: 6px;
+            cursor: pointer; border-radius: 6px; transition: 0.2s;
         }
         .side-popup button:hover { background: #ff2a2a; }
 
         /* GIAO DIỆN DASHBOARD ADMIN */
         .admin-dashboard {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0f0f14; z-index: 2000; flex-direction: row; color: #fff;
+            background: rgba(15, 15, 20, 0.95); backdrop-filter: blur(15px); z-index: 2000; flex-direction: row; color: #fff;
+            animation: fadeInSmooth 0.4s ease-out forwards;
         }
         .admin-sidebar {
-            width: 220px; background: #14141c; border-right: 2px solid #ff2a2a; padding: 20px; display: flex; flex-direction: column; gap: 10px;
+            width: 220px; background: rgba(20, 20, 28, 0.9); border-right: 2px solid #ff2a2a; padding: 20px; display: flex; flex-direction: column; gap: 10px;
         }
         .admin-sidebar h2 { font-size: 18px; color: #ff3b3b; margin-bottom: 20px; text-align: center; }
         .sidebar-btn {
             background: transparent; color: #ccc; border: none; padding: 12px; text-align: left; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;
         }
-        .sidebar-btn.active, .sidebar-btn:hover { background: #ff2a2a; color: white; }
+        .sidebar-btn.active, .sidebar-btn:hover { background: #ff2a2a; color: white; box-shadow: 0 0 10px rgba(255,42,42,0.5); }
 
         .admin-main {
-            flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; background: #111118;
+            flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; background: rgba(17, 17, 24, 0.8);
         }
         .admin-header-title {
             font-size: 20px; color: #00ffcc; border-bottom: 1px solid #333; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
         }
         .admin-card {
-            background: #181822; border: 1px solid #ff2a2a; border-radius: 14px; padding: 20px; box-shadow: 0 0 15px rgba(255,42,42,0.2);
+            background: rgba(24, 24, 34, 0.9); border: 1px solid #ff2a2a; border-radius: 14px; padding: 20px; box-shadow: 0 0 20px rgba(255,42,42,0.2);
             display: none;
         }
         .admin-card.active { display: block; }
@@ -224,9 +277,8 @@
         .btn-save-row { background: #00ffcc; color: #000; }
         .btn-del-row { background: #ff3b3b; color: #fff; }
 
-        /* TOAST THÔNG BÁO */
         #toast {
-            visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 10px; position: fixed; z-index: 4000; left: 50%; bottom: 30px; transform: translateX(-50%); border: 1px solid #00ffcc; font-size: 14px;
+            visibility: hidden; min-width: 200px; background-color: #222; color: #fff; text-align: center; border-radius: 8px; padding: 12px; position: fixed; z-index: 4000; left: 50%; bottom: 30px; transform: translateX(-50%); border: 1px solid #00ffcc; font-size: 14px; box-shadow: 0 0 15px rgba(0,255,204,0.4);
         }
         #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 2.0s; }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
@@ -236,8 +288,8 @@
 <body>
 
     <!-- THÔNG BÁO BAN ĐẦU -->
-    <div class="choice-modal" id="notificationModal" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 3000; justify-content: center; align-items: center;">
-        <div style="width: 85%; max-width: 320px; background: #181825; border: 2px solid #ff2a2a; border-radius: 15px; padding: 20px; text-align: center;">
+    <div class="choice-modal" id="notificationModal" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 3000; justify-content: center; align-items: center;">
+        <div style="width: 85%; max-width: 320px; background: rgba(24, 24, 37, 0.95); border: 2px solid #ff2a2a; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 0 30px rgba(255,42,42,0.5);">
             <h3 style="color: #ff3b3b; margin-top: 0;">⚠️ THÔNG BÁO</h3>
             <p style="font-size:13px; color:#ddd;">Web mới tạo nên gặp nhiều lỗi chưa fix, admin đang fix lỗi sẽ sớm thôi!</p>
             <button onclick="closeModal()" style="width: 100%; margin-top: 10px; padding: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; background: #ff2a2a; color: white;">Đã hiểu</button>
@@ -258,8 +310,8 @@
     <div class="admin-dashboard" id="adminDashboard">
         <div class="admin-sidebar">
             <h2>THLHUB Admin</h2>
-            <button class="sidebar-btn active" id="btnSideLinks" onclick="switchAdminSection('links')">🔗 Links Management (Hack Roblox)</button>
-            <button class="sidebar-btn" id="btnSideScripts" onclick="switchAdminSection('scripts')">📜 Script Library (Script Tổng Hợp)</button>
+            <button class="sidebar-btn active" id="btnSideLinks" onclick="switchAdminSection('links')">🔗 Links (Hack Roblox)</button>
+            <button class="sidebar-btn" id="btnSideScripts" onclick="switchAdminSection('scripts')">📜 Script Tổng Hợp</button>
             <button class="sidebar-btn" onclick="closeAdminDashboard()" style="margin-top: auto; background: #ff3b3b; color: white;">❌ Thoát Admin</button>
         </div>
         <div class="admin-main">
@@ -331,18 +383,17 @@
     <div id="toast">Thành công!</div>
 
     <script>
-        // Dữ liệu mẫu ban đầu
         let linksData = [
-            { name: "Delta VNG v1.5", link: "https://example.com/link1" },
-            { name: "Fluxus Mobile", link: "https://example.com/link2" }
+            { name: "Hack Roblox V1", link: "https://example.com/link1" },
+            { name: "Hack Roblox V2", link: "https://example.com/link2" }
         ];
 
         let scriptsData = [
-            { name: "Auto Farm Blox Fruit", content: "loadstring(game:HttpGet('autofarm.lua'))()" },
-            { name: "Aimbot Universal", content: "loadstring(game:HttpGet('aimbot.lua'))()" }
+            { name: "Script Tổng Hợp 1", content: "loadstring(game:HttpGet('script1'))()" },
+            { name: "Script Tổng Hợp 2", content: "loadstring(game:HttpGet('script2'))()" }
         ];
 
-        let currentMainTab = 1; // 1: Hack Roblox, 2: Script Tổng Hợp
+        let currentMainTab = 1;
 
         window.onload = function() {
             let savedLinks = localStorage.getItem("thlhub_links_data");
@@ -356,7 +407,6 @@
             document.getElementById("notificationModal").style.display = "none";
         }
 
-        // KIỂM TRA MẬT KHẨU ADMIN
         function checkAdminPassword() {
             document.getElementById("sidePopup").style.display = "none";
             let pass = prompt("Nhập mật khẩu Admin:");
@@ -377,7 +427,6 @@
             renderCurrentTabContent();
         }
 
-        // Chuyển qua lại giữa các mục quản lý trong Admin Dashboard
         function switchAdminSection(section) {
             let btnLinks = document.getElementById("btnSideLinks");
             let btnScripts = document.getElementById("btnSideScripts");
@@ -401,7 +450,6 @@
         }
 
         function renderAdminTables() {
-            // Render bảng Links
             let tbodyLinks = document.getElementById("adminLinksTableBody");
             tbodyLinks.innerHTML = "";
             linksData.forEach((item, index) => {
@@ -414,7 +462,6 @@
                 `;
             });
 
-            // Render bảng Scripts
             let tbodyScripts = document.getElementById("adminScriptsTableBody");
             tbodyScripts.innerHTML = "";
             scriptsData.forEach((item, index) => {
@@ -449,35 +496,40 @@
         }
 
         function saveAdminData() {
-            // Lưu dữ liệu Links
-            linksData.forEach((item, index) => {
-                let nameEl = document.getElementById(`admLinkName_${index}`);
-                let valEl = document.getElementById(`admLinkVal_${index}`);
-                if(nameEl) item.name = nameEl.value;
-                if(valEl) item.link = valEl.value;
-            });
+            let newLinks = [];
+            let i = 0;
+            while(true) {
+                let nameEl = document.getElementById(`admLinkName_${i}`);
+                let valEl = document.getElementById(`admLinkVal_${i}`);
+                if(!nameEl) break;
+                newLinks.push({ name: nameEl.value, link: valEl.value });
+                i++;
+            }
+            if(newLinks.length > 0) linksData = newLinks;
 
-            // Lưu dữ liệu Scripts
-            scriptsData.forEach((item, index) => {
-                let nameEl = document.getElementById(`admScriptName_${index}`);
-                let valEl = document.getElementById(`admScriptVal_${index}`);
-                if(nameEl) item.name = nameEl.value;
-                if(valEl) item.content = valEl.value;
-            });
+            let newScripts = [];
+            let j = 0;
+            while(true) {
+                let nameEl = document.getElementById(`admScriptName_${j}`);
+                let valEl = document.getElementById(`admScriptVal_${j}`);
+                if(!nameEl) break;
+                newScripts.push({ name: nameEl.value, content: valEl.value });
+                j++;
+            }
+            if(newScripts.length > 0) scriptsData = newScripts;
 
             localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
             localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
             showToast("Đã lưu dữ liệu thành công!");
             renderAdminTables();
+            renderCurrentTabContent();
         }
 
-        // MENU SIDEBAR 3 GẠCH
         function toggleSideMenu() {
             let popup = document.getElementById("sidePopup");
             popup.style.display = (popup.style.display === "block") ? "none" : "block";
         }
 
-        // CHUYỂN TAB CHÍNH (TRANG CHỦ)
         function switchMainTab(tabNum) {
             currentMainTab = tabNum;
             document.getElementById("mainTab1").className = tabNum === 1 ? "tab-btn active" : "tab-btn";
@@ -491,7 +543,6 @@
             box.innerHTML = "";
 
             if (currentMainTab === 1) {
-                // TAB 1: HACK ROBLOX (CHỈ CÓ NÚT MỞ TAB)
                 linksData.forEach((item) => {
                     if (item.name.toLowerCase().includes(keyword) || keyword === "") {
                         box.innerHTML += `
@@ -503,7 +554,6 @@
                     }
                 });
             } else {
-                // TAB 2: SCRIPT TỔNG HỢP (CHỈ CÓ NÚT SAO CHÉP)
                 scriptsData.forEach((item) => {
                     if (item.name.toLowerCase().includes(keyword) || keyword === "") {
                         box.innerHTML += `
@@ -539,4 +589,3 @@
     </script>
 </body>
 </html>
-
