@@ -23,68 +23,77 @@
             position: relative;
         }
 
-        /* HIỆU ỨNG VIỀN WEB CÓ MƯA ĐỎ / ÁNH SÁNG ĐỎ RƠI XUỐNG TỪ TỪ */
-        body::before {
-            content: '';
+        /* HIỆU ỨNG MƯA ĐỎ RƠI XUỐNG TỪ TỪ NỀN SAU */
+        .rain-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            border: 3px solid transparent;
-            border-image: linear-gradient(to bottom, #ff2a2a, rgba(255, 42, 42, 0.1), transparent) 1;
             pointer-events: none;
-            animation: borderRain 4s linear infinite;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .rain-drop {
+            position: absolute;
+            background: linear-gradient(transparent, #ff2a2a);
+            width: 2px;
+            height: 35px;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-50px); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(105vh); opacity: 0; }
         }
 
-        @keyframes borderRain {
-            0% { clip-path: inset(0 0 100% 0); opacity: 0.2; }
-            50% { clip-path: inset(0 0 0 0); opacity: 1; }
-            100% { clip-path: inset(100% 0 0 0); opacity: 0.2; }
-        }
-
-        /* KHUNG WEB CHÍNH CÓ HIỆU ỨNG XUẤT HIỆN TỪ TỪ (FADE IN + SCALE) */
+        /* KHUNG WEB CHÍNH - LÀM TO DÀI RA VÀ HIỆN TỪ TỪ */
         .web-frame {
             width: 92%;
-            max-width: 460px;
-            height: 520px;
-            background: rgba(18, 18, 24, 0.85);
-            backdrop-filter: blur(12px); /* Menu/Nền phía sau mờ ảo hiện đại */
+            max-width: 480px;
+            height: 640px; /* Tăng chiều cao để phần chọn hack to và dài hơn */
+            background: rgba(18, 18, 24, 0.88);
+            backdrop-filter: blur(14px);
             border: 2px solid #ff2a2a;
-            border-radius: 22px;
+            border-radius: 24px;
             padding: 25px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 0 45px rgba(255, 42, 42, 0.5);
+            box-shadow: 0 0 50px rgba(255, 42, 42, 0.5);
             position: relative;
             z-index: 10;
             animation: fadeInSmooth 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes fadeInSmooth {
-            0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+            0% { opacity: 0; transform: translateY(25px) scale(0.95); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* HIỆU ỨNG CHỮ XUẤT HIỆN TỪ TỪ */
-        .header-img, h1, p.subtitle, .search-box, .tab-container, .content-box {
+        .fade-in-text {
             animation: textFadeIn 1.5s ease-out forwards;
+            opacity: 0;
         }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
 
         @keyframes textFadeIn {
-            0% { opacity: 0; transform: translateY(10px); }
+            0% { opacity: 0; transform: translateY(12px); }
             100% { opacity: 1; transform: translateY(0); }
         }
 
         .header-img {
-            width: 75px;
-            height: 75px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
             filter: drop-shadow(0 0 12px rgba(255, 42, 42, 0.9));
         }
 
         h1 {
-            font-size: 28px;
-            margin: 10px 0 5px 0;
+            font-size: 26px;
+            margin: 5px 0;
             color: #ff3b3b;
             letter-spacing: 2px;
             text-shadow: 0 0 15px rgba(255, 59, 59, 0.8);
@@ -92,27 +101,25 @@
         }
 
         p.subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: #d0d0d0;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
         }
 
         .search-box {
             width: 100%;
-            padding: 12px 18px;
+            padding: 11px 16px;
             background: #15151c;
             border: 1px solid #ff2a2a;
             border-radius: 10px;
             color: white;
             font-size: 14px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             outline: none;
             transition: 0.3s;
         }
-        .search-box:focus {
-            box-shadow: 0 0 12px rgba(255, 42, 42, 0.6);
-        }
+        .search-box:focus { box-shadow: 0 0 12px rgba(255, 42, 42, 0.6); }
 
         .tab-container {
             display: flex;
@@ -122,20 +129,19 @@
             padding: 6px;
             border-radius: 12px;
             border: 1px solid #ff2a2a;
-            margin-bottom: 15px;
-            overflow-x: auto;
+            margin-bottom: 12px;
         }
 
         .tab-btn {
+            flex: 1;
             background-color: transparent;
             color: #ccc;
             border: none;
-            padding: 10px 14px;
+            padding: 10px;
             font-size: 13px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            white-space: nowrap;
             transition: 0.3s;
         }
 
@@ -145,17 +151,19 @@
             box-shadow: 0 0 15px rgba(255, 42, 42, 0.9);
         }
 
+        /* PHẦN CHỌN HACK TO VÀ DÀI RA */
         .content-box {
             width: 100%;
-            background: rgba(25, 25, 35, 0.9);
+            background: rgba(25, 25, 35, 0.92);
             padding: 15px;
-            border-radius: 12px;
-            border: 1px dashed rgba(255, 42, 42, 0.5);
+            border-radius: 14px;
+            border: 1px dashed rgba(255, 42, 42, 0.6);
             flex: 1;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 10px;
+            max-height: 330px; /* Làm khung chứa dài và rộng hơn */
         }
 
         .script-item {
@@ -163,8 +171,8 @@
             justify-content: space-between;
             align-items: center;
             background: #1f1f2b;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 12px 15px;
+            border-radius: 10px;
             border: 1px solid #444;
             transition: 0.2s;
         }
@@ -238,7 +246,7 @@
         /* GIAO DIỆN DASHBOARD ADMIN */
         .admin-dashboard {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 15, 20, 0.95); backdrop-filter: blur(15px); z-index: 2000; flex-direction: row; color: #fff;
+            background: rgba(15, 15, 20, 0.96); backdrop-filter: blur(15px); z-index: 2000; flex-direction: row; color: #fff;
             animation: fadeInSmooth 0.4s ease-out forwards;
         }
         .admin-sidebar {
@@ -278,14 +286,17 @@
         .btn-del-row { background: #ff3b3b; color: #fff; }
 
         #toast {
-            visibility: hidden; min-width: 200px; background-color: #222; color: #fff; text-align: center; border-radius: 8px; padding: 12px; position: fixed; z-index: 4000; left: 50%; bottom: 30px; transform: translateX(-50%); border: 1px solid #00ffcc; font-size: 14px; box-shadow: 0 0 15px rgba(0,255,204,0.4);
+            visibility: hidden; min-width: 220px; background-color: #1a1a24; color: #fff; text-align: center; border-radius: 10px; padding: 12px; position: fixed; z-index: 4000; left: 50%; bottom: 30px; transform: translateX(-50%); border: 1px solid #00ffcc; font-size: 14px; box-shadow: 0 0 20px rgba(0,255,204,0.5);
         }
-        #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 2.0s; }
+        #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 2.2s; }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
     </style>
 </head>
 <body>
+
+    <!-- HIỆU ỨNG MƯA ĐỎ RƠI NỀN SAU -->
+    <div class="rain-container" id="rainContainer"></div>
 
     <!-- THÔNG BÁO BAN ĐẦU -->
     <div class="choice-modal" id="notificationModal" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 3000; justify-content: center; align-items: center;">
@@ -365,32 +376,47 @@
     <!-- GIAO DIỆN CHÍNH -->
     <div class="web-frame">
         <div id="homeView" style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center;">
-            <img src="image.png" alt="Logo" class="header-img">
-            <h1>THLHUB</h1>
-            <p class="subtitle">các script hack đều ở đây</p>
+            <img src="image.png" alt="Logo" class="header-img fade-in-text">
+            <h1 class="fade-in-text delay-1">THLHUB</h1>
+            <p class="subtitle fade-in-text delay-2">các script hack đều ở đây</p>
 
-            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm kiếm..." onkeyup="renderCurrentTabContent()">
+            <input type="text" class="search-box fade-in-text delay-3" id="searchInput" placeholder="🔍 Tìm kiếm..." onkeyup="renderCurrentTabContent()">
 
-            <div class="tab-container">
+            <div class="tab-container fade-in-text delay-3">
                 <button class="tab-btn active" id="mainTab1" onclick="switchMainTab(1)">🎮 Hack Roblox</button>
                 <button class="tab-btn" id="mainTab2" onclick="switchMainTab(2)">📜 Script Tổng Hợp</button>
             </div>
 
-            <div class="content-box" id="display-content"></div>
+            <div class="content-box fade-in-text delay-3" id="display-content"></div>
         </div>
     </div>
 
-    <div id="toast">Thành công!</div>
+    <div id="toast">Đã sao chép thành công nội dung!</div>
 
     <script>
+        // TẠO HIỆU ỨNG MƯA ĐỎ RƠI TỰ ĐỘNG
+        window.addEventListener('DOMContentLoaded', () => {
+            const rainContainer = document.getElementById('rainContainer');
+            const dropCount = 25;
+            for(let i=0; i<dropCount; i++) {
+                let drop = document.createElement('div');
+                drop.className = 'rain-drop';
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.top = (Math.random() * -50) + 'px';
+                drop.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                drop.style.animationDelay = (Math.random() * 3) + 's';
+                rainContainer.appendChild(drop);
+            }
+        });
+
         let linksData = [
             { name: "Hack Roblox V1", link: "https://example.com/link1" },
             { name: "Hack Roblox V2", link: "https://example.com/link2" }
         ];
 
         let scriptsData = [
-            { name: "Script Tổng Hợp 1", content: "loadstring(game:HttpGet('script1'))()" },
-            { name: "Script Tổng Hợp 2", content: "loadstring(game:HttpGet('script2'))()" }
+            { name: "Script Tổng Hợp 1", content: "loadstring(game:HttpGet('https://example.com/script1.lua'))()" },
+            { name: "Script Tổng Hợp 2", content: "loadstring(game:HttpGet('https://example.com/script2.lua'))()" }
         ];
 
         let currentMainTab = 1;
@@ -520,7 +546,7 @@
 
             localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
             localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
-            showToast("Đã lưu dữ liệu thành công!");
+            showToast("💾 Đã lưu thay đổi thành công!");
             renderAdminTables();
             renderCurrentTabContent();
         }
@@ -575,9 +601,13 @@
             }
         }
 
-        function directCopy(text) {
-            navigator.clipboard.writeText(text);
-            showToast("Đã sao chép script thành công!");
+        // Sao chép chính xác nội dung bên trong script ra bộ nhớ tạm
+        function directCopy(content) {
+            navigator.clipboard.writeText(content).then(() => {
+                showToast("📋 Đã sao chép nội dung script thành công!");
+            }).catch(err => {
+                alert("Không thể sao chép, vui lòng thử lại!");
+            });
         }
 
         function showToast(msg) {
