@@ -54,7 +54,7 @@
             100% { transform: translateY(105vh); opacity: 0; }
         }
 
-        /* KHUNG WEB CHÍNH - MỞ RỘNG VÀ DÀI RA */
+        /* KHUNG WEB CHÍNH */
         .web-frame {
             width: 95%;
             max-width: 520px;
@@ -76,20 +76,6 @@
         @keyframes fadeInSmooth {
             0% { opacity: 0; transform: translateY(25px) scale(0.95); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        /* HIỆU ỨNG CHỮ XUẤT HIỆN TỪ TỪ */
-        .fade-in-text {
-            animation: textFadeIn 1.5s ease-out forwards;
-            opacity: 0;
-        }
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
-        .delay-3 { animation-delay: 0.6s; }
-
-        @keyframes textFadeIn {
-            0% { opacity: 0; transform: translateY(12px); }
-            100% { opacity: 1; transform: translateY(0); }
         }
 
         .header-img {
@@ -161,7 +147,6 @@
             box-shadow: 0 0 15px rgba(255, 42, 42, 0.9);
         }
 
-        /* PHẦN CHỌN HACK TO VÀ DÀI RA */
         .content-box {
             width: 100%;
             background: rgba(25, 25, 35, 0.92);
@@ -242,7 +227,6 @@
             background: rgba(24, 24, 34, 0.95); backdrop-filter: blur(10px);
             border: 2px solid #ff2a2a; border-radius: 12px;
             width: 170px; padding: 10px; z-index: 100; box-shadow: 0 0 25px rgba(255, 42, 42, 0.6);
-            animation: fadeInSmooth 0.3s ease-out forwards;
         }
         .side-popup button {
             width: 100%; background: transparent; color: white; border: none;
@@ -255,7 +239,6 @@
         .admin-dashboard {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 15, 20, 0.96); backdrop-filter: blur(15px); z-index: 2000; flex-direction: row; color: #fff;
-            animation: fadeInSmooth 0.4s ease-out forwards;
         }
         .admin-sidebar {
             width: 220px; background: rgba(20, 20, 28, 0.9); border-right: 2px solid #ff2a2a; padding: 20px; display: flex; flex-direction: column; gap: 10px;
@@ -307,11 +290,11 @@
 </head>
 <body>
 
-    <!-- MÀN HÌNH BỊ BAN NẾU PHÁT HIỆN TRÁI PHÉP -->
+    <!-- MÀN HÌNH BỊ BAN NẾU TRUY CẬP TRÁI PHÉP -->
     <div id="banScreen">
         <h1>⛔ BẠN ĐÃ BỊ BAN ⛔</h1>
-        <p>Hệ thống phát hiện bạn đang truy cập trái phép vào tài nguyên được bảo vệ.</p>
-        <p style="font-size: 13px; color: #888; margin-top: 15px;">Dữ liệu web trên thiết bị này đã bị xóa hoàn toàn.</p>
+        <p>Hệ thống phát hiện bạn đang cố gắng truy cập trái phép hoặc thao túng tài nguyên.</p>
+        <p style="font-size: 13px; color: #888; margin-top: 15px;">Dữ liệu trên thiết bị này đã bị xóa hoàn toàn.</p>
     </div>
 
     <!-- HIỆU ỨNG MƯA ĐỎ RƠI NỀN SAU -->
@@ -414,22 +397,12 @@
     <div id="toast">📋 Đã sao chép thành công nội dung!</div>
 
     <script>
-        // HỆ THỐNG KIỂM TRA BẢO MẬT CHỐNG TRỘM & BAN IP
+        // HỆ THỐNG KIỂM TRA BẢO MẬT BAN TỰ ĐỘNG
         (function checkSecurity() {
-            let isOwner = localStorage.getItem("thlhub_owner_verified");
             let isBanned = localStorage.getItem("thlhub_is_banned");
-
             if (isBanned === "true") {
                 document.getElementById("banScreen").style.display = "flex";
                 return;
-            }
-
-            // Nếu chưa được xác thực chủ nhân lần nào trên thiết bị này, 
-            // trang web sẽ tự động khóa và xóa dữ liệu để bảo vệ chủ nhà.
-            if (!isOwner) {
-                // Cho phép lần đầu vào trang web, nhưng sẽ kích hoạt bảo vệ IP/Browser fingerprint
-                let currentDeviceFingerprint = navigator.userAgent + navigator.language;
-                localStorage.setItem("thlhub_device_id", currentDeviceFingerprint);
             }
         })();
 
@@ -472,16 +445,14 @@
             document.getElementById("notificationModal").style.display = "none";
         }
 
-        // KIỂM TRA MẬT KHẨU ADMIN VÀ XÁC THỰC CHỦ NHÂN
+        // KIỂM TRA MẬT KHẨU ADMIN VÀ BẢO VỆ CHỐNG TRỘM
         function checkAdminPassword() {
             document.getElementById("sidePopup").style.display = "none";
             let pass = prompt("Nhập mật khẩu Admin:");
             if (pass === "admin123") {
-                // Đánh dấu thiết bị này là Chủ sở hữu hợp pháp
-                localStorage.setItem("thlhub_owner_verified", "true");
                 openAdminDashboard();
             } else if (pass !== null) {
-                // Nếu kẻ lạ cố tình đoán mò mật khẩu sai, kích hoạt tính năng BAN tự động ngay lập tức!
+                // Nhập sai mật khẩu -> Kích hoạt lệnh Ban, xóa dữ liệu và khóa web
                 triggerBanProtocol();
             }
         }
@@ -529,10 +500,12 @@
             let tbodyLinks = document.getElementById("adminLinksTableBody");
             tbodyLinks.innerHTML = "";
             linksData.forEach((item, index) => {
+                let safeName = item.name ? item.name.replace(/"/g, '&quot;') : "";
+                let safeLink = item.link ? item.link.replace(/"/g, '&quot;') : "";
                 tbodyLinks.innerHTML += `
                     <tr>
-                        <td><input type="text" class="admin-input" id="admLinkName_${index}" value="${item.name}"></td>
-                        <td><input type="text" class="admin-input" id="admLinkVal_${index}" value="${item.link}"></td>
+                        <td><input type="text" class="admin-input" id="admLinkName_${index}" value="${safeName}"></td>
+                        <td><input type="text" class="admin-input" id="admLinkVal_${index}" value="${safeLink}"></td>
                         <td><button class="admin-action-btn btn-del-row" onclick="removeLinkRow(${index})">Xóa</button></td>
                     </tr>
                 `;
@@ -541,10 +514,12 @@
             let tbodyScripts = document.getElementById("adminScriptsTableBody");
             tbodyScripts.innerHTML = "";
             scriptsData.forEach((item, index) => {
+                let safeName = item.name ? item.name.replace(/"/g, '&quot;') : "";
+                let safeContent = item.content ? item.content.replace(/"/g, '&quot;') : "";
                 tbodyScripts.innerHTML += `
                     <tr>
-                        <td><input type="text" class="admin-input" id="admScriptName_${index}" value="${item.name}"></td>
-                        <td><input type="text" class="admin-input" id="admScriptVal_${index}" value="${item.content}"></td>
+                        <td><input type="text" class="admin-input" id="admScriptName_${index}" value="${safeName}"></td>
+                        <td><input type="text" class="admin-input" id="admScriptVal_${index}" value="${safeContent}"></td>
                         <td><button class="admin-action-btn btn-del-row" onclick="removeScriptRow(${index})">Xóa</button></td>
                     </tr>
                 `;
@@ -571,7 +546,7 @@
             renderAdminTables();
         }
 
-        // LƯU DỮ LIỆU CỐ ĐỊNH VÀO BỘ NHỚ LOCALSTORAGE
+        // LƯU DỮ LIỆU VĨNH VIỄN VÀO LOCALSTORAGE
         function saveAdminData() {
             let newLinks = [];
             let i = 0;
@@ -595,7 +570,6 @@
             }
             if(newScripts.length > 0) scriptsData = newScripts;
 
-            // Lưu dữ liệu vĩnh viễn
             localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
             localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
 
@@ -644,7 +618,7 @@
                     }
                 });
 
-                // Gắn sự kiện sao chép nội dung loadstring thực tế bên trong
+                // Gắn sự kiện sao chép nội dung thực tế bằng JavaScript
                 scriptsData.forEach((item, idx) => {
                     let btn = document.getElementById(`copyBtn_${idx}`);
                     if(btn) {
@@ -664,7 +638,7 @@
             }
         }
 
-        // HÀM SAO CHÉP NỘI DUNG SCRIPT THỰC TẾ
+        // HÀM SAO CHÉP TRỌN VẸN NỘI DUNG SCRIPT
         function executeCopy(text) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(text).then(() => {
