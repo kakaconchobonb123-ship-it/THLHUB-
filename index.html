@@ -23,7 +23,7 @@
             position: relative;
         }
 
-        /* MÀN HÌNH BỊ BAN NẾU PHÁT HIỆN TRÁI PHÉP */
+        /* MÀN HÌNH BỊ BAN NẾU TRUY CẬP TRÁI PHÉP */
         #banScreen {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 99999; flex-direction: column; justify-content: center; align-items: center;
@@ -325,6 +325,7 @@
             <h2>THLHUB Admin</h2>
             <button class="sidebar-btn active" id="btnSideLinks" onclick="switchAdminSection('links')">🔗 Links (Hack Roblox)</button>
             <button class="sidebar-btn" id="btnSideScripts" onclick="switchAdminSection('scripts')">📜 Script Tổng Hợp</button>
+            <button class="sidebar-btn" id="btnSideStats" onclick="switchAdminSection('stats')">👥 Lượt Truy Cập</button>
             <button class="sidebar-btn" onclick="closeAdminDashboard()" style="margin-top: auto; background: #ff3b3b; color: white;">❌ Thoát Admin</button>
         </div>
         <div class="admin-main">
@@ -372,6 +373,16 @@
                     </table>
                 </div>
             </div>
+
+            <!-- PHẦN 3: THỐNG KÊ LƯỢT TRUY CẬP -->
+            <div class="admin-card" id="adminCardStats">
+                <strong style="color: #ff3b3b; font-size: 16px;">📊 Thống Kê Người Dùng Vào Web</strong>
+                <div style="margin-top: 20px; background: #1f1f2b; padding: 20px; border-radius: 12px; border: 1px solid #444; text-align: center;">
+                    <p style="font-size: 15px; color: #ccc; margin: 0 0 10px 0;">Tổng số lượt đã truy cập trang web:</p>
+                    <h2 id="visitCountDisplay" style="font-size: 40px; color: #00ffcc; margin: 0 0 20px 0; text-shadow: 0 0 15px rgba(0,255,204,0.5);">0</h2>
+                    <button onclick="resetVisitCount()" class="admin-action-btn btn-del-row" style="padding: 10px 20px; font-size: 13px;">🔄 Đặt lại bộ đếm về 0</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -397,13 +408,26 @@
     <div id="toast">📋 Đã sao chép thành công nội dung!</div>
 
     <script>
-        // HỆ THỐNG KIỂM TRA BẢO MẬT BAN TỰ ĐỘNG
+        // HỆ THỐNG KIỂM TRA BẢO MẬT BAN TỰ ĐỘNG & TĂNG LƯỢT TRUY CẬP
         (function checkSecurity() {
             let isBanned = localStorage.getItem("thlhub_is_banned");
             if (isBanned === "true") {
                 document.getElementById("banScreen").style.display = "flex";
                 return;
             }
+
+            // Tự động đếm lượt truy cập (mỗi lần load trang chính)
+            let visits = localStorage.getItem("thlhub_visits_count");
+            if (!visits) {
+                visits = 1;
+            } else {
+                // Kiểm tra session để tránh đếm trùng liên tục khi F5 lại trang liên tục
+                if (!sessionStorage.getItem("visited_session")) {
+                    visits = parseInt(visits) + 1;
+                    sessionStorage.setItem("visited_session", "true");
+                }
+            }
+            localStorage.setItem("thlhub_visits_count", visits);
         })();
 
         // TẠO HIỆU ỨNG MƯA ĐỎ RƠI TỰ ĐỘNG
@@ -452,7 +476,6 @@
             if (pass === "admin123") {
                 openAdminDashboard();
             } else if (pass !== null) {
-                // Nhập sai mật khẩu -> Kích hoạt lệnh Ban, xóa dữ liệu và khóa web
                 triggerBanProtocol();
             }
         }
@@ -461,12 +484,14 @@
             localStorage.setItem("thlhub_is_banned", "true");
             localStorage.removeItem("thlhub_links_data");
             localStorage.removeItem("thlhub_scripts_data");
+            localStorage.removeItem("thlhub_visits_count");
             document.getElementById("banScreen").style.display = "flex";
         }
 
         function openAdminDashboard() {
             document.getElementById("adminDashboard").style.display = "flex";
             renderAdminTables();
+            updateVisitDisplay();
         }
 
         function closeAdminDashboard() {
@@ -477,22 +502,45 @@
         function switchAdminSection(section) {
             let btnLinks = document.getElementById("btnSideLinks");
             let btnScripts = document.getElementById("btnSideScripts");
+            let btnStats = document.getElementById("btnSideStats");
             let cardLinks = document.getElementById("adminCardLinks");
             let cardScripts = document.getElementById("adminCardScripts");
+            let cardStats = document.getElementById("adminCardStats");
             let title = document.getElementById("adminSectionTitle");
+
+            btnLinks.classList.remove("active");
+            btnScripts.classList.remove("active");
+            btnStats.classList.remove("active");
+            cardLinks.classList.remove("active");
+            cardScripts.classList.remove("active");
+            cardStats.classList.remove("active");
 
             if(section === 'links') {
                 btnLinks.classList.add("active");
-                btnScripts.classList.remove("active");
                 cardLinks.classList.add("active");
-                cardScripts.classList.remove("active");
                 title.innerText = "Quản Lý Hack Roblox & Links";
-            } else {
+            } else if(section === 'scripts') {
                 btnScripts.classList.add("active");
-                btnLinks.classList.remove("active");
                 cardScripts.classList.add("active");
-                cardLinks.classList.remove("active");
                 title.innerText = "Quản Lý Script Tổng Hợp";
+            } else if(section === 'stats') {
+                btnStats.classList.add("active");
+                cardStats.classList.add("active");
+                title.innerText = "Thống Kê Lượt Truy Cập";
+                updateVisitDisplay();
+            }
+        }
+
+        function updateVisitDisplay() {
+            let count = localStorage.getItem("thlhub_visits_count") || 0;
+            document.getElementById("visitCountDisplay").innerText = count;
+        }
+
+        function resetVisitCount() {
+            if (confirm("Bạn có chắc chắn muốn đặt lại số lượt truy cập về 0 không?")) {
+                localStorage.setItem("thlhub_visits_count", 0);
+                updateVisitDisplay();
+                showToast("🔄 Đã đặt lại bộ đếm truy cập!");
             }
         }
 
@@ -546,7 +594,6 @@
             renderAdminTables();
         }
 
-        // LƯU DỮ LIỆU VĨNH VIỄN VÀO LOCALSTORAGE
         function saveAdminData() {
             let newLinks = [];
             let i = 0;
@@ -618,7 +665,6 @@
                     }
                 });
 
-                // Gắn sự kiện sao chép nội dung thực tế bằng JavaScript
                 scriptsData.forEach((item, idx) => {
                     let btn = document.getElementById(`copyBtn_${idx}`);
                     if(btn) {
@@ -638,7 +684,6 @@
             }
         }
 
-        // HÀM SAO CHÉP TRỌN VẸN NỘI DUNG SCRIPT
         function executeCopy(text) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(text).then(() => {
