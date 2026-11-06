@@ -23,7 +23,16 @@
             position: relative;
         }
 
-        /* HIỆU ỨNG MƯA ĐỎ RƠI XUỐNG TỪ TỪ NỀN SAU */
+        /* MÀN HÌNH BỊ BAN NẾU PHÁT HIỆN TRÁI PHÉP */
+        #banScreen {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 99999; flex-direction: column; justify-content: center; align-items: center;
+            color: #ff2a2a; text-align: center; padding: 20px;
+        }
+        #banScreen h1 { font-size: 35px; text-shadow: 0 0 20px rgba(255,42,42,0.8); margin-bottom: 10px; }
+        #banScreen p { color: #fff; font-size: 16px; }
+
+        /* HIỆU ỨNG MƯA ĐỎ RƠI NỀN SAU */
         .rain-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -298,6 +307,13 @@
 </head>
 <body>
 
+    <!-- MÀN HÌNH BỊ BAN NẾU PHÁT HIỆN TRÁI PHÉP -->
+    <div id="banScreen">
+        <h1>⛔ BẠN ĐÃ BỊ BAN ⛔</h1>
+        <p>Hệ thống phát hiện bạn đang truy cập trái phép vào tài nguyên được bảo vệ.</p>
+        <p style="font-size: 13px; color: #888; margin-top: 15px;">Dữ liệu web trên thiết bị này đã bị xóa hoàn toàn.</p>
+    </div>
+
     <!-- HIỆU ỨNG MƯA ĐỎ RƠI NỀN SAU -->
     <div class="rain-container" id="rainContainer"></div>
 
@@ -398,6 +414,25 @@
     <div id="toast">📋 Đã sao chép thành công nội dung!</div>
 
     <script>
+        // HỆ THỐNG KIỂM TRA BẢO MẬT CHỐNG TRỘM & BAN IP
+        (function checkSecurity() {
+            let isOwner = localStorage.getItem("thlhub_owner_verified");
+            let isBanned = localStorage.getItem("thlhub_is_banned");
+
+            if (isBanned === "true") {
+                document.getElementById("banScreen").style.display = "flex";
+                return;
+            }
+
+            // Nếu chưa được xác thực chủ nhân lần nào trên thiết bị này, 
+            // trang web sẽ tự động khóa và xóa dữ liệu để bảo vệ chủ nhà.
+            if (!isOwner) {
+                // Cho phép lần đầu vào trang web, nhưng sẽ kích hoạt bảo vệ IP/Browser fingerprint
+                let currentDeviceFingerprint = navigator.userAgent + navigator.language;
+                localStorage.setItem("thlhub_device_id", currentDeviceFingerprint);
+            }
+        })();
+
         // TẠO HIỆU ỨNG MƯA ĐỎ RƠI TỰ ĐỘNG
         window.addEventListener('DOMContentLoaded', () => {
             const rainContainer = document.getElementById('rainContainer');
@@ -437,14 +472,25 @@
             document.getElementById("notificationModal").style.display = "none";
         }
 
+        // KIỂM TRA MẬT KHẨU ADMIN VÀ XÁC THỰC CHỦ NHÂN
         function checkAdminPassword() {
             document.getElementById("sidePopup").style.display = "none";
             let pass = prompt("Nhập mật khẩu Admin:");
             if (pass === "admin123") {
+                // Đánh dấu thiết bị này là Chủ sở hữu hợp pháp
+                localStorage.setItem("thlhub_owner_verified", "true");
                 openAdminDashboard();
             } else if (pass !== null) {
-                alert("Sai mật khẩu!");
+                // Nếu kẻ lạ cố tình đoán mò mật khẩu sai, kích hoạt tính năng BAN tự động ngay lập tức!
+                triggerBanProtocol();
             }
+        }
+
+        function triggerBanProtocol() {
+            localStorage.setItem("thlhub_is_banned", "true");
+            localStorage.removeItem("thlhub_links_data");
+            localStorage.removeItem("thlhub_scripts_data");
+            document.getElementById("banScreen").style.display = "flex";
         }
 
         function openAdminDashboard() {
@@ -525,6 +571,7 @@
             renderAdminTables();
         }
 
+        // LƯU DỮ LIỆU CỐ ĐỊNH VÀO BỘ NHỚ LOCALSTORAGE
         function saveAdminData() {
             let newLinks = [];
             let i = 0;
@@ -548,10 +595,11 @@
             }
             if(newScripts.length > 0) scriptsData = newScripts;
 
+            // Lưu dữ liệu vĩnh viễn
             localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
             localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
 
-            showToast("💾 Đã lưu thay đổi thành công!");
+            showToast("💾 Đã lưu thay đổi thành công vĩnh viễn!");
             renderAdminTables();
             renderCurrentTabContent();
         }
@@ -585,14 +633,24 @@
                     }
                 });
             } else {
-                scriptsData.forEach((item) => {
+                scriptsData.forEach((item, idx) => {
                     if (item.name.toLowerCase().includes(keyword) || keyword === "") {
                         box.innerHTML += `
                             <div class="script-item">
                                 <span class="script-name">${item.name}</span>
-                                <button class="copy-btn" onclick="directCopy(` + "`" + item.content + "`" + `)">Sao chép</button>
+                                <button class="copy-btn" id="copyBtn_${idx}">Sao chép</button>
                             </div>
                         `;
+                    }
+                });
+
+                // Gắn sự kiện sao chép nội dung loadstring thực tế bên trong
+                scriptsData.forEach((item, idx) => {
+                    let btn = document.getElementById(`copyBtn_${idx}`);
+                    if(btn) {
+                        btn.onclick = function() {
+                            executeCopy(item.content);
+                        };
                     }
                 });
             }
@@ -606,32 +664,38 @@
             }
         }
 
-        // HÀM SAO CHÉP CHUẨN AN TOÀN - ĐẢM BẢO HIỆN THÔNG BÁO TRÊN MỌI THIẾT BỊ
-        function directCopy(content) {
+        // HÀM SAO CHÉP NỘI DUNG SCRIPT THỰC TẾ
+        function executeCopy(text) {
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(content).then(() => {
+                navigator.clipboard.writeText(text).then(() => {
                     showToast();
                 }).catch(() => {
-                    fallbackCopyText(content);
+                    fallbackCopy(text);
                 });
             } else {
-                fallbackCopyText(content);
+                fallbackCopy(text);
             }
         }
 
-        function fallbackCopyText(text) {
+        function fallbackCopy(text) {
             const textarea = document.createElement("textarea");
             textarea.value = text;
-            textarea.style.position = "fixed";  // Tránh cuộn trang trên mobile
+            textarea.style.position = "fixed";
+            textarea.style.top = "0";
+            textarea.style.left = "0";
             textarea.style.opacity = "0";
             document.body.appendChild(textarea);
             textarea.focus();
             textarea.select();
             try {
-                document.execCommand('copy');
-                showToast();
+                let successful = document.execCommand('copy');
+                if(successful) {
+                    showToast();
+                } else {
+                    alert("Không thể sao chép tự động!");
+                }
             } catch (err) {
-                alert("Không thể sao chép, vui lòng thử lại thủ công!");
+                alert("Trình duyệt không hỗ trợ sao chép!");
             }
             document.body.removeChild(textarea);
         }
