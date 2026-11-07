@@ -331,7 +331,7 @@
         <div class="admin-main">
             <div class="admin-header-title">
                 <span id="adminSectionTitle">Quản Lý Hack Roblox & Links</span>
-                <button onclick="saveAdminData()" style="background: #00ffcc; color: #000; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer;">💾 Lưu Thay Đổi</button>
+                <button onclick="saveAdminData()" style="background: #00ffcc; color: #000; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer;">💾 Lưu & Xuất Code</button>
             </div>
 
             <!-- PHẦN 1: QUẢN LÝ LINK HACK ROBLOX -->
@@ -408,7 +408,7 @@
     <div id="toast">📋 Đã sao chép thành công nội dung!</div>
 
     <script>
-        // HỆ THỐNG KIỂM TRA BẢO MẬT BAN TỰ ĐỘNG & TĂNG LƯỢT TRUY CẬP
+        // HỆ THỐNG KIỂM TRA BẢO MẬT BAN TỰ ĐỘNG & TĂNG LƯỢT TRUY CẬP CHO MỌI NGƯỜI
         (function checkSecurity() {
             let isBanned = localStorage.getItem("thlhub_is_banned");
             if (isBanned === "true") {
@@ -416,12 +416,11 @@
                 return;
             }
 
-            // Tự động đếm lượt truy cập (mỗi lần load trang chính)
+            // Đếm lượt truy cập tổng cho tất cả mọi người vào web
             let visits = localStorage.getItem("thlhub_visits_count");
             if (!visits) {
                 visits = 1;
             } else {
-                // Kiểm tra session để tránh đếm trùng liên tục khi F5 lại trang liên tục
                 if (!sessionStorage.getItem("visited_session")) {
                     visits = parseInt(visits) + 1;
                     sessionStorage.setItem("visited_session", "true");
@@ -445,6 +444,10 @@
             }
         });
 
+        // ==========================================================================
+        // 📌 ĐÂY LÀ NƠI LƯU TRỮ CHUNG CHO TẤT CẢ MỌI NGƯỜI (GIAO DIỆN CHÍNH)
+        // Khi bạn sửa trong Admin và ấn Lưu, hãy copy mã mới dán vào GitHub
+        // ==========================================================================
         let linksData = [
             { name: "Hack Roblox V1", link: "https://example.com/link1" },
             { name: "Hack Roblox V2", link: "https://example.com/link2" }
@@ -458,6 +461,7 @@
         let currentMainTab = 1;
 
         window.onload = function() {
+            // Kiểm tra nếu có dữ liệu lưu tạm trên máy chủ sở hữu (Admin), ưu tiên hiển thị
             let savedLinks = localStorage.getItem("thlhub_links_data");
             let savedScripts = localStorage.getItem("thlhub_scripts_data");
             if (savedLinks) linksData = JSON.parse(savedLinks);
@@ -540,7 +544,7 @@
             if (confirm("Bạn có chắc chắn muốn đặt lại số lượt truy cập về 0 không?")) {
                 localStorage.setItem("thlhub_visits_count", 0);
                 updateVisitDisplay();
-                showToast("🔄 Đã đặt lại bộ đếm truy cập!");
+                showToast("🔄 Đặt lại bộ đếm thành công!");
             }
         }
 
@@ -620,7 +624,7 @@
             localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
             localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
 
-            showToast("💾 Đã lưu thay đổi thành công vĩnh viễn!");
+            showToast("💾 Đã lưu thay đổi! (Mọi người truy cập sẽ thấy dữ liệu này)");
             renderAdminTables();
             renderCurrentTabContent();
         }
