@@ -331,7 +331,7 @@
         <div class="admin-main">
             <div class="admin-header-title">
                 <span id="adminSectionTitle">Quản Lý Hack Roblox & Links</span>
-                <button onclick="saveAdminData()" style="background: #00ffcc; color: #000; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer;">💾 Lưu & Xuất Code</button>
+                <button onclick="saveAdminData()" style="background: #00ffcc; color: #000; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer;">💾 Lưu Dữ Liệu</button>
             </div>
 
             <!-- PHẦN 1: QUẢN LÝ LINK HACK ROBLOX -->
@@ -408,7 +408,7 @@
     <div id="toast">📋 Đã sao chép thành công nội dung!</div>
 
     <script>
-        // HỆ THỐNG KIỂM TRA BẢO MẬT BAN TỰ ĐỘNG & TĂNG LƯỢT TRUY CẬP CHO MỌI NGƯỜI
+        // HỆ THỐNG KIỂM TRA BẢO MẬT BAN TỰ ĐỘNG & TĂNG LƯỢT TRUY CẬP
         (function checkSecurity() {
             let isBanned = localStorage.getItem("thlhub_is_banned");
             if (isBanned === "true") {
@@ -416,7 +416,6 @@
                 return;
             }
 
-            // Đếm lượt truy cập tổng cho tất cả mọi người vào web
             let visits = localStorage.getItem("thlhub_visits_count");
             if (!visits) {
                 visits = 1;
@@ -444,28 +443,43 @@
             }
         });
 
-        // ==========================================================================
-        // 📌 ĐÂY LÀ NƠI LƯU TRỮ CHUNG CHO TẤT CẢ MỌI NGƯỜI (GIAO DIỆN CHÍNH)
-        // Khi bạn sửa trong Admin và ấn Lưu, hãy copy mã mới dán vào GitHub
-        // ==========================================================================
-        let linksData = [
-            { name: "Hack Roblox V1", link: "https://example.com/link1" },
-            { name: "Hack Roblox V2", link: "https://example.com/link2" }
+        // =========================================================================================
+        // 📌 DANH SÁCH MẶC ĐỊNH DÙNG CHUNG CHO TẤT CẢ MỌI MÁY TRÊN GITHUB PAGES
+        // Bạn có thể sửa trực tiếp danh sách bên dưới ngay tại đây để đổi nội dung cho tất cả mọi người,
+        // HOẶC dùng bảng Admin trên máy bạn, sau khi lưu nó sẽ sinh ra code để bạn cập nhật lên GitHub.
+        // =========================================================================================
+        let defaultLinks = [
+            { name: "Delta QT v13", link: "https://example.com/delta" },
+            { name: "Delta x v107 apk", link: "https://example.com/delta-apk" }
         ];
 
-        let scriptsData = [
-            { name: "Script Tổng Hợp 1", content: "loadstring(game:HttpGet('https://example.com/script1.lua'))()" },
-            { name: "Script Tổng Hợp 2", content: "loadstring(game:HttpGet('https://example.com/script2.lua'))()" }
+        let defaultScripts = [
+            { name: "chilihub v8", content: "loadstring(game:HttpGet('https://example.com/chilihub.lua'))()" },
+            { name: "Script Finder Egg Free", content: "loadstring(game:HttpGet('https://example.com/eggfinder.lua'))()" },
+            { name: "Script Figfy", content: "loadstring(game:HttpGet('https://example.com/figfy.lua'))()" },
+            { name: "clouthub on top", content: "loadstring(game:HttpGet('https://example.com/clouthub.lua'))()" }
         ];
 
-        let currentMainTab = 1;
+        let linksData = [];
+        let scriptsData = [];
 
         window.onload = function() {
-            // Kiểm tra nếu có dữ liệu lưu tạm trên máy chủ sở hữu (Admin), ưu tiên hiển thị
+            // Lấy dữ liệu đã lưu vĩnh viễn trên máy, nếu chưa có thì dùng dữ liệu mặc định dùng chung cho mọi máy
             let savedLinks = localStorage.getItem("thlhub_links_data");
             let savedScripts = localStorage.getItem("thlhub_scripts_data");
-            if (savedLinks) linksData = JSON.parse(savedLinks);
-            if (savedScripts) scriptsData = JSON.parse(savedScripts);
+
+            if (savedLinks) {
+                linksData = JSON.parse(savedLinks);
+            } else {
+                linksData = defaultLinks;
+            }
+
+            if (savedScripts) {
+                scriptsData = JSON.parse(savedScripts);
+            } else {
+                scriptsData = defaultScripts;
+            }
+
             renderCurrentTabContent();
         };
 
@@ -544,7 +558,7 @@
             if (confirm("Bạn có chắc chắn muốn đặt lại số lượt truy cập về 0 không?")) {
                 localStorage.setItem("thlhub_visits_count", 0);
                 updateVisitDisplay();
-                showToast("🔄 Đặt lại bộ đếm thành công!");
+                showToast("🔄 Đã đặt lại bộ đếm truy cập!");
             }
         }
 
@@ -624,7 +638,7 @@
             localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
             localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
 
-            showToast("💾 Đã lưu thay đổi! (Mọi người truy cập sẽ thấy dữ liệu này)");
+            showToast("💾 Đã lưu thành công!");
             renderAdminTables();
             renderCurrentTabContent();
         }
