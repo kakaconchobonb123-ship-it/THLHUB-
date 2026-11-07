@@ -23,13 +23,13 @@
             position: relative;
         }
 
-        /* MÀN HÌNH BỊ BAN NẾU TRUY CẬP TRÁI PHÉP */
+        /* MÀN HÌNH BỊ BAN VĨNH VIỄN */
         #banScreen {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 99999; flex-direction: column; justify-content: center; align-items: center;
             color: #ff2a2a; text-align: center; padding: 20px;
         }
-        #banScreen h1 { font-size: 35px; text-shadow: 0 0 20px rgba(255,42,42,0.8); margin-bottom: 10px; }
+        #banScreen h1 { font-size: 45px; text-shadow: 0 0 25px rgba(255,42,42,0.9); margin-bottom: 10px; font-weight: 900; letter-spacing: 3px; }
         #banScreen p { color: #fff; font-size: 16px; }
 
         /* HIỆU ỨNG MƯA ĐỎ RƠI NỀN SAU */
@@ -58,12 +58,12 @@
         .web-frame {
             width: 95%;
             max-width: 520px;
-            height: 680px;
-            background: rgba(18, 18, 24, 0.88);
+            height: 700px;
+            background: rgba(18, 18, 24, 0.9);
             backdrop-filter: blur(14px);
             border: 2px solid #ff2a2a;
             border-radius: 24px;
-            padding: 25px 25px;
+            padding: 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -79,17 +79,17 @@
         }
 
         .header-img {
-            width: 100px;
-            height: 100px;
+            width: 90px;
+            height: 90px;
             object-fit: contain;
-            margin-top: 10px;
+            margin-top: 5px;
             margin-bottom: 5px;
             filter: drop-shadow(0 0 14px rgba(255, 42, 42, 0.9));
         }
 
         h1 {
-            font-size: 28px;
-            margin: 8px 0;
+            font-size: 26px;
+            margin: 5px 0;
             color: #ff3b3b;
             letter-spacing: 2px;
             text-shadow: 0 0 15px rgba(255, 59, 59, 0.8);
@@ -99,9 +99,15 @@
         p.subtitle {
             font-size: 14px;
             color: #d0d0d0;
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             text-align: center;
+            border-right: 2px solid #ff2a2a;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite;
         }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #ff2a2a; } }
 
         .search-box {
             width: 100%;
@@ -111,7 +117,7 @@
             border-radius: 10px;
             color: white;
             font-size: 14px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             outline: none;
             transition: 0.3s;
         }
@@ -125,7 +131,17 @@
             padding: 6px;
             border-radius: 12px;
             border: 1px solid #ff2a2a;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+        }
+
+        .tab-btn, .link-btn, .copy-btn, .admin-action-btn {
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s;
+            user-select: none;
+        }
+        .tab-btn:active, .link-btn:active, .copy-btn:active, .admin-action-btn:active {
+            transform: translateY(3px) scale(0.97);
+            box-shadow: inset 0 3px 5px rgba(0,0,0,0.4) !important;
         }
 
         .tab-btn {
@@ -137,10 +153,7 @@
             font-size: 13px;
             font-weight: bold;
             border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
         }
-
         .tab-btn.active {
             background-color: #ff2a2a;
             color: white;
@@ -149,16 +162,16 @@
 
         .content-box {
             width: 100%;
-            background: rgba(25, 25, 35, 0.92);
-            padding: 15px;
+            background: rgba(25, 25, 35, 0.95);
+            padding: 12px;
             border-radius: 14px;
             border: 1px dashed rgba(255, 42, 42, 0.6);
             flex: 1;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            max-height: 380px;
+            gap: 8px;
+            max-height: 400px;
         }
 
         .script-item {
@@ -166,21 +179,18 @@
             justify-content: space-between;
             align-items: center;
             background: #1f1f2b;
-            padding: 12px 15px;
+            padding: 10px 14px;
             border-radius: 10px;
             border: 1px solid #444;
             transition: 0.2s;
         }
-        .script-item:hover {
-            border-color: #ff2a2a;
-            transform: translateX(3px);
-        }
+        .script-item:hover { border-color: #ff2a2a; }
 
         .script-name {
-            font-size: 14px;
+            font-size: 13px;
             color: #fff;
             word-break: break-all;
-            max-width: 65%;
+            max-width: 62%;
             font-weight: 600;
         }
 
@@ -188,27 +198,25 @@
             background-color: #00bfff;
             color: white;
             border: none;
-            padding: 8px 14px;
-            font-size: 12px;
+            padding: 7px 12px;
+            font-size: 11px;
             font-weight: bold;
             border-radius: 6px;
-            cursor: pointer;
-            transition: 0.2s;
+            box-shadow: 0 3px 0 #0088cc;
         }
-        .link-btn:hover { background-color: #33ccff; box-shadow: 0 0 10px rgba(0, 191, 255, 0.6); }
+        .link-btn:hover { background-color: #33ccff; }
 
         .copy-btn {
             background-color: #ff2a2a;
             color: white;
             border: none;
-            padding: 8px 14px;
-            font-size: 12px;
+            padding: 7px 12px;
+            font-size: 11px;
             font-weight: bold;
             border-radius: 6px;
-            cursor: pointer;
-            transition: 0.2s;
+            box-shadow: 0 3px 0 #b31b1b;
         }
-        .copy-btn:hover { background-color: #ff4d4d; box-shadow: 0 0 10px rgba(255, 42, 42, 0.6); }
+        .copy-btn:hover { background-color: #ff4d4d; }
 
         /* NÚT 3 GẠCH BÊN TRÁI */
         .hamburger-menu {
@@ -245,7 +253,7 @@
         }
         .admin-sidebar h2 { font-size: 18px; color: #ff3b3b; margin-bottom: 20px; text-align: center; }
         .sidebar-btn {
-            background: transparent; color: #ccc; border: none; padding: 12px; text-align: left; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;
+            background: transparent; color: #ccc; border: none; padding: 12px; text-align: left; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;
         }
         .sidebar-btn.active, .sidebar-btn:hover { background: #ff2a2a; color: white; box-shadow: 0 0 10px rgba(255,42,42,0.5); }
 
@@ -271,30 +279,28 @@
             width: 100%; padding: 8px; background: #111; border: 1px solid #444; border-radius: 6px; color: #fff; font-size: 13px;
         }
         .admin-action-btn {
-            padding: 6px 10px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; font-size: 12px; margin-right: 4px;
+            padding: 6px 10px; border-radius: 6px; border: none; font-weight: bold; font-size: 12px; margin-right: 4px;
         }
-        .btn-save-row { background: #00ffcc; color: #000; }
-        .btn-del-row { background: #ff3b3b; color: #fff; }
+        .btn-save-row { background: #00ffcc; color: #000; box-shadow: 0 3px 0 #00b38f; }
+        .btn-del-row { background: #ff3b3b; color: #fff; box-shadow: 0 3px 0 #b31b1b; }
+        .btn-ban-row { background: #ff9900; color: #000; box-shadow: 0 3px 0 #cc7a00; }
+        .btn-unban-row { background: #00cc66; color: #000; box-shadow: 0 3px 0 #008040; }
 
         /* THÔNG BÁO TOAST */
         #toast {
             visibility: hidden; min-width: 240px; background-color: #1a1a24; color: #fff; text-align: center; border-radius: 10px; padding: 14px; position: fixed; z-index: 4000; left: 50%; bottom: 40px; transform: translateX(-50%); border: 1px solid #00ffcc; font-size: 14px; box-shadow: 0 0 25px rgba(0,255,204,0.6);
             opacity: 0; transition: opacity 0.3s ease, bottom 0.3s ease;
         }
-        #toast.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 50px;
-        }
+        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
     </style>
 </head>
 <body>
 
-    <!-- MÀN HÌNH BỊ BAN NẾU TRUY CẬP TRÁI PHÉP -->
+    <!-- MÀN HÌNH BỊ BAN VĨNH VIỄN -->
     <div id="banScreen">
         <h1>⛔ BẠN ĐÃ BỊ BAN ⛔</h1>
-        <p>Hệ thống phát hiện bạn đang cố gắng truy cập trái phép hoặc thao túng tài nguyên.</p>
-        <p style="font-size: 13px; color: #888; margin-top: 15px;">Dữ liệu trên thiết bị này đã bị xóa hoàn toàn.</p>
+        <p>Hệ thống bảo mật THLHUB đã phát hiện hành vi truy cập trái phép từ thiết bị của bạn.</p>
+        <p style="font-size: 13px; color: #888; margin-top: 15px;">Truy cập đã bị từ chối vĩnh viễn bởi Quản trị viên.</p>
     </div>
 
     <!-- HIỆU ỨNG MƯA ĐỎ RƠI NỀN SAU -->
@@ -305,7 +311,7 @@
         <div style="width: 85%; max-width: 320px; background: rgba(24, 24, 37, 0.95); border: 2px solid #ff2a2a; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 0 30px rgba(255,42,42,0.5);">
             <h3 style="color: #ff3b3b; margin-top: 0;">⚠️ THÔNG BÁO</h3>
             <p style="font-size:13px; color:#ddd;">Web mới tạo nên gặp nhiều lỗi chưa fix, admin đang fix lỗi sẽ sớm thôi!</p>
-            <button onclick="closeModal()" style="width: 100%; margin-top: 10px; padding: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; background: #ff2a2a; color: white;">Đã hiểu</button>
+            <button onclick="closeModal()" class="admin-action-btn btn-save-row" style="width: 100%; padding: 10px; margin-top: 10px;">Đã hiểu</button>
         </div>
     </div>
 
@@ -326,12 +332,13 @@
             <button class="sidebar-btn active" id="btnSideLinks" onclick="switchAdminSection('links')">🔗 Links (Hack Roblox)</button>
             <button class="sidebar-btn" id="btnSideScripts" onclick="switchAdminSection('scripts')">📜 Script Tổng Hợp</button>
             <button class="sidebar-btn" id="btnSideStats" onclick="switchAdminSection('stats')">👥 Lượt Truy Cập</button>
+            <button class="sidebar-btn" id="btnSideBannedIPs" onclick="switchAdminSection('bannedIPs')">🚨 Quản Lý Ban IP</button>
             <button class="sidebar-btn" onclick="closeAdminDashboard()" style="margin-top: auto; background: #ff3b3b; color: white;">❌ Thoát Admin</button>
         </div>
         <div class="admin-main">
             <div class="admin-header-title">
                 <span id="adminSectionTitle">Quản Lý Hack Roblox & Links</span>
-                <button onclick="saveAdminData()" style="background: #00ffcc; color: #000; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer;">💾 Lưu Dữ Liệu</button>
+                <button onclick="saveAdminData()" class="admin-action-btn btn-save-row" style="padding: 8px 16px;">💾 Lưu Thay Đổi</button>
             </div>
 
             <!-- PHẦN 1: QUẢN LÝ LINK HACK ROBLOX -->
@@ -383,6 +390,24 @@
                     <button onclick="resetVisitCount()" class="admin-action-btn btn-del-row" style="padding: 10px 20px; font-size: 13px;">🔄 Đặt lại bộ đếm về 0</button>
                 </div>
             </div>
+
+            <!-- PHẦN 4: QUẢN LÝ BAN IP & XÂM NHẬP -->
+            <div class="admin-card" id="adminCardBannedIPs">
+                <strong style="color: #ff3b3b; font-size: 16px;">🚨 Danh Sách Thiết Bị / IP Xâm Nhập & Quản Lý Ban</strong>
+                <p style="font-size: 13px; color: #aaa; margin-top: 5px;">Hệ thống tự động ghi nhận những thiết bị cố gắng truy cập trái phép vào mục Quản lý Admin.</p>
+                <div style="overflow-x: auto; margin-top: 15px;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Định Danh Thiết Bị / IP (Browser Fingerprint)</th>
+                                <th>Trạng Thái</th>
+                                <th>Thao tác Ban / Gỡ Ban</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminBannedIPsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -408,27 +433,28 @@
     <div id="toast">📋 Đã sao chép thành công nội dung!</div>
 
     <script>
-        // HỆ THỐNG KIỂM TRA BẢO MẬT BAN TỰ ĐỘNG & TĂNG LƯỢT TRUY CẬP
-        (function checkSecurity() {
-            let isBanned = localStorage.getItem("thlhub_is_banned");
-            if (isBanned === "true") {
+        let myDeviceID = localStorage.getItem("thlhub_device_uuid");
+        if (!myDeviceID) {
+            myDeviceID = 'User_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now().toString(36);
+            localStorage.setItem("thlhub_device_uuid", myDeviceID);
+        }
+
+        (function checkSecurityStatus() {
+            let bannedList = JSON.parse(localStorage.getItem("thlhub_banned_devices") || "[]");
+            if (bannedList.includes(myDeviceID)) {
                 document.getElementById("banScreen").style.display = "flex";
                 return;
             }
 
             let visits = localStorage.getItem("thlhub_visits_count");
-            if (!visits) {
-                visits = 1;
-            } else {
-                if (!sessionStorage.getItem("visited_session")) {
-                    visits = parseInt(visits) + 1;
-                    sessionStorage.setItem("visited_session", "true");
-                }
+            if (!visits) visits = 1;
+            else if (!sessionStorage.getItem("visited_session")) {
+                visits = parseInt(visits) + 1;
+                sessionStorage.setItem("visited_session", "true");
             }
             localStorage.setItem("thlhub_visits_count", visits);
         })();
 
-        // TẠO HIỆU ỨNG MƯA ĐỎ RƠI TỰ ĐỘNG
         window.addEventListener('DOMContentLoaded', () => {
             const rainContainer = document.getElementById('rainContainer');
             const dropCount = 25;
@@ -444,9 +470,9 @@
         });
 
         // =========================================================================================
-        // 📌 DANH SÁCH MẶC ĐỊNH DÙNG CHUNG CHO TẤT CẢ MỌI MÁY TRÊN GITHUB PAGES
-        // Bạn có thể sửa trực tiếp danh sách bên dưới ngay tại đây để đổi nội dung cho tất cả mọi người,
-        // HOẶC dùng bảng Admin trên máy bạn, sau khi lưu nó sẽ sinh ra code để bạn cập nhật lên GitHub.
+        // 📌 ĐÂY LÀ DỮ LIỆU MẶC ĐỊNH CHUNG CHO TẤT CẢ MÁY KHÁC TRÊN GITHUB PAGES
+        // Bạn hãy thay đổi trực tiếp tên và nội dung loadstring/link ở đây cho chính xác 100% 
+        // với những gì bạn muốn hiển thị ra cho mọi người xem!
         // =========================================================================================
         let defaultLinks = [
             { name: "Delta QT v13", link: "https://example.com/delta" },
@@ -464,21 +490,12 @@
         let scriptsData = [];
 
         window.onload = function() {
-            // Lấy dữ liệu đã lưu vĩnh viễn trên máy, nếu chưa có thì dùng dữ liệu mặc định dùng chung cho mọi máy
+            // Nếu trên máy có lưu dữ liệu chỉnh sửa thì ưu tiên lấy, nếu không tự động nhận danh sách mặc định dùng chung chuẩn xác bên trên
             let savedLinks = localStorage.getItem("thlhub_links_data");
             let savedScripts = localStorage.getItem("thlhub_scripts_data");
 
-            if (savedLinks) {
-                linksData = JSON.parse(savedLinks);
-            } else {
-                linksData = defaultLinks;
-            }
-
-            if (savedScripts) {
-                scriptsData = JSON.parse(savedScripts);
-            } else {
-                scriptsData = defaultScripts;
-            }
+            linksData = savedLinks ? JSON.parse(savedLinks) : defaultLinks;
+            scriptsData = savedScripts ? JSON.parse(savedScripts) : defaultScripts;
 
             renderCurrentTabContent();
         };
@@ -487,29 +504,26 @@
             document.getElementById("notificationModal").style.display = "none";
         }
 
-        // KIỂM TRA MẬT KHẨU ADMIN VÀ BẢO VỆ CHỐNG TRỘM
         function checkAdminPassword() {
             document.getElementById("sidePopup").style.display = "none";
             let pass = prompt("Nhập mật khẩu Admin:");
             if (pass === "admin123") {
                 openAdminDashboard();
             } else if (pass !== null) {
-                triggerBanProtocol();
+                let suspiciousList = JSON.parse(localStorage.getItem("thlhub_suspicious_devices") || "[]");
+                if (!suspiciousList.includes(myDeviceID)) {
+                    suspiciousList.push(myDeviceID);
+                    localStorage.setItem("thlhub_suspicious_devices", JSON.stringify(suspiciousList));
+                }
+                alert("Sai mật khẩu! Thiết bị của bạn đã bị ghi nhận.");
             }
-        }
-
-        function triggerBanProtocol() {
-            localStorage.setItem("thlhub_is_banned", "true");
-            localStorage.removeItem("thlhub_links_data");
-            localStorage.removeItem("thlhub_scripts_data");
-            localStorage.removeItem("thlhub_visits_count");
-            document.getElementById("banScreen").style.display = "flex";
         }
 
         function openAdminDashboard() {
             document.getElementById("adminDashboard").style.display = "flex";
             renderAdminTables();
             updateVisitDisplay();
+            renderBannedIPsTable();
         }
 
         function closeAdminDashboard() {
@@ -521,17 +535,16 @@
             let btnLinks = document.getElementById("btnSideLinks");
             let btnScripts = document.getElementById("btnSideScripts");
             let btnStats = document.getElementById("btnSideStats");
+            let btnBannedIPs = document.getElementById("btnSideBannedIPs");
+            
             let cardLinks = document.getElementById("adminCardLinks");
             let cardScripts = document.getElementById("adminCardScripts");
             let cardStats = document.getElementById("adminCardStats");
+            let cardBannedIPs = document.getElementById("adminCardBannedIPs");
             let title = document.getElementById("adminSectionTitle");
 
-            btnLinks.classList.remove("active");
-            btnScripts.classList.remove("active");
-            btnStats.classList.remove("active");
-            cardLinks.classList.remove("active");
-            cardScripts.classList.remove("active");
-            cardStats.classList.remove("active");
+            [btnLinks, btnScripts, btnStats, btnBannedIPs].forEach(b => b.classList.remove("active"));
+            [cardLinks, cardScripts, cardStats, cardBannedIPs].forEach(c => c.classList.remove("active"));
 
             if(section === 'links') {
                 btnLinks.classList.add("active");
@@ -546,6 +559,11 @@
                 cardStats.classList.add("active");
                 title.innerText = "Thống Kê Lượt Truy Cập";
                 updateVisitDisplay();
+            } else if(section === 'bannedIPs') {
+                btnBannedIPs.classList.add("active");
+                cardBannedIPs.classList.add("active");
+                title.innerText = "Quản Lý Ban IP / Xâm Nhập";
+                renderBannedIPsTable();
             }
         }
 
@@ -560,6 +578,53 @@
                 updateVisitDisplay();
                 showToast("🔄 Đã đặt lại bộ đếm truy cập!");
             }
+        }
+
+        function renderBannedIPsTable() {
+            let tbody = document.getElementById("adminBannedIPsTableBody");
+            tbody.innerHTML = "";
+
+            let suspiciousList = JSON.parse(localStorage.getItem("thlhub_suspicious_devices") || "[]");
+            let bannedList = JSON.parse(localStorage.getItem("thlhub_banned_devices") || "[]");
+
+            if (suspiciousList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#888;">Chưa có thiết bị nào cố gắng xâm nhập.</td></tr>`;
+                return;
+            }
+
+            suspiciousList.forEach((devID) => {
+                let isBanned = bannedList.includes(devID);
+                let statusText = isBanned ? `<span style="color:#ff3b3b; font-weight:bold;">Đang bị BAN ⛔</span>` : `<span style="color:#00ffcc;">Hoạt động 🟢</span>`;
+                let actionBtn = isBanned 
+                    ? `<button class="admin-action-btn btn-unban-row" onclick="unbanDevice('${devID}')">🟢 Gỡ Ban</button>` 
+                    : `<button class="admin-action-btn btn-ban-row" onclick="banDevice('${devID}')">⛔ Ban Ngay</button>`;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td style="word-break: break-all; font-family: monospace; font-size: 12px;">${devID}</td>
+                        <td>${statusText}</td>
+                        <td>${actionBtn}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function banDevice(devID) {
+            let bannedList = JSON.parse(localStorage.getItem("thlhub_banned_devices") || "[]");
+            if (!bannedList.includes(devID)) {
+                bannedList.push(devID);
+                localStorage.setItem("thlhub_banned_devices", JSON.stringify(bannedList));
+            }
+            showToast("⛔ Đã khóa vĩnh viễn thiết bị!");
+            renderBannedIPsTable();
+        }
+
+        function unbanDevice(devID) {
+            let bannedList = JSON.parse(localStorage.getItem("thlhub_banned_devices") || "[]");
+            bannedList = bannedList.filter(id => id !== devID);
+            localStorage.setItem("thlhub_banned_devices", JSON.stringify(bannedList));
+            showToast("🟢 Đã gỡ ban cho thiết bị!");
+            renderBannedIPsTable();
         }
 
         function renderAdminTables() {
@@ -638,7 +703,7 @@
             localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
             localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
 
-            showToast("💾 Đã lưu thành công!");
+            showToast("💾 Đã lưu thay đổi thành công!");
             renderAdminTables();
             renderCurrentTabContent();
         }
@@ -654,6 +719,8 @@
             document.getElementById("mainTab2").className = tabNum === 2 ? "tab-btn active" : "tab-btn";
             renderCurrentTabContent();
         }
+
+        let currentMainTab = 1;
 
         function renderCurrentTabContent() {
             let keyword = document.getElementById("searchInput").value.toLowerCase();
@@ -686,8 +753,9 @@
                 scriptsData.forEach((item, idx) => {
                     let btn = document.getElementById(`copyBtn_${idx}`);
                     if(btn) {
+                        let textToCopy = item.content; // Đảm bảo lấy chính xác từng ký tự content đã nhập
                         btn.onclick = function() {
-                            executeCopy(item.content);
+                            executeCopy(textToCopy);
                         };
                     }
                 });
@@ -741,7 +809,7 @@
         function showToast(customMsg) {
             let t = document.getElementById("toast");
             if(customMsg) t.innerText = customMsg;
-            else t.innerText = "📋 Đã sao chép thành công nội dung!";
+            else t.innerText = "📋 Đã sao chép chính xác nội dung!";
             
             t.classList.add("show");
             clearTimeout(toastTimer);
