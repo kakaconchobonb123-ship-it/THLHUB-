@@ -234,7 +234,7 @@
         }
         .side-popup button:hover { background: #ff2a2a; }
 
-        /* MODAL XÁC THỰC MẬT KHẨU */
+        /* MODAL XÁC THỰC MẬT KHẨU CHUẨN MẪU */
         #authModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(5, 5, 8, 0.85); backdrop-filter: blur(10px); z-index: 3500;
@@ -429,7 +429,7 @@
                         <thead>
                             <tr>
                                 <th>Tên Hack / Game</th>
-                                <th>Đường Dẫn URL (Link)</th>
+                                <th>Đường Dẫn URL (Link chính xác)</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
@@ -449,7 +449,7 @@
                         <thead>
                             <tr>
                                 <th>Tên Script</th>
-                                <th>Nội Dung Script (Loadstring đầy đủ)</th>
+                                <th>Nội Dung Script (Loadstring đầy đủ 100%)</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
@@ -492,6 +492,53 @@
     <div id="toast">📋 Đã sao chép chính xác nội dung!</div>
 
     <script>
+        // KHO LƯU TRỮ ĐÁM MÂY CHUNG (Đảm bảo tất cả các máy đều nhận đúng 100%)
+        const CLOUD_BIN_URL = "https://kvdb.io/THLHUB_Cloud_Store_v2026/data";
+
+        let defaultLinks = [
+            { name: "Delta Executor", link: "https://deltaexploits.gg" },
+            { name: "Fluxus Executor", link: "https://fluxteam.net" }
+        ];
+
+        let defaultScripts = [
+            { name: "Chilihub v8", content: "loadstring(game:HttpGet('https://raw.githubusercontent.com/chilihub/main/script.lua'))()" },
+            { name: "Script Finder Egg Free", content: "loadstring(game:HttpGet('https://raw.githubusercontent.com/eggfinder/free/main/loader.lua'))()" }
+        ];
+
+        let linksData = [];
+        let scriptsData = [];
+
+        // TẢI DỮ LIỆU TỪ ĐÁM MÂY KHI MỞ TRANG
+        async function loadDataFromCloud() {
+            try {
+                let response = await fetch(CLOUD_BIN_URL);
+                if (response.ok) {
+                    let cloudData = await response.json();
+                    if (cloudData && cloudData.links && cloudData.scripts) {
+                        linksData = cloudData.links;
+                        scriptsData = cloudData.scripts;
+                        // Lưu dự phòng vào máy
+                        localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
+                        localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
+                    } else {
+                        loadFromLocalOrDefaults();
+                    }
+                } else {
+                    loadFromLocalOrDefaults();
+                }
+            } catch (e) {
+                loadFromLocalOrDefaults();
+            }
+            renderCurrentTabContent();
+        }
+
+        function loadFromLocalOrDefaults() {
+            let savedLinks = localStorage.getItem("thlhub_links_data");
+            let savedScripts = localStorage.getItem("thlhub_scripts_data");
+            linksData = savedLinks ? JSON.parse(savedLinks) : defaultLinks;
+            scriptsData = savedScripts ? JSON.parse(savedScripts) : defaultScripts;
+        }
+
         // Thống kê lượt truy cập
         (function() {
             let visits = localStorage.getItem("thlhub_visits_count");
@@ -515,33 +562,9 @@
                 drop.style.animationDelay = (Math.random() * 3) + 's';
                 rainContainer.appendChild(drop);
             }
+            // Tải dữ liệu đám mây ngay khi load trang
+            loadDataFromCloud();
         });
-
-        // DỮ LIỆU MẶC ĐỊNH CHUẨN XÁC
-        let defaultLinks = [
-            { name: "Delta Executor", link: "https://deltaexploits.gg" },
-            { name: "Fluxus Executor", link: "https://fluxteam.net" }
-        ];
-
-        let defaultScripts = [
-            { name: "Chilihub v8", content: "loadstring(game:HttpGet('https://raw.githubusercontent.com/chilihub/main/script.lua'))()" },
-            { name: "Script Finder Egg Free", content: "loadstring(game:HttpGet('https://raw.githubusercontent.com/eggfinder/free/main/loader.lua'))()" },
-            { name: "Script Figfy", content: "loadstring(game:HttpGet('https://raw.githubusercontent.com/figfy/roblox/main/hub.lua'))()" },
-            { name: "Clouthub On Top", content: "loadstring(game:HttpGet('https://raw.githubusercontent.com/clouthub/main/script.lua'))()" }
-        ];
-
-        let linksData = [];
-        let scriptsData = [];
-
-        window.onload = function() {
-            let savedLinks = localStorage.getItem("thlhub_links_data");
-            let savedScripts = localStorage.getItem("thlhub_scripts_data");
-
-            linksData = savedLinks ? JSON.parse(savedLinks) : defaultLinks;
-            scriptsData = savedScripts ? JSON.parse(savedScripts) : defaultScripts;
-
-            renderCurrentTabContent();
-        };
 
         function closeModal() {
             document.getElementById("notificationModal").style.display = "none";
@@ -615,7 +638,7 @@
             setTimeout(() => {
                 dashboard.style.display = "none";
             }, 500);
-            renderCurrentTabContent();
+            loadDataFromCloud();
         }
 
         function switchAdminSection(section) {
@@ -692,7 +715,7 @@
         }
 
         function addLinkRow() {
-            linksData.push({ name: "Link Mới", link: "" });
+            linksData.push({ name: "Link Mới", link: "https://" });
             renderAdminTables();
         }
 
@@ -711,7 +734,8 @@
             renderAdminTables();
         }
 
-        function saveAdminData() {
+        // LƯU DỮ LIỆU LÊN ĐÁM MÂY (ĐỂ TẤT CẢ CÁC MÁY KHÁC ĐỀU NHẬN CHUẨN 100%)
+        async function saveAdminData() {
             let newLinks = [];
             let i = 0;
             while(true) {
@@ -734,10 +758,22 @@
             }
             if(newScripts.length > 0) scriptsData = newScripts;
 
+            // Lưu vào máy chính
             localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
             localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
 
-            showToast("💾 Đã lưu thay đổi thành công!");
+            // Đẩy lên đám mây chung để đồng bộ qua mạng
+            try {
+                await fetch(CLOUD_BIN_URL, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ links: linksData, scripts: scriptsData })
+                });
+                showToast("💾 Đã lưu và đồng bộ đám mây thành công 100%!");
+            } catch (err) {
+                showToast("⚠️ Đã lưu tại máy, lỗi kết nối đám mây!");
+            }
+
             renderAdminTables();
             renderCurrentTabContent();
         }
@@ -798,7 +834,7 @@
 
         function openLink(url) {
             if (url) {
-                window.open(url, '_blank');
+                window.open(url.startsWith('http') ? url : 'https://' + url, '_blank');
             } else {
                 alert("Chưa có link được gắn cho mục này!");
             }
@@ -843,7 +879,7 @@
         function showToast(customMsg) {
             let t = document.getElementById("toast");
             if(customMsg) t.innerText = customMsg;
-            else t.innerText = "📋 Đã sao chép chính xác nội dung!";
+            else t.innerText = "📋 Đã sao chép chính xác 100% nội dung!";
             
             t.classList.add("show");
             clearTimeout(toastTimer);
