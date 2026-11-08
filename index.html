@@ -234,7 +234,7 @@
         }
         .side-popup button:hover { background: #ff2a2a; }
 
-        /* --- GIAO DIỆN MODAL XÁC THỰC MẬT KHẨU CHUẨN MẪU HÌNH ẢNH --- */
+        /* MODAL XÁC THỰC MẬT KHẨU */
         #authModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(5, 5, 8, 0.85); backdrop-filter: blur(10px); z-index: 3500;
@@ -337,7 +337,7 @@
         }
         .admin-table th { background: #222230; color: #00ffcc; }
         .admin-input {
-            width: 100%; padding: 8px; background: #111; border: 1px solid #444; border-radius: 6px; color: #fff; font-size: 13px;
+            width: 100%; padding: 8px; background: #111; border: 1px solid #444; border-radius: 6px; color: #fff; font-size: 13px; font-family: monospace;
         }
         .admin-action-btn {
             padding: 6px 10px; border-radius: 6px; border: none; font-weight: bold; font-size: 12px; margin-right: 4px;
@@ -367,7 +367,7 @@
         </div>
     </div>
 
-    <!-- MODAL XÁC THỰC MẬT KHẨU CHUẨN MẪU HÌNH ẢNH -->
+    <!-- MODAL XÁC THỰC MẬT KHẨU -->
     <div id="authModal">
         <div class="auth-box-container">
             <img src="image.png" alt="TH Logo" class="auth-logo-top">
@@ -449,7 +449,7 @@
                         <thead>
                             <tr>
                                 <th>Tên Script</th>
-                                <th>Nội Dung Script (Loadstring)</th>
+                                <th>Nội Dung Script (Loadstring đầy đủ)</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
@@ -517,16 +517,17 @@
             }
         });
 
+        // DỮ LIỆU MẶC ĐỊNH CHUẨN XÁC
         let defaultLinks = [
-            { name: "Delta QT v13", link: "https://example.com/delta" },
-            { name: "Delta x v107 apk", link: "https://example.com/delta-apk" }
+            { name: "Delta Executor", link: "https://deltaexploits.gg" },
+            { name: "Fluxus Executor", link: "https://fluxteam.net" }
         ];
 
         let defaultScripts = [
-            { name: "chilihub v8", content: "loadstring(game:HttpGet('https://example.com/chilihub.lua'))()" },
-            { name: "Script Finder Egg Free", content: "loadstring(game:HttpGet('https://example.com/eggfinder.lua'))()" },
-            { name: "Script Figfy", content: "loadstring(game:HttpGet('https://example.com/figfy.lua'))()" },
-            { name: "clouthub on top", content: "loadstring(game:HttpGet('https://example.com/clouthub.lua'))()" }
+            { name: "Chilihub v8", content: "loadstring(game:HttpGet('https://raw.githubusercontent.com/chilihub/main/script.lua'))()" },
+            { name: "Script Finder Egg Free", content: "loadstring(game:HttpGet('https://raw.githubusercontent.com/eggfinder/free/main/loader.lua'))()" },
+            { name: "Script Figfy", content: "loadstring(game:HttpGet('https://raw.githubusercontent.com/figfy/roblox/main/hub.lua'))()" },
+            { name: "Clouthub On Top", content: "loadstring(game:HttpGet('https://raw.githubusercontent.com/clouthub/main/script.lua'))()" }
         ];
 
         let linksData = [];
@@ -575,7 +576,6 @@
             setTimeout(() => modal.style.display = "none", 400);
         }
 
-        // XÁC THỰC MẬT KHẨU KHÔNG CÒN TÍNH NĂNG BAN (SAI THÌ BÁO LỖI THÔNG THƯỜNG)
         function verifyAdminPassword() {
             let pass = document.getElementById("adminPasswordInput").value;
             let statusPill = document.getElementById("authStatusPill");
@@ -660,16 +660,19 @@
             }
         }
 
+        function escapeHtml(text) {
+            if (!text) return "";
+            return text.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
         function renderAdminTables() {
             let tbodyLinks = document.getElementById("adminLinksTableBody");
             tbodyLinks.innerHTML = "";
             linksData.forEach((item, index) => {
-                let safeName = item.name ? item.name.replace(/"/g, '&quot;') : "";
-                let safeLink = item.link ? item.link.replace(/"/g, '&quot;') : "";
                 tbodyLinks.innerHTML += `
                     <tr>
-                        <td><input type="text" class="admin-input" id="admLinkName_${index}" value="${safeName}"></td>
-                        <td><input type="text" class="admin-input" id="admLinkVal_${index}" value="${safeLink}"></td>
+                        <td><input type="text" class="admin-input" id="admLinkName_${index}" value="${escapeHtml(item.name)}"></td>
+                        <td><input type="text" class="admin-input" id="admLinkVal_${index}" value="${escapeHtml(item.link)}"></td>
                         <td><button class="admin-action-btn btn-del-row" onclick="removeLinkRow(${index})">Xóa</button></td>
                     </tr>
                 `;
@@ -678,12 +681,10 @@
             let tbodyScripts = document.getElementById("adminScriptsTableBody");
             tbodyScripts.innerHTML = "";
             scriptsData.forEach((item, index) => {
-                let safeName = item.name ? item.name.replace(/"/g, '&quot;') : "";
-                let safeContent = item.content ? item.content.replace(/"/g, '&quot;') : "";
                 tbodyScripts.innerHTML += `
                     <tr>
-                        <td><input type="text" class="admin-input" id="admScriptName_${index}" value="${safeName}"></td>
-                        <td><input type="text" class="admin-input" id="admScriptVal_${index}" value="${safeContent}"></td>
+                        <td><input type="text" class="admin-input" id="admScriptName_${index}" value="${escapeHtml(item.name)}"></td>
+                        <td><input type="text" class="admin-input" id="admScriptVal_${index}" value="${escapeHtml(item.content)}"></td>
                         <td><button class="admin-action-btn btn-del-row" onclick="removeScriptRow(${index})">Xóa</button></td>
                     </tr>
                 `;
@@ -701,7 +702,7 @@
         }
 
         function addScriptRow() {
-            scriptsData.push({ name: "Script Mới", content: "" });
+            scriptsData.push({ name: "Script Mới", content: "loadstring(game:HttpGet('...'))()" });
             renderAdminTables();
         }
 
