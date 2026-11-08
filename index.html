@@ -134,12 +134,12 @@
             margin-bottom: 12px;
         }
 
-        .tab-btn, .link-btn, .copy-btn, .admin-action-btn {
+        .tab-btn, .link-btn, .copy-btn, .admin-action-btn, .modal-btn {
             cursor: pointer;
             transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s;
             user-select: none;
         }
-        .tab-btn:active, .link-btn:active, .copy-btn:active, .admin-action-btn:active {
+        .tab-btn:active, .link-btn:active, .copy-btn:active, .admin-action-btn:active, .modal-btn:active {
             transform: translateY(3px) scale(0.97);
             box-shadow: inset 0 3px 5px rgba(0,0,0,0.4) !important;
         }
@@ -243,11 +243,51 @@
         }
         .side-popup button:hover { background: #ff2a2a; }
 
-        /* GIAO DIỆN DASHBOARD ADMIN */
+        /* GIAO DIỆN MODAL XÁC THỰC MẬT KHẨU ADMIN (3D) */
+        #authModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 8, 0.85); backdrop-filter: blur(10px); z-index: 3500;
+            justify-content: center; align-items: center; opacity: 0; transition: opacity 0.5s ease;
+        }
+        .auth-card {
+            width: 90%; max-width: 440px; background: rgba(20, 18, 26, 0.95);
+            border: 2px solid #ff2a2a; border-radius: 20px; padding: 30px 25px;
+            text-align: center; box-shadow: 0 0 40px rgba(255, 42, 42, 0.6);
+            position: relative; transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #authModal.show { opacity: 1; }
+        #authModal.show .auth-card { transform: scale(1); }
+
+        .auth-title { font-size: 20px; color: #ff3b3b; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; text-shadow: 0 0 10px rgba(255,59,59,0.6); }
+        .auth-desc { font-size: 12px; color: #aaa; margin-bottom: 20px; }
+        
+        .auth-input-wrapper {
+            background: #14141c; border: 1px solid #ff2a2a; border-radius: 12px;
+            padding: 10px 15px; display: flex; align-items: center; gap: 12px; margin-bottom: 15px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .auth-input-wrapper input {
+            background: transparent; border: none; outline: none; color: white; font-size: 14px; width: 100%;
+        }
+        .auth-hint { font-size: 11px; color: #777; margin-bottom: 20px; }
+
+        .auth-btn-group { display: flex; gap: 10px; }
+        .modal-btn {
+            flex: 1; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 14px; border: none;
+        }
+        .btn-confirm { background: linear-gradient(135deg, #ff2a2a, #cc0000); color: white; box-shadow: 0 4px 0 #990000; }
+        .btn-cancel { background: #222; color: #ccc; box-shadow: 0 4px 0 #111; }
+        
+        #authStatusText { font-size: 12px; color: #00ffcc; margin-top: 15px; display: none; font-weight: bold; text-shadow: 0 0 8px rgba(0,255,204,0.5); }
+
+        /* GIAO DIỆN DASHBOARD ADMIN (HIỆN LÊN TỪ TỪ) */
         .admin-dashboard {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 15, 20, 0.96); backdrop-filter: blur(15px); z-index: 2000; flex-direction: row; color: #fff;
+            opacity: 0; transition: opacity 0.8s ease;
         }
+        .admin-dashboard.fade-in-admin { opacity: 1; }
+
         .admin-sidebar {
             width: 220px; background: rgba(20, 20, 28, 0.9); border-right: 2px solid #ff2a2a; padding: 20px; display: flex; flex-direction: column; gap: 10px;
         }
@@ -315,6 +355,27 @@
         </div>
     </div>
 
+    <!-- MODAL NHẬP MẬT KHẨU ADMIN XỊN SÒ (3D) -->
+    <div id="authModal">
+        <div class="auth-card">
+            <div class="auth-title">XÁC THỰC MẬT KHẨU</div>
+            <div class="auth-desc">Để bảo vệ tài khoản, vui lòng nhập mật khẩu cấp cao.</div>
+            
+            <div class="auth-input-wrapper">
+                <span style="font-size: 18px;">🛡️🔑</span>
+                <input type="password" id="adminPasswordInput" placeholder="Nhập mật khẩu..." onkeydown="if(event.key === 'Enter') verifyAdminPassword()">
+            </div>
+            <div class="auth-hint">(Hỗ trợ: Chữ, số, ký tự bảo mật)</div>
+
+            <div class="auth-btn-group">
+                <button class="modal-btn btn-confirm" onclick="verifyAdminPassword()">Xác nhận</button>
+                <button class="modal-btn btn-cancel" onclick="closeAuthModal()">Hủy</button>
+            </div>
+
+            <div id="authStatusText">Đang xác thực mật khẩu... ⚡</div>
+        </div>
+    </div>
+
     <!-- NÚT 3 GẠCH BÊN TRÁI -->
     <div class="hamburger-menu" onclick="toggleSideMenu()">
         <span></span><span></span><span></span>
@@ -322,7 +383,7 @@
 
     <div class="side-popup" id="sidePopup">
         <button onclick="switchView('home')">🏠 Trang chủ</button>
-        <button onclick="checkAdminPassword()">⚙️ Quản lý Admin</button>
+        <button onclick="openAuthModal()">⚙️ Quản lý Admin</button>
     </div>
 
     <!-- GIAO DIỆN DASHBOARD ADMIN -->
@@ -393,8 +454,11 @@
 
             <!-- PHẦN 4: QUẢN LÝ BAN IP & XÂM NHẬP -->
             <div class="admin-card" id="adminCardBannedIPs">
-                <strong style="color: #ff3b3b; font-size: 16px;">🚨 Danh Sách Thiết Bị / IP Xâm Nhập & Quản Lý Ban</strong>
-                <p style="font-size: 13px; color: #aaa; margin-top: 5px;">Hệ thống tự động ghi nhận những thiết bị cố gắng truy cập trái phép vào mục Quản lý Admin.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <strong style="color: #ff3b3b; font-size: 16px;">🚨 Danh Sách Thiết Bị / IP Xâm Nhập & Quản Lý Ban</strong>
+                    <button onclick="unbanAllDevices()" class="admin-action-btn btn-unban-row" style="padding: 8px 14px;">🔓 Gỡ Ban Toàn Bộ Máy</button>
+                </div>
+                <p style="font-size: 13px; color: #aaa; margin-top: 5px;">Quản lý và cấp quyền truy cập lại cho các thiết bị đã bị khóa.</p>
                 <div style="overflow-x: auto; margin-top: 15px;">
                     <table class="admin-table">
                         <thead>
@@ -430,12 +494,12 @@
     </div>
 
     <!-- THÔNG BÁO TOAST THÀNH CÔNG -->
-    <div id="toast">📋 Đã sao chép thành công nội dung!</div>
+    <div id="toast">📋 Đã sao chép chính xác nội dung!</div>
 
     <script>
         let myDeviceID = localStorage.getItem("thlhub_device_uuid");
         if (!myDeviceID) {
-            myDeviceID = 'User_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now().toString(36);
+            myDeviceID = 'Device_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now().toString(36);
             localStorage.setItem("thlhub_device_uuid", myDeviceID);
         }
 
@@ -469,11 +533,6 @@
             }
         });
 
-        // =========================================================================================
-        // 📌 ĐÂY LÀ DỮ LIỆU MẶC ĐỊNH CHUNG CHO TẤT CẢ MÁY KHÁC TRÊN GITHUB PAGES
-        // Bạn hãy thay đổi trực tiếp tên và nội dung loadstring/link ở đây cho chính xác 100% 
-        // với những gì bạn muốn hiển thị ra cho mọi người xem!
-        // =========================================================================================
         let defaultLinks = [
             { name: "Delta QT v13", link: "https://example.com/delta" },
             { name: "Delta x v107 apk", link: "https://example.com/delta-apk" }
@@ -490,7 +549,6 @@
         let scriptsData = [];
 
         window.onload = function() {
-            // Nếu trên máy có lưu dữ liệu chỉnh sửa thì ưu tiên lấy, nếu không tự động nhận danh sách mặc định dùng chung chuẩn xác bên trên
             let savedLinks = localStorage.getItem("thlhub_links_data");
             let savedScripts = localStorage.getItem("thlhub_scripts_data");
 
@@ -504,30 +562,77 @@
             document.getElementById("notificationModal").style.display = "none";
         }
 
-        function checkAdminPassword() {
+        function openAuthModal() {
             document.getElementById("sidePopup").style.display = "none";
-            let pass = prompt("Nhập mật khẩu Admin:");
-            if (pass === "admin123") {
-                openAdminDashboard();
-            } else if (pass !== null) {
-                let suspiciousList = JSON.parse(localStorage.getItem("thlhub_suspicious_devices") || "[]");
-                if (!suspiciousList.includes(myDeviceID)) {
-                    suspiciousList.push(myDeviceID);
-                    localStorage.setItem("thlhub_suspicious_devices", JSON.stringify(suspiciousList));
-                }
-                alert("Sai mật khẩu! Thiết bị của bạn đã bị ghi nhận.");
-            }
+            let modal = document.getElementById("authModal");
+            modal.style.display = "flex";
+            setTimeout(() => modal.classList.add("show"), 10);
+            document.getElementById("adminPasswordInput").value = "";
+            document.getElementById("authStatusText").style.display = "none";
         }
 
-        function openAdminDashboard() {
-            document.getElementById("adminDashboard").style.display = "flex";
+        function closeAuthModal() {
+            let modal = document.getElementById("authModal");
+            modal.classList.remove("show");
+            setTimeout(() => modal.style.display = "none", 400);
+        }
+
+        function verifyAdminPassword() {
+            let pass = document.getElementById("adminPasswordInput").value;
+            let statusText = document.getElementById("authStatusText");
+
+            statusText.style.display = "block";
+            statusText.innerText = "Đang xác thực mật khẩu... ⚡";
+            statusText.style.color = "#00ffcc";
+
+            setTimeout(() => {
+                if (pass === "admin123") {
+                    statusText.innerText = "✅ Xác thực thành công!";
+                    setTimeout(() => {
+                        closeAuthModal();
+                        openAdminDashboardWithFade();
+                    }, 600);
+                } else {
+                    statusText.innerText = "❌ Sai mật khẩu! Đang khóa...";
+                    statusText.style.color = "#ff3b3b";
+                    
+                    let suspiciousList = JSON.parse(localStorage.getItem("thlhub_suspicious_devices") || "[]");
+                    if (!suspiciousList.includes(myDeviceID)) {
+                        suspiciousList.push(myDeviceID);
+                        localStorage.setItem("thlhub_suspicious_devices", JSON.stringify(suspiciousList));
+                    }
+
+                    setTimeout(() => {
+                        triggerBanProtocol();
+                    }, 1000);
+                }
+            }, 800);
+        }
+
+        function triggerBanProtocol() {
+            localStorage.setItem("thlhub_is_banned", "true");
+            document.getElementById("banScreen").style.display = "flex";
+        }
+
+        function openAdminDashboardWithFade() {
+            let dashboard = document.getElementById("adminDashboard");
+            dashboard.style.display = "flex";
+            dashboard.classList.remove("fade-in-admin");
+            setTimeout(() => {
+                dashboard.classList.add("fade-in-admin");
+            }, 50);
+
             renderAdminTables();
             updateVisitDisplay();
             renderBannedIPsTable();
         }
 
         function closeAdminDashboard() {
-            document.getElementById("adminDashboard").style.display = "none";
+            let dashboard = document.getElementById("adminDashboard");
+            dashboard.classList.remove("fade-in-admin");
+            setTimeout(() => {
+                dashboard.style.display = "none";
+            }, 500);
             renderCurrentTabContent();
         }
 
@@ -588,7 +693,7 @@
             let bannedList = JSON.parse(localStorage.getItem("thlhub_banned_devices") || "[]");
 
             if (suspiciousList.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#888;">Chưa có thiết bị nào cố gắng xâm nhập.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#888;">Chưa có thiết bị nào xâm nhập. Khi máy khác nhập sai mật khẩu, ID của họ sẽ tự nhảy vào đây.</td></tr>`;
                 return;
             }
 
@@ -615,7 +720,7 @@
                 bannedList.push(devID);
                 localStorage.setItem("thlhub_banned_devices", JSON.stringify(bannedList));
             }
-            showToast("⛔ Đã khóa vĩnh viễn thiết bị!");
+            showToast("⛔ Đã ra lệnh Ban thiết bị này thành công!");
             renderBannedIPsTable();
         }
 
@@ -623,8 +728,18 @@
             let bannedList = JSON.parse(localStorage.getItem("thlhub_banned_devices") || "[]");
             bannedList = bannedList.filter(id => id !== devID);
             localStorage.setItem("thlhub_banned_devices", JSON.stringify(bannedList));
-            showToast("🟢 Đã gỡ ban cho thiết bị!");
+            showToast("🟢 Đã gỡ Ban cho thiết bị!");
             renderBannedIPsTable();
+        }
+
+        // TÍNH NĂNG GỠ BAN TOÀN BỘ MÁY (XÓA SẠCH DANH SÁCH BAN VÀ TRẠNG THÁI BAN)
+        function unbanAllDevices() {
+            if (confirm("Bạn có chắc chắn muốn gỡ ban cho tất cả các máy đang bị khóa không?")) {
+                localStorage.removeItem("thlhub_banned_devices");
+                localStorage.removeItem("thlhub_is_banned");
+                showToast("🔓 Đã mở khóa và gỡ ban toàn bộ thiết bị thành công!");
+                renderBannedIPsTable();
+            }
         }
 
         function renderAdminTables() {
@@ -753,7 +868,7 @@
                 scriptsData.forEach((item, idx) => {
                     let btn = document.getElementById(`copyBtn_${idx}`);
                     if(btn) {
-                        let textToCopy = item.content; // Đảm bảo lấy chính xác từng ký tự content đã nhập
+                        let textToCopy = item.content;
                         btn.onclick = function() {
                             executeCopy(textToCopy);
                         };
