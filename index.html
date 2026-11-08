@@ -269,6 +269,12 @@
         .auth-input-wrapper input {
             background: transparent; border: none; outline: none; color: white; font-size: 14px; width: 100%;
         }
+        .toggle-password {
+            background: transparent; border: none; color: #aaa; cursor: pointer; font-size: 16px; padding: 0;
+            transition: color 0.2s;
+        }
+        .toggle-password:hover { color: #fff; }
+
         .auth-hint { font-size: 11px; color: #777; margin-bottom: 20px; }
 
         .auth-btn-group { display: flex; gap: 10px; }
@@ -355,7 +361,7 @@
         </div>
     </div>
 
-    <!-- MODAL NHẬP MẬT KHẨU ADMIN XỊN SÒ (3D) -->
+    <!-- MODAL NHẬP MẬT KHẨU ADMIN (CÓ NÚT ẨN/HIỆN MẬT KHẨU) -->
     <div id="authModal">
         <div class="auth-card">
             <div class="auth-title">XÁC THỰC MẬT KHẨU</div>
@@ -364,6 +370,7 @@
             <div class="auth-input-wrapper">
                 <span style="font-size: 18px;">🛡️🔑</span>
                 <input type="password" id="adminPasswordInput" placeholder="Nhập mật khẩu..." onkeydown="if(event.key === 'Enter') verifyAdminPassword()">
+                <button type="button" class="toggle-password" id="togglePassBtn" onclick="togglePasswordVisibility()">👁️</button>
             </div>
             <div class="auth-hint">(Hỗ trợ: Chữ, số, ký tự bảo mật)</div>
 
@@ -503,11 +510,19 @@
             localStorage.setItem("thlhub_device_uuid", myDeviceID);
         }
 
+        // KIỂM TRA TRẠNG THÁI BAN (NẾU ĐÃ BỊ GỠ BAN THÌ TỰ ĐỘNG ẨN MÀN HÌNH BAN NGAY LẬP TỨC)
         (function checkSecurityStatus() {
             let bannedList = JSON.parse(localStorage.getItem("thlhub_banned_devices") || "[]");
-            if (bannedList.includes(myDeviceID)) {
-                document.getElementById("banScreen").style.display = "flex";
-                return;
+            let isLocallyBanned = localStorage.getItem("thlhub_is_banned") === "true";
+
+            if (bannedList.includes(myDeviceID) || isLocallyBanned) {
+                // Kiểm tra lại xem thiết bị này còn thực sự nằm trong danh sách ban không, nếu vừa được gỡ thì xóa trạng thái
+                if (!bannedList.includes(myDeviceID) && isLocallyBanned) {
+                    localStorage.removeItem("thlhub_is_banned");
+                } else {
+                    document.getElementById("banScreen").style.display = "flex";
+                    return;
+                }
             }
 
             let visits = localStorage.getItem("thlhub_visits_count");
@@ -562,12 +577,27 @@
             document.getElementById("notificationModal").style.display = "none";
         }
 
+        // --- HÀM ẨN / HIỆN MẬT KHẨU ---
+        function togglePasswordVisibility() {
+            let passInput = document.getElementById("adminPasswordInput");
+            let btn = document.getElementById("togglePassBtn");
+            if (passInput.type === "password") {
+                passInput.type = "text";
+                btn.innerText = "🙈";
+            } else {
+                passInput.type = "password";
+                btn.innerText = "👁️";
+            }
+        }
+
         function openAuthModal() {
             document.getElementById("sidePopup").style.display = "none";
             let modal = document.getElementById("authModal");
             modal.style.display = "flex";
             setTimeout(() => modal.classList.add("show"), 10);
             document.getElementById("adminPasswordInput").value = "";
+            document.getElementById("adminPasswordInput").type = "password";
+            document.getElementById("togglePassBtn").innerText = "👁️";
             document.getElementById("authStatusText").style.display = "none";
         }
 
@@ -724,19 +754,26 @@
             renderBannedIPsTable();
         }
 
+        // FIX GỠ BAN: XÓA CẢ TRẠNG THÁI KHÓA CỤ THỂ CỦA MÁY ĐÓ
         function unbanDevice(devID) {
             let bannedList = JSON.parse(localStorage.getItem("thlhub_banned_devices") || "[]");
             bannedList = bannedList.filter(id => id !== devID);
             localStorage.setItem("thlhub_banned_devices", JSON.stringify(bannedList));
-            showToast("🟢 Đã gỡ Ban cho thiết bị!");
+            
+            if (devID === myDeviceID) {
+                localStorage.removeItem("thlhub_is_banned");
+                document.getElementById("banScreen").style.display = "none";
+            }
+
+            showToast("🟢 Đã gỡ Ban cho thiết bị thành công!");
             renderBannedIPsTable();
         }
 
-        // TÍNH NĂNG GỠ BAN TOÀN BỘ MÁY (XÓA SẠCH DANH SÁCH BAN VÀ TRẠNG THÁI BAN)
         function unbanAllDevices() {
             if (confirm("Bạn có chắc chắn muốn gỡ ban cho tất cả các máy đang bị khóa không?")) {
                 localStorage.removeItem("thlhub_banned_devices");
                 localStorage.removeItem("thlhub_is_banned");
+                document.getElementById("banScreen").style.display = "none";
                 showToast("🔓 Đã mở khóa và gỡ ban toàn bộ thiết bị thành công!");
                 renderBannedIPsTable();
             }
@@ -935,3 +972,4 @@
     </script>
 </body>
 </html>
+
