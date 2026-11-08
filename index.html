@@ -492,8 +492,7 @@
     <div id="toast">📋 Đã sao chép chính xác nội dung!</div>
 
     <script>
-        // --- ĐẶT TRỰC TIẾP DỮ LIỆU CHUẨN CỦA BẠN VÀO ĐÂY ---
-        // Khi bạn sửa trực tiếp danh sách dưới này và ấn Lưu code lên GitHub, tất cả các máy khác vào web sẽ nhận đúng chuẩn 100% không bao giờ bị lệch!
+        // --- DANH SÁCH DỮ LIỆU GỐC CHUẨN XÁC CỦA BẠN (Được nhúng trực tiếp vào code) ---
         let defaultLinks = [
             { name: "Delta QT v13 ios", link: "https://deltaexploits.gg" },
             { name: "Delta x v107 apk", link: "https://deltaexploits.gg" }
@@ -511,12 +510,16 @@
         let scriptsData = [];
 
         window.onload = function() {
-            // Ưu tiên đọc từ bộ nhớ, nếu chưa có sẽ lấy trực tiếp bộ dữ liệu chuẩn bên trên
+            // Xóa bỏ trạng thái cũ của máy nếu cần thiết, luôn dùng dữ liệu làm chuẩn chung mới nhất
             let savedLinks = localStorage.getItem("thlhub_links_data");
             let savedScripts = localStorage.getItem("thlhub_scripts_data");
 
-            linksData = savedLinks ? JSON.parse(savedLinks) : defaultLinks;
-            scriptsData = savedScripts ? JSON.parse(savedScripts) : defaultScripts;
+            // Nếu máy đó đã lưu dữ liệu cũ rác, ta ép buộc nó cập nhật theo code chuẩn mới nhất
+            linksData = defaultLinks;
+            scriptsData = defaultScripts;
+            
+            localStorage.setItem("thlhub_links_data", JSON.stringify(defaultLinks));
+            localStorage.setItem("thlhub_scripts_data", JSON.stringify(defaultScripts));
 
             renderCurrentTabContent();
         };
@@ -740,7 +743,7 @@
             localStorage.setItem("thlhub_links_data", JSON.stringify(linksData));
             localStorage.setItem("thlhub_scripts_data", JSON.stringify(scriptsData));
 
-            showToast("💾 Đã lưu thay đổi thành công 100%!");
+            showToast("💾 Đã lưu thay đổi thành công trên máy này!");
             renderAdminTables();
             renderCurrentTabContent();
         }
