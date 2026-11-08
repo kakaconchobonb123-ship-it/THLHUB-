@@ -49,7 +49,7 @@
         .web-frame {
             width: 95%;
             max-width: 520px;
-            height: 700px;
+            height: 720px;
             background: rgba(18, 18, 24, 0.9);
             backdrop-filter: blur(14px);
             border: 2px solid #ff2a2a;
@@ -70,17 +70,17 @@
         }
 
         .header-img {
-            width: 90px;
-            height: 90px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
-            margin-top: 5px;
-            margin-bottom: 5px;
+            margin-top: 2px;
+            margin-bottom: 2px;
             filter: drop-shadow(0 0 14px rgba(255, 42, 42, 0.9));
         }
 
         h1 {
-            font-size: 26px;
-            margin: 5px 0;
+            font-size: 24px;
+            margin: 2px 0;
             color: #ff3b3b;
             letter-spacing: 2px;
             text-shadow: 0 0 15px rgba(255, 59, 59, 0.8);
@@ -88,17 +88,20 @@
         }
 
         p.subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: #d0d0d0;
-            margin-bottom: 15px;
+            margin-bottom: 4px;
             text-align: center;
-            border-right: 2px solid #ff2a2a;
-            white-space: nowrap;
-            overflow: hidden;
-            animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite;
         }
-        @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #ff2a2a; } }
+
+        p.follow-text {
+            font-size: 12px;
+            color: #00ffcc;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
 
         .search-box {
             width: 100%;
@@ -162,7 +165,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-height: 400px;
+            max-height: 380px;
         }
 
         .script-item {
@@ -267,18 +270,19 @@
     <!-- GIAO DIỆN CHÍNH -->
     <div class="web-frame">
         <div id="homeView" style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center;">
-            <img src="image.png" alt="Logo" class="header-img fade-in-text">
-            <h1 class="fade-in-text delay-1">THLHUB</h1>
-            <p class="subtitle fade-in-text delay-2">các script hack đều ở đây</p>
+            <img src="image.png" alt="Logo" class="header-img">
+            <h1>THLHUB</h1>
+            <p class="subtitle">các script hack đều ở đây</p>
+            <p class="follow-text">Follow mình để mình lấy thêm động lực ra video script cho các bạn nhé</p>
 
-            <input type="text" class="search-box fade-in-text delay-3" id="searchInput" placeholder="🔍 Tìm kiếm..." onkeyup="renderCurrentTabContent()">
+            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm kiếm..." onkeyup="renderCurrentTabContent()">
 
-            <div class="tab-container fade-in-text delay-3">
+            <div class="tab-container">
                 <button class="tab-btn active" id="mainTab1" onclick="switchMainTab(1)">🎮 Hack Roblox</button>
                 <button class="tab-btn" id="mainTab2" onclick="switchMainTab(2)">📜 Script Tổng Hợp</button>
             </div>
 
-            <div class="content-box fade-in-text delay-3" id="display-content"></div>
+            <div class="content-box" id="display-content"></div>
         </div>
     </div>
 
@@ -286,14 +290,13 @@
     <div id="toast">📋 Đã sao chép chính xác nội dung!</div>
 
     <script>
-        // --- DANH SÁCH LINK VÀ SCRIPT CHUẨN XÁC ---
         let linksData = [
             { name: "Delta QT v13 ios", link: "https://www.mediafire.com/file/9hpa3z29e4e50gu/Delta_QT_v13_ios.ipa/file" },
             { name: "Delta X V107 apk", link: "https://www.mediafire.com/file/zuc3n08ox5oyufy/Delta_X_V107_.apk/file" }
         ];
 
         let scriptsData = [
-            { name: "tổng hợp x hop", content: "loadstring(game:HttpGet(\"https://pastefy.app/opvKMzxR/raw\"))()" },
+            { name: "x hop", content: "loadstring(game:HttpGet(\"https://pastefy.app/opvKMzxR/raw\"))()" },
             { name: "Chilli v9", content: "loadstring(game:HttpGet(\"https://id.tomroblox.com/raw/kairoblox/venyx-chilli-v9-ba-khi-909\"))()" },
             { name: "Chilli Gốc", content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua\"))()" },
             { name: "Chilli Hub V8", content: "loadstring(game:HttpGet(\"https://id.tomroblox.com/raw/kairoblox/chilli-x-venyx-v8-finder-free-9836\"))()" },
@@ -306,7 +309,6 @@
             renderCurrentTabContent();
         };
 
-        // Thống kê lượt truy cập
         (function() {
             let visits = localStorage.getItem("thlhub_visits_count");
             if (!visits) visits = 1;
