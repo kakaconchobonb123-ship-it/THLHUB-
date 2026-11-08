@@ -286,7 +286,7 @@
         
         #authStatusText { font-size: 12px; color: #00ffcc; margin-top: 15px; display: none; font-weight: bold; text-shadow: 0 0 8px rgba(0,255,204,0.5); }
 
-        /* GIAO DIỆN DASHBOARD ADMIN (HIỆN LÊN TỪ TỪ) */
+        /* GIAO DIỆN DASHBOARD ADMIN */
         .admin-dashboard {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 15, 20, 0.96); backdrop-filter: blur(15px); z-index: 2000; flex-direction: row; color: #fff;
@@ -361,7 +361,7 @@
         </div>
     </div>
 
-    <!-- MODAL NHẬP MẬT KHẨU ADMIN (CÓ NÚT ẨN/HIỆN MẬT KHẨU) -->
+    <!-- MODAL NHẬP MẬT KHẨU ADMIN -->
     <div id="authModal">
         <div class="auth-card">
             <div class="auth-title">XÁC THỰC MẬT KHẨU</div>
@@ -510,21 +510,27 @@
             localStorage.setItem("thlhub_device_uuid", myDeviceID);
         }
 
-        // KIỂM TRA TRẠNG THÁI BAN (NẾU ĐÃ BỊ GỠ BAN THÌ TỰ ĐỘNG ẨN MÀN HÌNH BAN NGAY LẬP TỨC)
-        (function checkSecurityStatus() {
+        // KIỂM TRA TRẠNG THÁI BAN VÀ TỰ ĐỘNG QUÉT GỠ BAN LIÊN TỤC MỖI 2 GIÂY
+        function checkSecurityStatus() {
             let bannedList = JSON.parse(localStorage.getItem("thlhub_banned_devices") || "[]");
             let isLocallyBanned = localStorage.getItem("thlhub_is_banned") === "true";
 
             if (bannedList.includes(myDeviceID) || isLocallyBanned) {
-                // Kiểm tra lại xem thiết bị này còn thực sự nằm trong danh sách ban không, nếu vừa được gỡ thì xóa trạng thái
                 if (!bannedList.includes(myDeviceID) && isLocallyBanned) {
                     localStorage.removeItem("thlhub_is_banned");
+                    document.getElementById("banScreen").style.display = "none";
                 } else {
                     document.getElementById("banScreen").style.display = "flex";
-                    return;
+                    return true;
                 }
+            } else {
+                document.getElementById("banScreen").style.display = "none";
             }
+            return false;
+        }
 
+        // Chạy kiểm tra ngay khi mở và lặp lại liên tục để bắt sự kiện gỡ ban từ máy khác
+        if (!checkSecurityStatus()) {
             let visits = localStorage.getItem("thlhub_visits_count");
             if (!visits) visits = 1;
             else if (!sessionStorage.getItem("visited_session")) {
@@ -532,7 +538,11 @@
                 sessionStorage.setItem("visited_session", "true");
             }
             localStorage.setItem("thlhub_visits_count", visits);
-        })();
+        }
+
+        setInterval(() => {
+            checkSecurityStatus();
+        }, 2000);
 
         window.addEventListener('DOMContentLoaded', () => {
             const rainContainer = document.getElementById('rainContainer');
@@ -577,7 +587,6 @@
             document.getElementById("notificationModal").style.display = "none";
         }
 
-        // --- HÀM ẨN / HIỆN MẬT KHẨU ---
         function togglePasswordVisibility() {
             let passInput = document.getElementById("adminPasswordInput");
             let btn = document.getElementById("togglePassBtn");
@@ -754,7 +763,6 @@
             renderBannedIPsTable();
         }
 
-        // FIX GỠ BAN: XÓA CẢ TRẠNG THÁI KHÓA CỤ THỂ CỦA MÁY ĐÓ
         function unbanDevice(devID) {
             let bannedList = JSON.parse(localStorage.getItem("thlhub_banned_devices") || "[]");
             bannedList = bannedList.filter(id => id !== devID);
@@ -972,4 +980,3 @@
     </script>
 </body>
 </html>
-
