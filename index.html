@@ -3,403 +3,539 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THLHUB Hub</title>
+    <title>THL HUB HACK - Kho Chia Sẻ Script & Hack RBLX</title>
     <style>
         * { box-sizing: border-box; }
         body {
             margin: 0;
             padding: 0;
-            background-color: #0b0b0f;
+            background-color: #0b0b14;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            background-image: linear-gradient(rgba(11, 11, 15, 0.85), rgba(11, 11, 15, 0.85)), url('image.png');
+            background-image: linear-gradient(rgba(11, 11, 20, 0.9), rgba(11, 11, 20, 0.9)), url('image.png');
             background-size: cover;
             background-position: center;
-            position: relative;
-        }
-
-        /* HIỆU ỨNG MƯA ĐỎ RƠI NỀN SAU */
-        .rain-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1;
-        }
-        .rain-drop {
-            position: absolute;
-            background: linear-gradient(transparent, #ff2a2a);
-            width: 2px;
-            height: 35px;
-            opacity: 0.7;
-            animation: fall linear infinite;
-        }
-        @keyframes fall {
-            0% { transform: translateY(-50px); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(105vh); opacity: 0; }
-        }
-
-        /* KHUNG WEB CHÍNH */
-        .web-frame {
-            width: 95%;
-            max-width: 520px;
-            height: 720px;
-            background: rgba(18, 18, 24, 0.9);
-            backdrop-filter: blur(14px);
-            border: 2px solid #ff2a2a;
-            border-radius: 24px;
-            padding: 25px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 0 50px rgba(255, 42, 42, 0.5);
+            padding-bottom: 50px;
+        }
+
+        /* HEADER BANNER */
+        .header-banner {
+            width: 92%;
+            max-width: 1100px;
+            background: linear-gradient(135deg, #18182f 0%, #121223 100%);
+            border: 1px solid #2a2a4e;
+            border-radius: 18px;
+            padding: 35px 40px;
+            margin-top: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             position: relative;
-            z-index: 10;
-            animation: fadeInSmooth 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            overflow: hidden;
         }
-
-        @keyframes fadeInSmooth {
-            0% { opacity: 0; transform: translateY(25px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .header-img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            margin-top: 2px;
-            margin-bottom: 2px;
-            filter: drop-shadow(0 0 14px rgba(255, 42, 42, 0.9));
-        }
-
-        h1 {
-            font-size: 24px;
-            margin: 2px 0;
-            color: #ff3b3b;
+        .brand-title {
+            font-size: 14px;
             letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(255, 59, 59, 0.8);
-            font-weight: 800;
-        }
-
-        p.subtitle {
-            font-size: 13px;
-            color: #d0d0d0;
-            margin-bottom: 4px;
-            text-align: center;
-        }
-
-        p.follow-text {
-            font-size: 12px;
-            color: #00ffcc;
-            margin-bottom: 12px;
-            text-align: center;
+            color: #00ffff;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .main-heading {
+            font-size: 36px;
+            font-weight: 900;
+            margin: 0 0 10px 0;
+            background: linear-gradient(90deg, #ffffff, #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .sub-heading {
+            font-size: 14px;
+            color: #b2bec3;
+            margin-bottom: 20px;
+        }
+        .stats-badge {
+            display: inline-block;
+            background: #1e1e3f;
+            border: 1px solid #3f3f74;
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        .stats-badge span {
+            font-weight: bold;
+            color: #00cec9;
+            font-size: 18px;
+            display: block;
         }
 
+        /* SEARCH & FILTER BAR */
+        .filter-container {
+            width: 92%;
+            max-width: 1100px;
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
         .search-box {
-            width: 100%;
-            padding: 12px 18px;
-            background: #15151c;
-            border: 1px solid #ff2a2a;
-            border-radius: 10px;
+            flex: 1;
+            min-width: 260px;
+            padding: 14px 20px;
+            background: #131324;
+            border: 1px solid #2d2d54;
+            border-radius: 12px;
             color: white;
             font-size: 14px;
-            margin-bottom: 12px;
             outline: none;
             transition: 0.3s;
         }
-        .search-box:focus { box-shadow: 0 0 12px rgba(255, 42, 42, 0.6); }
+        .search-box:focus { border-color: #6c5ce7; box-shadow: 0 0 12px rgba(108, 92, 231, 0.4); }
 
-        .tab-container {
+        .category-tabs {
             display: flex;
             gap: 10px;
-            width: 100%;
-            background: #15151c;
-            padding: 6px;
-            border-radius: 12px;
-            border: 1px solid #ff2a2a;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
+            width: 92%;
+            max-width: 1100px;
         }
-
-        .tab-btn, .link-btn, .copy-btn {
-            cursor: pointer;
-            transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s;
-            user-select: none;
-        }
-        .tab-btn:active, .link-btn:active, .copy-btn:active {
-            transform: translateY(3px) scale(0.97);
-            box-shadow: inset 0 3px 5px rgba(0,0,0,0.4) !important;
-        }
-
-        .tab-btn {
-            flex: 1;
-            background-color: transparent;
-            color: #ccc;
-            border: none;
-            padding: 10px;
-            font-size: 13px;
-            font-weight: bold;
-            border-radius: 8px;
-        }
-        .tab-btn.active {
-            background-color: #ff2a2a;
-            color: white;
-            box-shadow: 0 0 15px rgba(255, 42, 42, 0.9);
-        }
-
-        .content-box {
-            width: 100%;
-            background: rgba(25, 25, 35, 0.95);
-            padding: 12px;
-            border-radius: 14px;
-            border: 1px dashed rgba(255, 42, 42, 0.6);
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-height: 380px;
-        }
-
-        .script-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #1f1f2b;
-            padding: 10px 14px;
+        .cat-btn {
+            background: #16162c;
+            color: #a4b0be;
+            border: 1px solid #2d2d54;
+            padding: 10px 20px;
             border-radius: 10px;
-            border: 1px solid #444;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
             transition: 0.2s;
         }
-        .script-item:hover { border-color: #ff2a2a; }
-
-        .script-name {
-            font-size: 13px;
-            color: #fff;
-            word-break: break-all;
-            max-width: 62%;
-            font-weight: 600;
-        }
-
-        .link-btn {
-            background-color: #00bfff;
+        .cat-btn.active, .cat-btn:hover {
+            background: #6c5ce7;
             color: white;
-            border: none;
-            padding: 7px 12px;
-            font-size: 11px;
-            font-weight: bold;
-            border-radius: 6px;
-            box-shadow: 0 3px 0 #0088cc;
+            border-color: #81ecec;
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.5);
         }
-        .link-btn:hover { background-color: #33ccff; }
 
-        .copy-btn {
-            background-color: #ff2a2a;
+        /* SECTION TITLE */
+        .section-title {
+            width: 92%;
+            max-width: 1100px;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #6c5ce7;
+            padding-left: 10px;
+        }
+
+        /* GRID CARDS LAYOUT */
+        .cards-grid {
+            width: 92%;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* CARD ITEM VỚI HIỆU ỨNG LÓE SÁNG LIÊN TỤC */
+        .script-card {
+            background: linear-gradient(145deg, #16162d, #10101f);
+            border-radius: 16px;
+            border: 1px solid #2d2d54;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .script-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(108, 92, 231, 0.3);
+            border-color: #6c5ce7;
+        }
+
+        /* HIỆU ỨNG LÓE SÁNG VỤT QUA LIÊN TỤC (SHINE ANIMATION) */
+        .script-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                0deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.08) 50%,
+                transparent 100%
+            );
+            transform: rotate(30deg);
+            pointer-events: none;
+            animation: shineMove 3.5s linear infinite;
+        }
+        @keyframes shineMove {
+            0% { transform: translateY(-100%) rotate(30deg); }
+            100% { transform: translateY(100%) rotate(30deg); }
+        }
+
+        /* THẺ TAG TRÊN Ô (HOT, VIP, MYTHIC...) */
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+        .badge-hot { background: #ff4757; color: white; animation: pulseHot 1.5s infinite; }
+        .badge-vip { background: #ffa502; color: #1e1e1e; }
+        .badge-mythic { background: #9b59b6; color: white; }
+        .badge-free { background: #2ed573; color: white; }
+
+        @keyframes pulseHot {
+            0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(255, 71, 87, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+        }
+
+        .card-thumbnail {
+            width: 100%;
+            height: 110px;
+            background: #1e1e36;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            margin-bottom: 12px;
+            border: 1px solid #2f2f59;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-author {
+            font-size: 12px;
+            color: #a4b0be;
+            margin-bottom: 12px;
+        }
+        .card-author span {
+            color: #ff4757;
+            font-weight: bold;
+        }
+
+        /* NÚT THAO TÁC TRONG Ô */
+        .card-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-copy {
+            background: #ff4757;
             color: white;
-            border: none;
-            padding: 7px 12px;
-            font-size: 11px;
-            font-weight: bold;
-            border-radius: 6px;
-            box-shadow: 0 3px 0 #b31b1b;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
         }
-        .copy-btn:hover { background-color: #ff4d4d; }
+        .btn-copy:hover { background: #ff6b81; }
 
-        /* NÚT 3 GẠCH BÊN TRÁI */
-        .hamburger-menu {
-            position: fixed; bottom: 20px; left: 20px;
-            background: rgba(24, 24, 34, 0.9); border: 2px solid #ff2a2a; border-radius: 12px;
-            width: 45px; height: 45px; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; gap: 5px; cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 42, 42, 0.5); z-index: 100;
-            transition: 0.3s;
+        .btn-link {
+            background: #00cec9;
+            color: #000;
+            box-shadow: 0 4px 15px rgba(0, 206, 201, 0.4);
         }
-        .hamburger-menu:hover { transform: scale(1.1); }
-        .hamburger-menu span { width: 22px; height: 3px; background: #ff2a2a; border-radius: 2px; }
-
-        .side-popup {
-            display: none; position: fixed; bottom: 75px; left: 20px;
-            background: rgba(24, 24, 34, 0.95); backdrop-filter: blur(10px);
-            border: 2px solid #ff2a2a; border-radius: 12px;
-            width: 170px; padding: 10px; z-index: 100; box-shadow: 0 0 25px rgba(255, 42, 42, 0.6);
-        }
-        .side-popup button {
-            width: 100%; background: transparent; color: white; border: none;
-            padding: 10px; text-align: left; font-size: 14px; font-weight: bold;
-            cursor: pointer; border-radius: 6px;
-        }
+        .btn-link:hover { background: #81ecec; }
 
         /* THÔNG BÁO TOAST */
         #toast {
-            visibility: hidden; min-width: 240px; background-color: #1a1a24; color: #fff; text-align: center; border-radius: 10px; padding: 14px; position: fixed; z-index: 4000; left: 50%; bottom: 40px; transform: translateX(-50%); border: 1px solid #00ffcc; font-size: 14px; box-shadow: 0 0 25px rgba(0,255,204,0.6);
-            opacity: 0; transition: opacity 0.3s ease, bottom 0.3s ease;
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #1e1e36;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 14px;
+            position: fixed;
+            z-index: 4000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            border: 1px solid #00cec9;
+            font-size: 14px;
+            box-shadow: 0 0 25px rgba(0, 206, 201, 0.6);
+            opacity: 0;
+            transition: opacity 0.3s ease, bottom 0.3s ease;
         }
-        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+        #toast.show { visibility: visible; opacity: 1; bottom: 40px; }
+
+        /* FOLLOW NOTICE FOOTER */
+        .follow-banner {
+            width: 92%;
+            max-width: 1100px;
+            text-align: center;
+            padding: 15px;
+            background: rgba(108, 92, 231, 0.15);
+            border: 1px dashed #6c5ce7;
+            border-radius: 12px;
+            color: #00ffff;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- HIỆU ỨNG MƯA ĐỎ RƠI NỀN SAU -->
-    <div class="rain-container" id="rainContainer"></div>
-
-    <!-- THÔNG BÁO BAN ĐẦU -->
-    <div class="choice-modal" id="notificationModal" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 3000; justify-content: center; align-items: center;">
-        <div style="width: 85%; max-width: 320px; background: rgba(24, 24, 37, 0.95); border: 2px solid #ff2a2a; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 0 30px rgba(255,42,42,0.5);">
-            <h3 style="color: #ff3b3b; margin-top: 0;">⚠️ THÔNG BÁO</h3>
-            <p style="font-size:13px; color:#ddd;">Web mới tạo nên gặp nhiều lỗi chưa fix, admin đang fix lỗi sẽ sớm thôi!</p>
-            <button onclick="closeModal()" style="width: 100%; padding: 10px; margin-top: 10px; background: #00ffcc; color: #000; border: none; font-weight: bold; border-radius: 6px; cursor: pointer;">Đã hiểu</button>
+    <!-- BANNER CHÍNH -->
+    <div class="header-banner">
+        <div class="brand-title">THL HUB HACK</div>
+        <h1 class="main-heading">Kho chia sẻ Script<br>& Hack RBLX</h1>
+        <p class="sub-heading">Tất cả Script - Hack đã được ad kiểm chứng an toàn tuyệt đối!</p>
+        <div class="stats-badge">
+            <span id="totalItemsCount">0</span>
+            Tổng số mục
         </div>
     </div>
 
-    <!-- NÚT 3 GẠCH BÊN TRÁI -->
-    <div class="hamburger-menu" onclick="toggleSideMenu()">
-        <span></span><span></span><span></span>
+    <!-- Ô TÌM KIẾM -->
+    <div class="filter-container">
+        <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm mod, game, tác giả..." onkeyup="renderData()">
     </div>
 
-    <div class="side-popup" id="sidePopup">
-        <button onclick="alert('Đang hiển thị trang chủ!')">🏠 Trang chủ</button>
+    <!-- CÁC NÚT LỌC DANH MỤC -->
+    <div class="category-tabs">
+        <button class="cat-btn active" id="tabAll" onclick="filterCategory('all')">Tất cả</button>
+        <button class="cat-btn" id="tabScript" onclick="filterCategory('script')">Script</button>
+        <button class="cat-btn" id="tabClient" onclick="filterCategory('client')">Client (File Hack)</button>
     </div>
 
-    <!-- GIAO DIỆN CHÍNH -->
-    <div class="web-frame">
-        <div id="homeView" style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center;">
-            <img src="image.png" alt="Logo" class="header-img">
-            <h1>THLHUB</h1>
-            <p class="subtitle">các script hack đều ở đây</p>
-            <p class="follow-text">Follow mình để mình lấy thêm động lực ra video script cho các bạn nhé</p>
-
-            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm kiếm..." onkeyup="renderCurrentTabContent()">
-
-            <div class="tab-container">
-                <button class="tab-btn active" id="mainTab1" onclick="switchMainTab(1)">🎮 Hack Roblox</button>
-                <button class="tab-btn" id="mainTab2" onclick="switchMainTab(2)">📜 Script Tổng Hợp</button>
-            </div>
-
-            <div class="content-box" id="display-content"></div>
-        </div>
+    <!-- DÒNG LỜI KÊU GỌI FOLLOW -->
+    <div class="follow-banner">
+        ❤️ Follow mình để mình lấy thêm động lực ra video script cho các bạn nhé!
     </div>
 
-    <!-- THÔNG BÁO TOAST THÀNH CÔNG -->
-    <div id="toast">📋 Đã sao chép chính xác nội dung!</div>
+    <!-- KHU VỰC HIỂN THỊ SCRIPT -->
+    <div class="section-title" id="titleScript">📜 Script Tổng Hợp</div>
+    <div class="cards-grid" id="scriptGrid"></div>
+
+    <!-- KHU VỰC HIỂN THỊ CLIENT / FILE HACK -->
+    <div class="section-title" id="titleClient" style="border-left-color: #00cec9;">🎮 Client & File Hack Roblox</div>
+    <div class="cards-grid" id="clientGrid"></div>
+
+    <!-- THÔNG BÁO SAO CHÉP -->
+    <div id="toast">📋 Đã sao chép chính xác 100% nội dung!</div>
 
     <script>
-        let linksData = [
-            { name: "Delta QT v13 ios", link: "https://www.mediafire.com/file/9hpa3z29e4e50gu/Delta_QT_v13_ios.ipa/file" },
-            { name: "Delta X V107 apk", link: "https://www.mediafire.com/file/zuc3n08ox5oyufy/Delta_X_V107_.apk/file" }
+        let scriptsData = [
+            { 
+                name: "Chilli v9", 
+                author: "THLHUB", 
+                tag: "HOT", 
+                tagType: "badge-hot", 
+                icon: "🔥",
+                content: "loadstring(game:HttpGet(\"https://id.tomroblox.com/raw/kairoblox/venyx-chilli-v9-ba-khi-909\"))()" 
+            },
+            { 
+                name: "Chilli Gốc", 
+                author: "TienKhanh", 
+                tag: "VIP", 
+                tagType: "badge-vip", 
+                icon: "🌶️",
+                content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua\"))()" 
+            },
+            { 
+                name: "Chilli Hub V8", 
+                author: "Venyx", 
+                tag: "FREE", 
+                tagType: "badge-free", 
+                icon: "⚡",
+                content: "loadstring(game:HttpGet(\"https://id.tomroblox.com/raw/kairoblox/chilli-x-venyx-v8-finder-free-9836\"))()" 
+            },
+            { 
+                name: "chili nhiều thứ tiếng", 
+                author: "TienKhanh", 
+                tag: "VIP", 
+                tagType: "badge-vip", 
+                icon: "🌐",
+                content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua\"))()" 
+            },
+            { 
+                name: "kaitunmirage", 
+                author: "Kadit9999", 
+                tag: "MYTHIC", 
+                tagType: "badge-mythic", 
+                icon: "🌌",
+                content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/kadit9999/stealanegg/refs/heads/main/kaitunmirage.lua\"))()" 
+            },
+            { 
+                name: "voryken", 
+                author: "Voryken", 
+                tag: "VIP", 
+                tagType: "badge-vip", 
+                icon: "🛡️",
+                content: "loadstring(game:HttpGet(\"https://codes.voryken.com/raw/iupos6\"))()" 
+            },
+            { 
+                name: "x hop", 
+                author: "THLHUB", 
+                tag: "HOT", 
+                tagType: "badge-hot", 
+                icon: "🚀",
+                content: "loadstring(game:HttpGet(\"https://pastefy.app/opvKMzxR/raw\"))()" 
+            },
+            { 
+                name: "Figgy hub", 
+                author: "Luarmor", 
+                tag: "FREE", 
+                tagType: "badge-free", 
+                icon: "🎯",
+                content: "loadstring(game:HttpGet(\"https://api.luarmor.net/files/v4/loaders/91ad82d753e1318189c4e249d56e7dcf.lua\"))()" 
+            },
+            { 
+                name: "Tele 1 giây", 
+                author: "Heavenly", 
+                tag: "HOT", 
+                tagType: "badge-hot", 
+                icon: "⚡",
+                content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/heavenlylocked05/Heaven-Hub-Steal-An-Egg-Updated/refs/heads/main/obfuscated.lua.txt\"))()" 
+            },
+            { 
+                name: "Ajj Finder Egg", 
+                author: "Ajj", 
+                tag: "FREE", 
+                tagType: "badge-free", 
+                icon: "🥚",
+                content: "loadstring(game:HttpGet(\"https://api.luarmor.net/files/v4/loaders/611fa890357bf2439c1b54c9003ccf19.lua\"))()" 
+            }
         ];
 
-        let scriptsData = [
-            { name: "chili nhiều thứ tiếng", content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua\"))()" },
-            { name: "MIRANDA", content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/kadit9999/stealanegg/refs/heads/main/kaitunmirage.lua\"))()" },
-            { name: "voryken", content: "loadstring(game:HttpGet(\"https://codes.voryken.com/raw/iupos6\"))()" },
-            { name: "x hop", content: "loadstring(game:HttpGet(\"https://pastefy.app/opvKMzxR/raw\"))()" },
-            { name: "Chilli v9", content: "loadstring(game:HttpGet(\"https://id.tomroblox.com/raw/kairoblox/venyx-chilli-v9-ba-khi-909\"))()" },
-            { name: "Chilli Gốc", content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua\"))()" },
-            { name: "bản này hết hạn ", content: "" },
-            { name: "Figgy hub", content: "loadstring(game:HttpGet(\"https://api.luarmor.net/files/v4/loaders/91ad82d753e1318189c4e249d56e7dcf.lua\"))()" },
-            { name: "Tele 1 giây", content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/heavenlylocked05/Heaven-Hub-Steal-An-Egg-Updated/refs/heads/main/obfuscated.lua.txt\"))()" },
-            { name: "Ajj Finder Egg", content: "loadstring(game:HttpGet(\"https://api.luarmor.net/files/v4/loaders/611fa890357bf2439c1b54c9003ccf19.lua\"))()" }
+        let clientsData = [
+            { 
+                name: "Delta QT v13 ios", 
+                author: "Delta Team", 
+                tag: "iOS", 
+                tagType: "badge-mythic", 
+                icon: "🍏",
+                link: "https://www.mediafire.com/file/9hpa3z29e4e50gu/Delta_QT_v13_ios.ipa/file" 
+            },
+            { 
+                name: "Delta X V107 apk", 
+                author: "Delta Team", 
+                tag: "Android", 
+                tagType: "badge-vip", 
+                icon: "🤖",
+                link: "https://www.mediafire.com/file/zuc3n08ox5oyufy/Delta_X_V107_.apk/file" 
+            }
         ];
+
+        let currentFilter = 'all';
 
         window.onload = function() {
-            renderCurrentTabContent();
+            renderData();
         };
 
-        (function() {
-            let visits = localStorage.getItem("thlhub_visits_count");
-            if (!visits) visits = 1;
-            else if (!sessionStorage.getItem("visited_session")) {
-                visits = parseInt(visits) + 1;
-                sessionStorage.setItem("visited_session", "true");
-            }
-            localStorage.setItem("thlhub_visits_count", visits);
-        })();
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const rainContainer = document.getElementById('rainContainer');
-            const dropCount = 25;
-            for(let i=0; i<dropCount; i++) {
-                let drop = document.createElement('div');
-                drop.className = 'rain-drop';
-                drop.style.left = Math.random() * 100 + '%';
-                drop.style.top = (Math.random() * -50) + 'px';
-                drop.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                drop.style.animationDelay = (Math.random() * 3) + 's';
-                rainContainer.appendChild(drop);
-            }
-        });
-
-        function closeModal() {
-            document.getElementById("notificationModal").style.display = "none";
+        function filterCategory(type) {
+            currentFilter = type;
+            document.getElementById('tabAll').className = type === 'all' ? 'cat-btn active' : 'cat-btn';
+            document.getElementById('tabScript').className = type === 'script' ? 'cat-btn active' : 'cat-btn';
+            document.getElementById('tabClient').className = type === 'client' ? 'cat-btn active' : 'cat-btn';
+            renderData();
         }
 
-        function toggleSideMenu() {
-            let popup = document.getElementById("sidePopup");
-            popup.style.display = (popup.style.display === "block") ? "none" : "block";
-        }
-
-        function switchMainTab(tabNum) {
-            currentMainTab = tabNum;
-            document.getElementById("mainTab1").className = tabNum === 1 ? "tab-btn active" : "tab-btn";
-            document.getElementById("mainTab2").className = tabNum === 2 ? "tab-btn active" : "tab-btn";
-            renderCurrentTabContent();
-        }
-
-        let currentMainTab = 1;
-
-        function renderCurrentTabContent() {
+        function renderData() {
             let keyword = document.getElementById("searchInput").value.toLowerCase();
-            let box = document.getElementById("display-content");
-            box.innerHTML = "";
+            let scriptGrid = document.getElementById("scriptGrid");
+            let clientGrid = document.getElementById("clientGrid");
+            let titleScript = document.getElementById("titleScript");
+            let titleClient = document.getElementById("titleClient");
 
-            if (currentMainTab === 1) {
-                linksData.forEach((item) => {
-                    if (item.name.toLowerCase().includes(keyword) || keyword === "") {
-                        box.innerHTML += `
-                            <div class="script-item">
-                                <span class="script-name">${item.name}</span>
-                                <button class="link-btn" onclick="openLink('${item.link}')">Mở Tab</button>
+            scriptGrid.innerHTML = "";
+            clientGrid.innerHTML = "";
+
+            let filteredScripts = scriptsData.filter(item => 
+                item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword)
+            );
+
+            let filteredClients = clientsData.filter(item => 
+                item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword)
+            );
+
+            document.getElementById("totalItemsCount").innerText = filteredScripts.length + filteredClients.length;
+
+            if (currentFilter === 'all' || currentFilter === 'script') {
+                titleScript.style.display = "flex";
+                scriptGrid.style.display = "grid";
+                filteredScripts.forEach((item) => {
+                    scriptGrid.innerHTML += `
+                        <div class="script-card">
+                            <div class="card-badge ${item.tagType}">${item.tag}</div>
+                            <div>
+                                <div class="card-thumbnail">${item.icon}</div>
+                                <div class="card-title" title="${item.name}">${item.name}</div>
+                                <div class="card-author">Roblox - bởi <span>${item.author}</span></div>
                             </div>
-                        `;
-                    }
+                            <button class="card-btn btn-copy" onclick="executeCopy('${item.content.replace(/'/g, "\\'")}')">📋 Sao chép Script</button>
+                        </div>
+                    `;
                 });
             } else {
-                scriptsData.forEach((item, idx) => {
-                    if (item.name.toLowerCase().includes(keyword) || keyword === "") {
-                        box.innerHTML += `
-                            <div class="script-item">
-                                <span class="script-name">${item.name}</span>
-                                <button class="copy-btn" id="copyBtn_${idx}">Sao chép</button>
-                            </div>
-                        `;
-                    }
-                });
+                titleScript.style.display = "none";
+                scriptGrid.style.display = "none";
+            }
 
-                scriptsData.forEach((item, idx) => {
-                    let btn = document.getElementById(`copyBtn_${idx}`);
-                    if(btn) {
-                        let textToCopy = item.content;
-                        btn.onclick = function() {
-                            executeCopy(textToCopy);
-                        };
-                    }
+            if (currentFilter === 'all' || currentFilter === 'client') {
+                titleClient.style.display = "flex";
+                clientGrid.style.display = "grid";
+                filteredClients.forEach((item) => {
+                    clientGrid.innerHTML += `
+                        <div class="script-card">
+                            <div class="card-badge ${item.tagType}">${item.tag}</div>
+                            <div>
+                                <div class="card-thumbnail">${item.icon}</div>
+                                <div class="card-title" title="${item.name}">${item.name}</div>
+                                <div class="card-author">Roblox - bởi <span>${item.author}</span></div>
+                            </div>
+                            <button class="card-btn btn-link" onclick="openLink('${item.link}')">📥 Tải Xuống</button>
+                        </div>
+                    `;
                 });
+            } else {
+                titleClient.style.display = "none";
+                clientGrid.style.display = "none";
             }
         }
 
         function openLink(url) {
-            if (url) {
-                window.open(url.startsWith('http') ? url : 'https://' + url, '_blank');
-            } else {
-                alert("Chưa có link được gắn cho mục này!");
-            }
+            window.open(url, '_blank');
         }
 
         function executeCopy(text) {
@@ -425,24 +561,17 @@
             textarea.focus();
             textarea.select();
             try {
-                let successful = document.execCommand('copy');
-                if(successful) {
-                    showToast();
-                } else {
-                    alert("Không thể sao chép tự động!");
-                }
+                document.execCommand('copy');
+                showToast();
             } catch (err) {
-                alert("Trình duyệt không hỗ trợ sao chép!");
+                alert("Không thể sao chép tự động!");
             }
             document.body.removeChild(textarea);
         }
 
         let toastTimer;
-        function showToast(customMsg) {
+        function showToast() {
             let t = document.getElementById("toast");
-            if(customMsg) t.innerText = customMsg;
-            else t.innerText = "📋 Đã sao chép chính xác 100% nội dung!";
-            
             t.classList.add("show");
             clearTimeout(toastTimer);
             toastTimer = setTimeout(() => {
