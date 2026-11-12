@@ -72,18 +72,19 @@
             display: block;
         }
 
-        /* SEARCH & FILTER BAR */
+        /* SEARCH & GAME FILTER BAR */
         .filter-container {
             width: 92%;
             max-width: 1100px;
             display: flex;
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
+            position: relative;
         }
         .search-box {
             flex: 1;
-            min-width: 260px;
+            min-width: 240px;
             padding: 14px 20px;
             background: #131324;
             border: 1px solid #2d2d54;
@@ -95,6 +96,51 @@
         }
         .search-box:focus { border-color: #6c5ce7; box-shadow: 0 0 12px rgba(108, 92, 231, 0.4); }
 
+        /* DROPDOWN CHỌN GAME NÚT ^ */
+        .game-dropdown-wrapper {
+            position: relative;
+        }
+        .game-select-btn {
+            background: #16162c;
+            color: #00ffff;
+            border: 1px solid #2d2d54;
+            padding: 14px 22px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+        .game-select-btn:hover { background: #6c5ce7; color: white; border-color: #81ecec; }
+        
+        .game-dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 55px;
+            background: #16162c;
+            border: 1px solid #6c5ce7;
+            border-radius: 12px;
+            width: 200px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            z-index: 100;
+            overflow: hidden;
+        }
+        .game-dropdown-menu.show { display: block; }
+        .game-option {
+            padding: 12px 18px;
+            font-size: 13px;
+            color: #fff;
+            cursor: pointer;
+            border-bottom: 1px solid #22223b;
+            transition: 0.2s;
+        }
+        .game-option:hover { background: #6c5ce7; color: white; }
+
+        /* CATEGORY TABS */
         .category-tabs {
             display: flex;
             gap: 10px;
@@ -156,6 +202,7 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .script-card:hover {
@@ -219,11 +266,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 32px;
+            overflow: hidden;
             margin-bottom: 12px;
             border: 1px solid #2f2f59;
             position: relative;
-            overflow: hidden;
+        }
+        .card-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .card-title {
@@ -245,7 +296,6 @@
             font-weight: bold;
         }
 
-        /* NÚT THAO TÁC TRONG Ô */
         .card-btn {
             width: 100%;
             padding: 10px;
@@ -254,26 +304,144 @@
             font-weight: bold;
             font-size: 12px;
             cursor: pointer;
-            transition: 0.2s;
             text-align: center;
+        }
+        .btn-copy { background: #ff4757; color: white; box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4); }
+        .btn-link { background: #00cec9; color: #000; box-shadow: 0 4px 15px rgba(0, 206, 201, 0.4); }
+
+        /* MODAL CHI TIẾT SCRIPT (Y HỆT HÌNH ẢNH MẪU) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 5000;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        .modal-overlay.show { display: flex; }
+        
+        .modal-box {
+            background: #16162a;
+            border: 2px solid #ff4757;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 440px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(255, 71, 87, 0.6);
+            animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        @keyframes modalPop {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            background: #ff4757;
+            color: white;
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .modal-close-btn {
+            background: white;
+            color: #ff4757;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 18px;
+        }
+        .modal-img-container {
+            width: 100%;
+            height: 200px;
+            background: #0f0f1d;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #2d2d54;
+            margin-bottom: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 6px;
         }
-        .btn-copy {
-            background: #ff4757;
-            color: white;
-            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+        .modal-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-        .btn-copy:hover { background: #ff6b81; }
+        .modal-title-row {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .modal-info-sub {
+            font-size: 12px;
+            color: #a4b0be;
+            margin-bottom: 12px;
+        }
+        .modal-desc {
+            font-size: 13px;
+            color: #d1d8e0;
+            background: #10101f;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #22223b;
+            margin-bottom: 15px;
+        }
+        
+        /* CHÚ THÍCH CẢNH BÁO ROBOT / ROBLUX QUÉT */
+        .warning-notice {
+            background: rgba(255, 165, 2, 0.15);
+            border: 1px solid #ffa502;
+            color: #ffa502;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
 
-        .btn-link {
-            background: #00cec9;
-            color: #000;
-            box-shadow: 0 4px 15px rgba(0, 206, 201, 0.4);
+        .modal-action-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #ff4757, #ff6b81);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.5);
+            transition: 0.2s;
         }
-        .btn-link:hover { background: #81ecec; }
+        .modal-action-btn:hover { opacity: 0.9; }
+
+        /* THÔNG BÁO CHƯA CẬP NHẬT (BLOX FRUIT) */
+        .empty-notice {
+            width: 92%;
+            max-width: 1100px;
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px dashed #ff4757;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            color: #ff6b81;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
 
         /* THÔNG BÁO TOAST */
         #toast {
@@ -285,7 +453,7 @@
             border-radius: 10px;
             padding: 14px;
             position: fixed;
-            z-index: 4000;
+            z-index: 6000;
             left: 50%;
             bottom: 30px;
             transform: translateX(-50%);
@@ -326,13 +494,24 @@
         </div>
     </div>
 
-    <!-- Ô TÌM KIẾM -->
+    <!-- Ô TÌM KIẾM & NÚT CHỌN GAME ^ -->
     <div class="filter-container">
         <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm mod, game, tác giả..." onkeyup="renderData()">
+        
+        <div class="game-dropdown-wrapper">
+            <button class="game-select-btn" onclick="toggleGameDropdown()">
+                <span id="currentGameLabel">🎮 Steal an Egg</span>
+                <span>^</span>
+            </button>
+            <div class="game-dropdown-menu" id="gameDropdownMenu">
+                <div class="game-option" onclick="selectGame('Steal an Egg')">🥚 Steal an Egg</div>
+                <div class="game-option" onclick="selectGame('Blox Fruit')">⚔️ Blox Fruit</div>
+            </div>
+        </div>
     </div>
 
     <!-- CÁC NÚT LỌC DANH MỤC -->
-    <div class="category-tabs">
+    <div class="category-tabs" id="categoryTabsContainer">
         <button class="cat-btn active" id="tabAll" onclick="filterCategory('all')">Tất cả</button>
         <button class="cat-btn" id="tabScript" onclick="filterCategory('script')">Script</button>
         <button class="cat-btn" id="tabClient" onclick="filterCategory('client')">Client (File Hack)</button>
@@ -343,118 +522,142 @@
         ❤️ Follow mình để mình lấy thêm động lực ra video script cho các bạn nhé!
     </div>
 
-    <!-- KHU VỰC HIỂN THỊ SCRIPT -->
-    <div class="section-title" id="titleScript">📜 Script Tổng Hợp</div>
-    <div class="cards-grid" id="scriptGrid"></div>
+    <!-- KHU VỰC HIỂN THỊ CHÍNH -->
+    <div id="mainContentArea" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <div class="section-title" id="titleScript">📜 Script Steal an Egg</div>
+        <div class="cards-grid" id="scriptGrid"></div>
 
-    <!-- KHU VỰC HIỂN THỊ CLIENT / FILE HACK -->
-    <div class="section-title" id="titleClient" style="border-left-color: #00cec9;">🎮 Client & File Hack Roblox</div>
-    <div class="cards-grid" id="clientGrid"></div>
+        <div class="section-title" id="titleClient" style="border-left-color: #00cec9;">🎮 Client & File Hack Roblox</div>
+        <div class="cards-grid" id="clientGrid"></div>
+    </div>
+
+    <!-- MODAL HIỆN BẢNG CHI TIẾT KHI BẤM VÀO SCRIPT -->
+    <div class="modal-overlay" id="scriptModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <span id="modalTagTitle" style="font-weight:900;">🔥 HOT</span>
+                <button class="modal-close-btn" onclick="closeModal()">Đóng</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-img-container">
+                    <img id="modalImage" src="" alt="Script Preview">
+                </div>
+                <div class="modal-title-row" id="modalScriptName">Chilli Hub V9</div>
+                <div class="modal-info-sub" id="modalScriptAuthor">Roblox · bởi Nét Robloc · Script</div>
+                <div class="modal-desc" id="modalScriptDesc">Chưa có mô tả.</div>
+                
+                <div class="warning-notice">
+                    ⚠️ Roblox quét căng các bạn dùng cẩn thận nhé!
+                </div>
+
+                <button class="modal-action-btn" id="modalActionBtn">Lấy Script</button>
+            </div>
+        </div>
+    </div>
 
     <!-- THÔNG BÁO SAO CHÉP -->
     <div id="toast">📋 Đã sao chép chính xác 100% nội dung!</div>
 
     <script>
-        let scriptsData = [
+        let selectedGame = "Steal an Egg";
+
+        // Danh sách script Steal an Egg kèm hình ảnh thực tế từ game
+        let stealAnEggScripts = [
             { 
                 name: "Chilli v9", 
                 author: "THLHUB", 
                 tag: "HOT", 
                 tagType: "badge-hot", 
-                icon: "🔥",
-                content: "loadstring(game:HttpGet(\"https://id.tomroblox.com/raw/kairoblox/venyx-chilli-v9-ba-khi-909\"))()" 
+                img: "image_f5941c.jpg", 
+                desc: "Hỗ trợ auto farm, tự động trộm trứng, tới trứng, giao trứng cực nhanh[span_0](start_span)[span_0](end_span).",
+                content: 'loadstring(game:HttpGet("https://id.tomroblox.com/raw/kairoblox/venyx-chilli-v9-ba-khi-909"))()' 
             },
             { 
                 name: "Chilli Gốc", 
                 author: "TienKhanh", 
                 tag: "VIP", 
                 tagType: "badge-vip", 
-                icon: "🌶️",
-                content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua\"))()" 
+                img: "image_bd2841.jpg", 
+                desc: "Miranda Hub / Chilli Gốc tối ưu hóa tìm kiếm trứng quý hiếm[span_1](start_span)[span_1](end_span).",
+                content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))()' 
             },
             { 
                 name: "Chilli Hub V8", 
                 author: "Venyx", 
                 tag: "FREE", 
                 tagType: "badge-free", 
-                icon: "⚡",
-                content: "loadstring(game:HttpGet(\"https://id.tomroblox.com/raw/kairoblox/chilli-x-venyx-v8-finder-free-9836\"))()" 
+                img: "image_415602.jpg", 
+                desc: "Tenshi Finder Beta tích hợp sẵn bộ lọc độ hiếm và dịch chuyển server[span_2](start_span)[span_2](end_span).",
+                content: 'loadstring(game:HttpGet("https://id.tomroblox.com/raw/kairoblox/chilli-x-venyx-v8-finder-free-9836"))()' 
             },
             { 
                 name: "chili nhiều thứ tiếng", 
                 author: "TienKhanh", 
                 tag: "VIP", 
                 tagType: "badge-vip", 
-                icon: "🌐",
-                content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua\"))()" 
+                img: "image_f56f86.jpg", 
+                desc: "Hỗ trợ đa ngôn ngữ, tự động câu cá và săn Cosmic Eclipse tự động[span_3](start_span)[span_3](end_span).",
+                content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))()' 
             },
             { 
                 name: "kaitunmirage", 
                 author: "Kadit9999", 
                 tag: "MYTHIC", 
                 tagType: "badge-mythic", 
-                icon: "🌌",
-                content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/kadit9999/stealanegg/refs/heads/main/kaitunmirage.lua\"))()" 
+                img: "image_f5941c.jpg", 
+                desc: "Script chuyên dụng tìm kiếm sự kiện Mirage và đảo bí ẩn.",
+                content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kadit9999/stealanegg/refs/heads/main/kaitunmirage.lua"))()' 
             },
             { 
                 name: "voryken", 
                 author: "Voryken", 
                 tag: "VIP", 
                 tagType: "badge-vip", 
-                icon: "🛡️",
-                content: "loadstring(game:HttpGet(\"https://codes.voryken.com/raw/iupos6\"))()" 
+                img: "image_bd2841.jpg", 
+                desc: "Script tối ưu hóa chống giật lag và tự động hóa thao tác.",
+                content: 'loadstring(game:HttpGet("https://codes.voryken.com/raw/iupos6"))()' 
             },
             { 
                 name: "x hop", 
                 author: "THLHUB", 
                 tag: "HOT", 
                 tagType: "badge-hot", 
-                icon: "🚀",
-                content: "loadstring(game:HttpGet(\"https://pastefy.app/opvKMzxR/raw\"))()" 
+                img: "image_415602.jpg", 
+                desc: "Hop server tự động tìm kiếm người chơi và trứng hiếm.",
+                content: 'loadstring(game:HttpGet("https://pastefy.app/opvKMzxR/raw"))()' 
             },
             { 
                 name: "Figgy hub", 
                 author: "Luarmor", 
                 tag: "FREE", 
                 tagType: "badge-free", 
-                icon: "🎯",
-                content: "loadstring(game:HttpGet(\"https://api.luarmor.net/files/v4/loaders/91ad82d753e1318189c4e249d56e7dcf.lua\"))()" 
+                img: "image_f56f86.jpg", 
+                desc: "Hub đa tính năng hỗ trợ bảo vệ tài khoản.",
+                content: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/91ad82d753e1318189c4e249d56e7dcf.lua"))()' 
             },
             { 
                 name: "Tele 1 giây", 
                 author: "Heavenly", 
                 tag: "HOT", 
                 tagType: "badge-hot", 
-                icon: "⚡",
-                content: "loadstring(game:HttpGet(\"https://raw.githubusercontent.com/heavenlylocked05/Heaven-Hub-Steal-An-Egg-Updated/refs/heads/main/obfuscated.lua.txt\"))()" 
+                img: "image_f5941c.jpg", 
+                desc: "Dịch chuyển lập tức đến bất kỳ vị trí nào trong map.",
+                content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/heavenlylocked05/Heaven-Hub-Steal-An-Egg-Updated/refs/heads/main/obfuscated.lua.txt\"))()' 
             },
             { 
                 name: "Ajj Finder Egg", 
                 author: "Ajj", 
                 tag: "FREE", 
                 tagType: "badge-free", 
-                icon: "🥚",
-                content: "loadstring(game:HttpGet(\"https://api.luarmor.net/files/v4/loaders/611fa890357bf2439c1b54c9003ccf19.lua\"))()" 
+                img: "image_bd2841.jpg", 
+                desc: "Finder chuyên dụng kiểm tra trứng trên toàn server.",
+                content: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/611fa890357bf2439c1b54c9003ccf19.lua"))()' 
             }
         ];
 
         let clientsData = [
-            { 
-                name: "Delta QT v13 ios", 
-                author: "Delta Team", 
-                tag: "iOS", 
-                tagType: "badge-mythic", 
-                icon: "🍏",
-                link: "https://www.mediafire.com/file/9hpa3z29e4e50gu/Delta_QT_v13_ios.ipa/file" 
-            },
-            { 
-                name: "Delta X V107 apk", 
-                author: "Delta Team", 
-                tag: "Android", 
-                tagType: "badge-vip", 
-                icon: "🤖",
-                link: "https://www.mediafire.com/file/zuc3n08ox5oyufy/Delta_X_V107_.apk/file" 
-            }
+            { name: "Delta QT v13 ios", author: "Delta Team", tag: "iOS", tagType: "badge-mythic", img: "image_11d787.jpg", desc: "Client executor tốt nhất trên hệ điều hành iOS.", link: "https://www.mediafire.com/file/9hpa3z29e4e50gu/Delta_QT_v13_ios.ipa/file" },
+            { name: "Delta X V107 apk", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "image_11d787.jpg", desc: "Client executor mượt mà cho thiết bị Android.", link: "https://www.mediafire.com/file/zuc3n08ox5oyufy/Delta_X_V107_.apk/file" }
         ];
 
         let currentFilter = 'all';
@@ -462,6 +665,23 @@
         window.onload = function() {
             renderData();
         };
+
+        function toggleGameDropdown() {
+            document.getElementById("gameDropdownMenu").classList.toggle("show");
+        }
+
+        function selectGame(gameName) {
+            selectedGame = gameName;
+            document.getElementById("currentGameLabel").innerText = "🎮 " + gameName;
+            document.getElementById("gameDropdownMenu").classList.remove("show");
+            renderData();
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.game-dropdown-wrapper')) {
+                document.getElementById("gameDropdownMenu").classList.remove("show");
+            }
+        }
 
         function filterCategory(type) {
             currentFilter = type;
@@ -473,6 +693,32 @@
 
         function renderData() {
             let keyword = document.getElementById("searchInput").value.toLowerCase();
+            let mainArea = document.getElementById("mainContentArea");
+            let countBadge = document.getElementById("totalItemsCount");
+            let tabsContainer = document.getElementById("categoryTabsContainer");
+
+            if (selectedGame === "Blox Fruit") {
+                tabsContainer.style.display = "none";
+                countBadge.innerText = "0";
+                mainArea.innerHTML = `
+                    <div style="width:100%; display:flex; justify-content:center; margin-top: 30px;">
+                        <div class="empty-notice">
+                            ⚠️ <strong>Blox Fruit:</strong> Script chưa cập nhật! Ad đang phát triển và sẽ sớm cập nhật cho các bạn nhé.
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            tabsContainer.style.display = "flex";
+            mainArea.innerHTML = `
+                <div class="section-title" id="titleScript">📜 Script Steal an Egg</div>
+                <div class="cards-grid" id="scriptGrid"></div>
+
+                <div class="section-title" id="titleClient" style="border-left-color: #00cec9;">🎮 Client & File Hack Roblox</div>
+                <div class="cards-grid" id="clientGrid"></div>
+            `;
+
             let scriptGrid = document.getElementById("scriptGrid");
             let clientGrid = document.getElementById("clientGrid");
             let titleScript = document.getElementById("titleScript");
@@ -481,7 +727,7 @@
             scriptGrid.innerHTML = "";
             clientGrid.innerHTML = "";
 
-            let filteredScripts = scriptsData.filter(item => 
+            let filteredScripts = stealAnEggScripts.filter(item => 
                 item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword)
             );
 
@@ -489,21 +735,21 @@
                 item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword)
             );
 
-            document.getElementById("totalItemsCount").innerText = filteredScripts.length + filteredClients.length;
+            countBadge.innerText = filteredScripts.length + filteredClients.length;
 
             if (currentFilter === 'all' || currentFilter === 'script') {
                 titleScript.style.display = "flex";
                 scriptGrid.style.display = "grid";
                 filteredScripts.forEach((item) => {
                     scriptGrid.innerHTML += `
-                        <div class="script-card">
+                        <div class="script-card" onclick='openScriptModal(${JSON.stringify(item)})'>
                             <div class="card-badge ${item.tagType}">${item.tag}</div>
                             <div>
-                                <div class="card-thumbnail">${item.icon}</div>
+                                <div class="card-thumbnail"><img src="${item.img}" alt="${item.name}"></div>
                                 <div class="card-title" title="${item.name}">${item.name}</div>
                                 <div class="card-author">Roblox - bởi <span>${item.author}</span></div>
                             </div>
-                            <button class="card-btn btn-copy" onclick="executeCopy('${item.content.replace(/'/g, "\\'")}')">📋 Sao chép Script</button>
+                            <button class="card-btn btn-copy" onclick="event.stopPropagation(); executeCopy('${item.content.replace(/'/g, "\\'")}')">📋 Sao chép Script</button>
                         </div>
                     `;
                 });
@@ -517,14 +763,14 @@
                 clientGrid.style.display = "grid";
                 filteredClients.forEach((item) => {
                     clientGrid.innerHTML += `
-                        <div class="script-card">
+                        <div class="script-card" onclick="window.open('${item.link}', '_blank')">
                             <div class="card-badge ${item.tagType}">${item.tag}</div>
                             <div>
-                                <div class="card-thumbnail">${item.icon}</div>
+                                <div class="card-thumbnail"><img src="${item.img}" alt="${item.name}"></div>
                                 <div class="card-title" title="${item.name}">${item.name}</div>
                                 <div class="card-author">Roblox - bởi <span>${item.author}</span></div>
                             </div>
-                            <button class="card-btn btn-link" onclick="openLink('${item.link}')">📥 Tải Xuống</button>
+                            <button class="card-btn btn-link">📥 Tải Xuống</button>
                         </div>
                     `;
                 });
@@ -534,8 +780,26 @@
             }
         }
 
-        function openLink(url) {
-            window.open(url, '_blank');
+        // Mở Modal chi tiết khi ấn vào script
+        function openScriptModal(item) {
+            document.getElementById("modalTagTitle").innerText = item.tag + " - " + item.name;
+            document.getElementById("modalImage").src = item.img;
+            document.getElementById("modalScriptName").innerText = item.name;
+            document.getElementById("modalScriptAuthor").innerText = "Roblox · bởi " + item.author + " · Script";
+            document.getElementById("modalScriptDesc").innerText = item.desc || "Chưa có mô tả.";
+            
+            // Nút "Lấy Script" trong modal bấm vào sẽ copy nội dung
+            let actionBtn = document.getElementById("modalActionBtn");
+            actionBtn.onclick = function() {
+                executeCopy(item.content);
+                closeModal();
+            };
+
+            document.getElementById("scriptModal").classList.add("show");
+        }
+
+        function closeModal() {
+            document.getElementById("scriptModal").classList.remove("show");
         }
 
         function executeCopy(text) {
