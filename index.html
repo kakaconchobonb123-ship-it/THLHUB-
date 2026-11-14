@@ -309,7 +309,7 @@
         .btn-copy { background: #ff4757; color: white; box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4); }
         .btn-link { background: #00cec9; color: #000; box-shadow: 0 4px 15px rgba(0, 206, 201, 0.4); }
 
-        /* MODAL CHI TIẾT SCRIPT (Y HỆT HÌNH ẢNH MẪU) */
+        /* MODAL CHI TIẾT SCRIPT */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -400,11 +400,11 @@
             margin-bottom: 15px;
         }
         
-        /* CHÚ THÍCH CẢNH BÁO ROBOT / ROBLUX QUÉT */
+        /* CHÚ THÍCH YÊU CẦU VƯỢT LINK 1 LẦN */
         .warning-notice {
-            background: rgba(255, 165, 2, 0.15);
-            border: 1px solid #ffa502;
-            color: #ffa502;
+            background: rgba(0, 206, 201, 0.15);
+            border: 1px solid #00cec9;
+            color: #00cec9;
             padding: 10px;
             border-radius: 8px;
             font-size: 12px;
@@ -547,7 +547,7 @@
                 <div class="modal-desc" id="modalScriptDesc">Chưa có mô tả.</div>
                 
                 <div class="warning-notice">
-                    ⚠️ Roblox quét căng các bạn dùng cẩn thận nhé!
+                    🔗 Vui lòng vượt link 1 lần để lấy script nhé!
                 </div>
 
                 <button class="modal-action-btn" id="modalActionBtn">Lấy Script</button>
@@ -561,7 +561,6 @@
     <script>
         let selectedGame = "Steal an Egg";
 
-        // Danh sách script Steal an Egg kèm hình ảnh thực tế từ game
         let stealAnEggScripts = [
             { 
                 name: "Chilli v9", 
@@ -642,7 +641,7 @@
                 tagType: "badge-hot", 
                 img: "image_f5941c.jpg", 
                 desc: "Dịch chuyển lập tức đến bất kỳ vị trí nào trong map.",
-                content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/heavenlylocked05/Heaven-Hub-Steal-An-Egg-Updated/refs/heads/main/obfuscated.lua.txt\"))()' 
+                content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/heavenlylocked05/Heaven-Hub-Steal-An-Egg-Updated/refs/heads/main/obfuscated.lua.txt"))()' 
             },
             { 
                 name: "Ajj Finder Egg", 
@@ -656,8 +655,8 @@
         ];
 
         let clientsData = [
-            { name: "Delta QT v13 ios", author: "Delta Team", tag: "iOS", tagType: "badge-mythic", img: "image_11d787.jpg", desc: "Client executor tốt nhất trên hệ điều hành iOS.", link: "https://www.mediafire.com/file/9hpa3z29e4e50gu/Delta_QT_v13_ios.ipa/file" },
-            { name: "Delta X V107 apk", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "image_11d787.jpg", desc: "Client executor mượt mà cho thiết bị Android.", link: "https://www.mediafire.com/file/zuc3n08ox5oyufy/Delta_X_V107_.apk/file" }
+            { name: "Delta QT v13 ios", author: "Delta Team", tag: "iOS", tagType: "badge-mythic", img: "image_11d787.jpg", desc: "Client executor tốt nhất trên hệ điều hành iOS[span_4](start_span)[span_4](end_span).", link: "https://www.mediafire.com/file/9hpa3z29e4e50gu/Delta_QT_v13_ios.ipa/file" },
+            { name: "Delta X V107 apk", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "image_11d787.jpg", desc: "Client executor mượt mà cho thiết bị Android[span_5](start_span)[span_5](end_span).", link: "https://www.mediafire.com/file/zuc3n08ox5oyufy/Delta_X_V107_.apk/file" }
         ];
 
         let currentFilter = 'all';
@@ -780,7 +779,6 @@
             }
         }
 
-        // Mở Modal chi tiết khi ấn vào script
         function openScriptModal(item) {
             document.getElementById("modalTagTitle").innerText = item.tag + " - " + item.name;
             document.getElementById("modalImage").src = item.img;
@@ -788,7 +786,6 @@
             document.getElementById("modalScriptAuthor").innerText = "Roblox · bởi " + item.author + " · Script";
             document.getElementById("modalScriptDesc").innerText = item.desc || "Chưa có mô tả.";
             
-            // Nút "Lấy Script" trong modal bấm vào sẽ copy nội dung
             let actionBtn = document.getElementById("modalActionBtn");
             actionBtn.onclick = function() {
                 executeCopy(item.content);
