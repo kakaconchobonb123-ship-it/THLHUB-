@@ -531,7 +531,7 @@
     <script>
         let selectedGame = "Steal an Egg";
 
-        // Danh sách script đã tích hợp link fnote mới
+        // Danh sách script (đã xóa Chilli Hub V8, kaitunmirage, voryken theo yêu cầu)
         let stealAnEggScripts = [
             { 
                 name: "Chilli x Venyx V10", 
@@ -550,33 +550,6 @@
                 img: "image_f56f86.jpg", 
                 desc: "Phiên bản mod đặc biệt cho sự kiện mới, săn bắt và câu cá tự động.",
                 link: "https://fnote.me/edit/tHNq41?t=true" 
-            },
-            { 
-                name: "Chilli Hub V8", 
-                author: "Venyx", 
-                tag: "FREE", 
-                tagType: "badge-free", 
-                img: "image_415602.jpg", 
-                desc: "Tenshi Finder Beta tích hợp sẵn bộ lọc độ hiếm và dịch chuyển server.",
-                link: "https://fnote.me/edit/tHNq41?t=true" 
-            },
-            { 
-                name: "kaitunmirage", 
-                author: "Kadit9999", 
-                tag: "MYTHIC", 
-                tagType: "badge-mythic", 
-                img: "image_f5941c.jpg", 
-                desc: "Script chuyên dụng tìm kiếm sự kiện Mirage và đảo bí ẩn.",
-                link: "https://raw.githubusercontent.com/kadit9999/stealanegg/refs/heads/main/kaitunmirage.lua" 
-            },
-            { 
-                name: "voryken", 
-                author: "Voryken", 
-                tag: "VIP", 
-                tagType: "badge-vip", 
-                img: "image_bd2841.jpg", 
-                desc: "Script tối ưu hóa chống giật lag và tự động hóa thao tác.",
-                link: "https://codes.voryken.com/raw/iupos6" 
             }
         ];
 
@@ -705,7 +678,6 @@
             }
         }
 
-        // Mở bảng modal chi tiết
         function openScriptModal(item) {
             document.getElementById("modalTagTitle").innerText = item.tag + " - " + item.name;
             document.getElementById("modalImage").src = item.img;
@@ -713,7 +685,6 @@
             document.getElementById("modalScriptAuthor").innerText = "Roblox · bởi " + item.author + " · Script";
             document.getElementById("modalScriptDesc").innerText = item.desc || "Chưa có mô tả.";
             
-            // Nút bấm sẽ chuyển hướng đến link vượt link/script ở tab mới
             let actionBtn = document.getElementById("modalActionBtn");
             actionBtn.href = item.link;
 
