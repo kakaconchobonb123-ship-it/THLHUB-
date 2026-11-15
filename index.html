@@ -211,7 +211,6 @@
             border-color: #6c5ce7;
         }
 
-        /* HIỆU ỨNG LÓE SÁNG VỤT QUA LIÊN TỤC (SHINE ANIMATION) */
         .script-card::after {
             content: '';
             position: absolute;
@@ -219,12 +218,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(
-                0deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.08) 50%,
-                transparent 100%
-            );
+            background: linear-gradient(0deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
             transform: rotate(30deg);
             pointer-events: none;
             animation: shineMove 3.5s linear infinite;
@@ -234,7 +228,6 @@
             100% { transform: translateY(100%) rotate(30deg); }
         }
 
-        /* THẺ TAG TRÊN Ô (HOT, VIP, MYTHIC...) */
         .card-badge {
             position: absolute;
             top: 12px;
@@ -306,7 +299,7 @@
             cursor: pointer;
             text-align: center;
         }
-        .btn-copy { background: #ff4757; color: white; box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4); }
+        .btn-script { background: #ff4757; color: white; box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4); }
         .btn-link { background: #00cec9; color: #000; box-shadow: 0 4px 15px rgba(0, 206, 201, 0.4); }
 
         /* MODAL CHI TIẾT SCRIPT */
@@ -400,11 +393,10 @@
             margin-bottom: 15px;
         }
         
-        /* CHÚ THÍCH YÊU CẦU VƯỢT LINK 1 LẦN */
         .warning-notice {
-            background: rgba(0, 206, 201, 0.15);
-            border: 1px solid #00cec9;
-            color: #00cec9;
+            background: rgba(255, 71, 87, 0.15);
+            border: 1px solid #ff4757;
+            color: #ff6b81;
             padding: 10px;
             border-radius: 8px;
             font-size: 12px;
@@ -425,8 +417,11 @@
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(255, 71, 87, 0.5);
             transition: 0.2s;
+            text-align: center;
+            display: block;
+            text-decoration: none;
         }
-        .modal-action-btn:hover { opacity: 0.9; }
+        .modal-action-btn:hover { opacity: 0.9; color: white; }
 
         /* THÔNG BÁO CHƯA CẬP NHẬT (BLOX FRUIT) */
         .empty-notice {
@@ -442,28 +437,6 @@
             font-weight: bold;
             margin-bottom: 30px;
         }
-
-        /* THÔNG BÁO TOAST */
-        #toast {
-            visibility: hidden;
-            min-width: 250px;
-            background-color: #1e1e36;
-            color: #fff;
-            text-align: center;
-            border-radius: 10px;
-            padding: 14px;
-            position: fixed;
-            z-index: 6000;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            border: 1px solid #00cec9;
-            font-size: 14px;
-            box-shadow: 0 0 25px rgba(0, 206, 201, 0.6);
-            opacity: 0;
-            transition: opacity 0.3s ease, bottom 0.3s ease;
-        }
-        #toast.show { visibility: visible; opacity: 1; bottom: 40px; }
 
         /* FOLLOW NOTICE FOOTER */
         .follow-banner {
@@ -547,55 +520,45 @@
                 <div class="modal-desc" id="modalScriptDesc">Chưa có mô tả.</div>
                 
                 <div class="warning-notice">
-                    🔗 Vui lòng vượt link 1 lần để lấy script nhé!
+                    ⚠️ Roblox quét căng các bạn dùng cẩn thận nhé!
                 </div>
 
-                <button class="modal-action-btn" id="modalActionBtn">Lấy Script</button>
+                <a id="modalActionBtn" href="#" target="_blank" class="modal-action-btn">Lấy Script (Vượt Link)</a>
             </div>
         </div>
     </div>
 
-    <!-- THÔNG BÁO SAO CHÉP -->
-    <div id="toast">📋 Đã sao chép chính xác 100% nội dung!</div>
-
     <script>
         let selectedGame = "Steal an Egg";
 
+        // Danh sách script đã tích hợp link fnote mới
         let stealAnEggScripts = [
             { 
-                name: "Chilli v9", 
+                name: "Chilli x Venyx V10", 
                 author: "THLHUB", 
                 tag: "HOT", 
                 tagType: "badge-hot", 
                 img: "image_f5941c.jpg", 
-                desc: "Hỗ trợ auto farm, tự động trộm trứng, tới trứng, giao trứng cực nhanh[span_0](start_span)[span_0](end_span).",
-                content: 'loadstring(game:HttpGet("https://id.tomroblox.com/raw/kairoblox/venyx-chilli-v9-ba-khi-909"))()' 
+                desc: "Phiên bản Chilli x Venyx V10 mới nhất hỗ trợ auto farm và trộm trứng cực mạnh.",
+                link: "https://fnote.me/edit/QXd3Jg?t=true" 
             },
             { 
-                name: "Chilli Gốc", 
-                author: "TienKhanh", 
-                tag: "VIP", 
-                tagType: "badge-vip", 
-                img: "image_bd2841.jpg", 
-                desc: "Miranda Hub / Chilli Gốc tối ưu hóa tìm kiếm trứng quý hiếm[span_1](start_span)[span_1](end_span).",
-                content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))()' 
-            },
-            { 
-                name: "vn hub", 
-                author: "Venyx", 
-                tag: "FREE", 
-                tagType: "badge-free", 
-                img: "image_415602.jpg", 
-                desc: "Tenshi Finder Beta tích hợp sẵn bộ lọc độ hiếm và dịch chuyển server[span_2](start_span)[span_2](end_span).",
-                content: 'https://link4m.org/Iz5bc'
-            { 
-                name: "chili nhiều thứ tiếng", 
+                name: "Chilli mod sự kiện mới v8", 
                 author: "TienKhanh", 
                 tag: "VIP", 
                 tagType: "badge-vip", 
                 img: "image_f56f86.jpg", 
-                desc: "Hỗ trợ đa ngôn ngữ, tự động câu cá và săn Cosmic Eclipse tự động[span_3](start_span)[span_3](end_span).",
-                content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"))()' 
+                desc: "Phiên bản mod đặc biệt cho sự kiện mới, săn bắt và câu cá tự động.",
+                link: "https://fnote.me/edit/tHNq41?t=true" 
+            },
+            { 
+                name: "Chilli Hub V8", 
+                author: "Venyx", 
+                tag: "FREE", 
+                tagType: "badge-free", 
+                img: "image_415602.jpg", 
+                desc: "Tenshi Finder Beta tích hợp sẵn bộ lọc độ hiếm và dịch chuyển server.",
+                link: "https://fnote.me/edit/tHNq41?t=true" 
             },
             { 
                 name: "kaitunmirage", 
@@ -604,7 +567,7 @@
                 tagType: "badge-mythic", 
                 img: "image_f5941c.jpg", 
                 desc: "Script chuyên dụng tìm kiếm sự kiện Mirage và đảo bí ẩn.",
-                content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kadit9999/stealanegg/refs/heads/main/kaitunmirage.lua"))()' 
+                link: "https://raw.githubusercontent.com/kadit9999/stealanegg/refs/heads/main/kaitunmirage.lua" 
             },
             { 
                 name: "voryken", 
@@ -613,49 +576,13 @@
                 tagType: "badge-vip", 
                 img: "image_bd2841.jpg", 
                 desc: "Script tối ưu hóa chống giật lag và tự động hóa thao tác.",
-                content: 'loadstring(game:HttpGet("https://codes.voryken.com/raw/iupos6"))()' 
-            },
-            { 
-                name: "x hop", 
-                author: "THLHUB", 
-                tag: "HOT", 
-                tagType: "badge-hot", 
-                img: "image_415602.jpg", 
-                desc: "Hop server tự động tìm kiếm người chơi và trứng hiếm.",
-                content: 'loadstring(game:HttpGet("https://pastefy.app/opvKMzxR/raw"))()' 
-            },
-            { 
-                name: "Figgy hub", 
-                author: "Luarmor", 
-                tag: "FREE", 
-                tagType: "badge-free", 
-                img: "image_f56f86.jpg", 
-                desc: "Hub đa tính năng hỗ trợ bảo vệ tài khoản.",
-                content: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/91ad82d753e1318189c4e249d56e7dcf.lua"))()' 
-            },
-            { 
-                name: "Tele 1 giây", 
-                author: "Heavenly", 
-                tag: "HOT", 
-                tagType: "badge-hot", 
-                img: "image_f5941c.jpg", 
-                desc: "Dịch chuyển lập tức đến bất kỳ vị trí nào trong map.",
-                content: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/heavenlylocked05/Heaven-Hub-Steal-An-Egg-Updated/refs/heads/main/obfuscated.lua.txt"))()' 
-            },
-            { 
-                name: "Ajj Finder Egg", 
-                author: "Ajj", 
-                tag: "FREE", 
-                tagType: "badge-free", 
-                img: "image_bd2841.jpg", 
-                desc: "Finder chuyên dụng kiểm tra trứng trên toàn server.",
-                content: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/611fa890357bf2439c1b54c9003ccf19.lua"))()' 
+                link: "https://codes.voryken.com/raw/iupos6" 
             }
         ];
 
         let clientsData = [
-            { name: "Delta QT v13 ios", author: "Delta Team", tag: "iOS", tagType: "badge-mythic", img: "image_11d787.jpg", desc: "Client executor tốt nhất trên hệ điều hành iOS[span_4](start_span)[span_4](end_span).", link: "https://www.mediafire.com/file/9hpa3z29e4e50gu/Delta_QT_v13_ios.ipa/file" },
-            { name: "Delta X V107 apk", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "image_11d787.jpg", desc: "Client executor mượt mà cho thiết bị Android[span_5](start_span)[span_5](end_span).", link: "https://www.mediafire.com/file/zuc3n08ox5oyufy/Delta_X_V107_.apk/file" }
+            { name: "Delta QT v13 ios", author: "Delta Team", tag: "iOS", tagType: "badge-mythic", img: "image_11d787.jpg", link: "https://www.mediafire.com/file/9hpa3z29e4e50gu/Delta_QT_v13_ios.ipa/file" },
+            { name: "Delta X V107 apk", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "image_11d787.jpg", link: "https://www.mediafire.com/file/zuc3n08ox5oyufy/Delta_X_V107_.apk/file" }
         ];
 
         let currentFilter = 'all';
@@ -747,7 +674,7 @@
                                 <div class="card-title" title="${item.name}">${item.name}</div>
                                 <div class="card-author">Roblox - bởi <span>${item.author}</span></div>
                             </div>
-                            <button class="card-btn btn-copy" onclick="event.stopPropagation(); executeCopy('${item.content.replace(/'/g, "\\'")}')">📋 Sao chép Script</button>
+                            <button class="card-btn btn-script">🔗 Xem Chi Tiết</button>
                         </div>
                     `;
                 });
@@ -778,6 +705,7 @@
             }
         }
 
+        // Mở bảng modal chi tiết
         function openScriptModal(item) {
             document.getElementById("modalTagTitle").innerText = item.tag + " - " + item.name;
             document.getElementById("modalImage").src = item.img;
@@ -785,58 +713,15 @@
             document.getElementById("modalScriptAuthor").innerText = "Roblox · bởi " + item.author + " · Script";
             document.getElementById("modalScriptDesc").innerText = item.desc || "Chưa có mô tả.";
             
+            // Nút bấm sẽ chuyển hướng đến link vượt link/script ở tab mới
             let actionBtn = document.getElementById("modalActionBtn");
-            actionBtn.onclick = function() {
-                executeCopy(item.content);
-                closeModal();
-            };
+            actionBtn.href = item.link;
 
             document.getElementById("scriptModal").classList.add("show");
         }
 
         function closeModal() {
             document.getElementById("scriptModal").classList.remove("show");
-        }
-
-        function executeCopy(text) {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast();
-                }).catch(() => {
-                    fallbackCopy(text);
-                });
-            } else {
-                fallbackCopy(text);
-            }
-        }
-
-        function fallbackCopy(text) {
-            const textarea = document.createElement("textarea");
-            textarea.value = text;
-            textarea.style.position = "fixed";
-            textarea.style.top = "0";
-            textarea.style.left = "0";
-            textarea.style.opacity = "0";
-            document.body.appendChild(textarea);
-            textarea.focus();
-            textarea.select();
-            try {
-                document.execCommand('copy');
-                showToast();
-            } catch (err) {
-                alert("Không thể sao chép tự động!");
-            }
-            document.body.removeChild(textarea);
-        }
-
-        let toastTimer;
-        function showToast() {
-            let t = document.getElementById("toast");
-            t.classList.add("show");
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => {
-                t.classList.remove("show");
-            }, 2500);
         }
     </script>
 </body>
