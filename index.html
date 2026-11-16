@@ -531,7 +531,7 @@
     <script>
         let selectedGame = "Steal an Egg";
 
-        // Danh sách script
+        // DANH SÁCH SCRIPT (2 cái đầu hiển thị, 5 cái sau đang để trống name và link nên sẽ bị ẩn đi cho đến khi bạn điền vào)
         let stealAnEggScripts = [
             { 
                 name: "Chilli x Venyx V10", 
@@ -550,13 +550,67 @@
                 img: "image_f56f86.jpg", 
                 desc: "Phiên bản mod đặc biệt cho sự kiện mới, săn bắt và câu cá tự động.",
                 link: "https://fnote.me/edit/tHNq41?t=true" 
+            },
+            // Ô dự phòng số 1 (Bị ẩn vì chưa có name và link)
+            { 
+                name: "", 
+                author: "THLHUB", 
+                tag: "VIP", 
+                tagType: "badge-vip", 
+                img: "chilli_v10.png", 
+                desc: "Đang cập nhật...",
+                link: "" 
+            },
+            // Ô dự phòng số 2 (Bị ẩn vì chưa có name và link)
+            { 
+                name: "", 
+                author: "THLHUB", 
+                tag: "FREE", 
+                tagType: "badge-free", 
+                img: "chilli_v10.png", 
+                desc: "Đang cập nhật...",
+                link: "" 
+            },
+            // Ô dự phòng số 3 (Bị ẩn vì chưa có name và link)
+            { 
+                name: "", 
+                author: "THLHUB", 
+                tag: "HOT", 
+                tagType: "badge-hot", 
+                img: "chilli_v10.png", 
+                desc: "Đang cập nhật...",
+                link: "" 
+            },
+            // Ô dự phòng số 4 (Bị ẩn vì chưa có name và link)
+            { 
+                name: "", 
+                author: "THLHUB", 
+                tag: "MYTHIC", 
+                tagType: "badge-mythic", 
+                img: "chilli_v10.png", 
+                desc: "Đang cập nhật...",
+                link: "" 
+            },
+            // Ô dự phòng số 5 (Bị ẩn vì chưa có name và link)
+            { 
+                name: "", 
+                author: "THLHUB", 
+                tag: "VIP", 
+                tagType: "badge-vip", 
+                img: "chilli_v10.png", 
+                desc: "Đang cập nhật...",
+                link: "" 
             }
         ];
 
-        // 2 file hack / client ở dưới đã được chèn ảnh ninja mới (client_logo.png)
+        // DANH SÁCH FILE HACK / CLIENT (2 cái đầu hiển thị, 2 cái sau đang để trống name và link để ẩn)
         let clientsData = [
             { name: "Delta QT v13 ios", author: "Delta Team", tag: "iOS", tagType: "badge-mythic", img: "client_logo.png", link: "https://www.mediafire.com/file/9hpa3z29e4e50gu/Delta_QT_v13_ios.ipa/file" },
-            { name: "Delta X V107 apk", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "client_logo.png", link: "https://www.mediafire.com/file/zuc3n08ox5oyufy/Delta_X_V107_.apk/file" }
+            { name: "Delta X V107 apk", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "client_logo.png", link: "https://www.mediafire.com/file/zuc3n08ox5oyufy/Delta_X_V107_.apk/file" },
+            // Ô file hack dự phòng 1 (Bị ẩn)
+            { name: "", author: "Delta Team", tag: "iOS", tagType: "badge-mythic", img: "client_logo.png", link: "" },
+            // Ô file hack dự phòng 2 (Bị ẩn)
+            { name: "", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "client_logo.png", link: "" }
         ];
 
         let currentFilter = 'all';
@@ -626,18 +680,19 @@
             scriptGrid.innerHTML = "";
             clientGrid.innerHTML = "";
 
+            // Lọc chỉ những mục có điền tên (name) và link thì mới hiện lên web
             let filteredScripts = stealAnEggScripts.filter(item => 
-                item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword)
+                item.name && item.link && (item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword))
             );
 
             let filteredClients = clientsData.filter(item => 
-                item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword)
+                item.name && item.link && (item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword))
             );
 
             countBadge.innerText = filteredScripts.length + filteredClients.length;
 
             if (currentFilter === 'all' || currentFilter === 'script') {
-                titleScript.style.display = "flex";
+                titleScript.style.display = filteredScripts.length > 0 ? "flex" : "none";
                 scriptGrid.style.display = "grid";
                 filteredScripts.forEach((item) => {
                     scriptGrid.innerHTML += `
@@ -658,7 +713,7 @@
             }
 
             if (currentFilter === 'all' || currentFilter === 'client') {
-                titleClient.style.display = "flex";
+                titleClient.style.display = filteredClients.length > 0 ? "flex" : "none";
                 clientGrid.style.display = "grid";
                 filteredClients.forEach((item) => {
                     clientGrid.innerHTML += `
@@ -698,3 +753,4 @@
     </script>
 </body>
 </html>
+
