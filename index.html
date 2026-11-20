@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THL HUB HACK - Kho Chia Sẻ Script & Hack RBLX</title>
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease; }
+        
         body {
             margin: 0;
             padding: 0;
@@ -15,11 +16,61 @@
             background-image: linear-gradient(rgba(11, 11, 20, 0.9), rgba(11, 11, 20, 0.9)), url('image.png');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding-bottom: 50px;
+            overflow-x: hidden;
+        }
+
+        /* CHẾ ĐỘ SÁNG (LIGHT MODE - MẶT TRỜI) */
+        body.light-mode {
+            background-color: #eef5fc;
+            color: #1e272e;
+            background-image: linear-gradient(rgba(238, 245, 252, 0.88), rgba(220, 235, 250, 0.92)), url('image.png');
+        }
+
+        /* CANVAS HIỆU ỨNG MƯA ĐỎ / TUYẾT BAY */
+        #weatherCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* NÚT CHUYỂN ĐỔI MẶT TRĂNG / MẶT TRỜI */
+        .theme-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #16162c;
+            border: 2px solid #ff4757;
+            color: #ffffff;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10000;
+            box-shadow: 0 0 18px rgba(255, 71, 87, 0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+        .theme-toggle-btn:hover {
+            transform: scale(1.12) rotate(15deg);
+        }
+        body.light-mode .theme-toggle-btn {
+            background: #ffffff;
+            border-color: #0984e3;
+            color: #f39c12;
+            box-shadow: 0 0 18px rgba(9, 132, 227, 0.5);
         }
 
         /* HEADER BANNER */
@@ -36,6 +87,12 @@
             position: relative;
             overflow: hidden;
         }
+        body.light-mode .header-banner {
+            background: linear-gradient(135deg, #ffffff 0%, #f1f7fd 100%);
+            border-color: #cfe2f3;
+            box-shadow: 0 10px 30px rgba(9, 132, 227, 0.12);
+        }
+
         .brand-title {
             font-size: 14px;
             letter-spacing: 2px;
@@ -44,6 +101,8 @@
             text-transform: uppercase;
             margin-bottom: 8px;
         }
+        body.light-mode .brand-title { color: #0984e3; }
+
         .main-heading {
             font-size: 36px;
             font-weight: 900;
@@ -52,11 +111,19 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        body.light-mode .main-heading {
+            background: linear-gradient(90deg, #1e272e, #0984e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .sub-heading {
             font-size: 14px;
             color: #b2bec3;
             margin-bottom: 20px;
         }
+        body.light-mode .sub-heading { color: #576574; }
+
         .stats-badge {
             display: inline-block;
             background: #1e1e3f;
@@ -65,12 +132,18 @@
             padding: 8px 16px;
             font-size: 13px;
         }
+        body.light-mode .stats-badge {
+            background: #e3f2fd;
+            border-color: #90caf9;
+            color: #1e272e;
+        }
         .stats-badge span {
             font-weight: bold;
             color: #00cec9;
             font-size: 18px;
             display: block;
         }
+        body.light-mode .stats-badge span { color: #0984e3; }
 
         /* SEARCH & GAME FILTER BAR */
         .filter-container {
@@ -92,7 +165,11 @@
             color: white;
             font-size: 14px;
             outline: none;
-            transition: 0.3s;
+        }
+        body.light-mode .search-box {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            color: #1e272e;
         }
         .search-box:focus { border-color: #6c5ce7; box-shadow: 0 0 12px rgba(108, 92, 231, 0.4); }
 
@@ -112,7 +189,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: 0.2s;
+        }
+        body.light-mode .game-select-btn {
+            background: #ffffff;
+            color: #0984e3;
+            border-color: #cbd5e1;
         }
         .game-select-btn:hover { background: #6c5ce7; color: white; border-color: #81ecec; }
         
@@ -129,6 +210,11 @@
             z-index: 100;
             overflow: hidden;
         }
+        body.light-mode .game-dropdown-menu {
+            background: #ffffff;
+            border-color: #0984e3;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
         .game-dropdown-menu.show { display: block; }
         .game-option {
             padding: 12px 18px;
@@ -136,7 +222,10 @@
             color: #fff;
             cursor: pointer;
             border-bottom: 1px solid #22223b;
-            transition: 0.2s;
+        }
+        body.light-mode .game-option {
+            color: #1e272e;
+            border-bottom-color: #f1f5f9;
         }
         .game-option:hover { background: #6c5ce7; color: white; }
 
@@ -157,13 +246,22 @@
             font-weight: bold;
             font-size: 13px;
             cursor: pointer;
-            transition: 0.2s;
+        }
+        body.light-mode .cat-btn {
+            background: #ffffff;
+            color: #576574;
+            border-color: #cbd5e1;
         }
         .cat-btn.active, .cat-btn:hover {
             background: #6c5ce7;
             color: white;
             border-color: #81ecec;
             box-shadow: 0 0 15px rgba(108, 92, 231, 0.5);
+        }
+        body.light-mode .cat-btn.active, body.light-mode .cat-btn:hover {
+            background: #0984e3;
+            color: white;
+            border-color: #74b9ff;
         }
 
         /* SECTION TITLE */
@@ -179,6 +277,7 @@
             border-left: 4px solid #6c5ce7;
             padding-left: 10px;
         }
+        body.light-mode .section-title { border-left-color: #0984e3; }
 
         /* GRID CARDS LAYOUT */
         .cards-grid {
@@ -203,12 +302,21 @@
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0,0,0,0.4);
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.35s ease;
+        }
+        body.light-mode .script-card {
+            background: linear-gradient(145deg, #ffffff, #f8fbff);
+            border-color: #d6e4f0;
+            box-shadow: 0 8px 20px rgba(9, 132, 227, 0.08);
         }
         .script-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 30px rgba(108, 92, 231, 0.3);
             border-color: #6c5ce7;
+        }
+        body.light-mode .script-card:hover {
+            box-shadow: 0 12px 30px rgba(9, 132, 227, 0.22);
+            border-color: #0984e3;
         }
 
         .script-card::after {
@@ -264,6 +372,10 @@
             border: 1px solid #2f2f59;
             position: relative;
         }
+        body.light-mode .card-thumbnail {
+            background: #eef4fa;
+            border-color: #d6e4f0;
+        }
         .card-thumbnail img {
             width: 100%;
             height: 100%;
@@ -279,11 +391,14 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        body.light-mode .card-title { color: #1e272e; }
+
         .card-author {
             font-size: 12px;
             color: #a4b0be;
             margin-bottom: 12px;
         }
+        body.light-mode .card-author { color: #576574; }
         .card-author span {
             color: #ff4757;
             font-weight: bold;
@@ -327,6 +442,11 @@
             animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
         }
+        body.light-mode .modal-box {
+            background: #ffffff;
+            border-color: #0984e3;
+            box-shadow: 0 0 40px rgba(9, 132, 227, 0.4);
+        }
         @keyframes modalPop {
             0% { transform: scale(0.9); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
@@ -342,6 +462,8 @@
             font-weight: bold;
             font-size: 14px;
         }
+        body.light-mode .modal-header { background: #0984e3; }
+
         .modal-close-btn {
             background: white;
             color: #ff4757;
@@ -351,6 +473,7 @@
             font-weight: bold;
             cursor: pointer;
         }
+        body.light-mode .modal-close-btn { color: #0984e3; }
 
         .modal-body {
             padding: 18px;
@@ -367,6 +490,10 @@
             justify-content: center;
             align-items: center;
         }
+        body.light-mode .modal-img-container {
+            background: #f1f7fd;
+            border-color: #d6e4f0;
+        }
         .modal-img-container img {
             width: 100%;
             height: 100%;
@@ -378,11 +505,15 @@
             color: #fff;
             margin-bottom: 6px;
         }
+        body.light-mode .modal-title-row { color: #1e272e; }
+
         .modal-info-sub {
             font-size: 12px;
             color: #a4b0be;
             margin-bottom: 12px;
         }
+        body.light-mode .modal-info-sub { color: #576574; }
+
         .modal-desc {
             font-size: 13px;
             color: #d1d8e0;
@@ -391,6 +522,11 @@
             border-radius: 8px;
             border: 1px solid #22223b;
             margin-bottom: 15px;
+        }
+        body.light-mode .modal-desc {
+            background: #f8fbff;
+            color: #2f3640;
+            border-color: #d6e4f0;
         }
         
         .warning-notice {
@@ -416,10 +552,13 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(255, 71, 87, 0.5);
-            transition: 0.2s;
             text-align: center;
             display: block;
             text-decoration: none;
+        }
+        body.light-mode .modal-action-btn {
+            background: linear-gradient(90deg, #0984e3, #00cec9);
+            box-shadow: 0 4px 15px rgba(9, 132, 227, 0.4);
         }
         .modal-action-btn:hover { opacity: 0.9; color: white; }
 
@@ -452,9 +591,22 @@
             font-weight: bold;
             margin-top: 10px;
         }
+        body.light-mode .follow-banner {
+            background: rgba(9, 132, 227, 0.1);
+            border-color: #0984e3;
+            color: #0984e3;
+        }
     </style>
 </head>
 <body>
+
+    <!-- CANVAS HIỆU ỨNG THỜI TIẾT (MƯA ĐỎ / TUYẾT RƠI) -->
+    <canvas id="weatherCanvas"></canvas>
+
+    <!-- NÚT CHUYỂN ĐỔI MẶT TRĂNG / MẶT TRỜI -->
+    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Chuyển chế độ Tối (Mưa Đỏ) / Sáng (Tuyết Rơi)">
+        🌙
+    </button>
 
     <!-- BANNER CHÍNH -->
     <div class="header-banner">
@@ -531,7 +683,7 @@
     <script>
         let selectedGame = "Steal an Egg";
 
-        // DANH SÁCH SCRIPT (2 cái đầu hiển thị, 5 cái sau đang để trống name và link nên sẽ bị ẩn đi cho đến khi bạn điền vào)
+        // DANH SÁCH SCRIPT (Kèm 6 ô dự phòng bị ẩn, chỉ hiện khi điền name và link)
         let stealAnEggScripts = [
             { 
                 name: "Chilli x Venyx V10", 
@@ -551,7 +703,6 @@
                 desc: "Phiên bản mod đặc biệt cho sự kiện mới, ném tự động trail.",
                 link: "https://link4sub.com/thlroblox" 
             },
-            // Ô dự phòng số 1 (Bị ẩn vì chưa có name và link)
             { 
                 name: "chiliv12 hot", 
                 author: "THLHUB", 
@@ -561,62 +712,143 @@
                 desc: "chili v12 sự kiện làm tất tần tật từ trộm đến sự kiện.",
                 link: "https://link4sub.com/thlsteal" 
             },
-            // Ô dự phòng số 2 (Bị ẩn vì chưa có name và link)
             { 
                 name: "script figgy mới nhất", 
                 author: "THLHUB", 
                 tag: "HOT", 
-                tagType: "badge-HOT", 
+                tagType: "badge-hot", 
                 img: "IMG_1450.png", 
                 desc: "script mới nhất fram sự kiện đầy đủ lẫn cả fram trứng.",
                 link: "https://link4sub.com/thlhua" 
             },
-            // Ô dự phòng số 3 (Bị ẩn vì chưa có name và link)
-            { 
-                name: "", 
-                author: "THLHUB", 
-                tag: "HOT", 
-                tagType: "badge-hot", 
-                img: "chilli_v10.png", 
-                desc: "Đang cập nhật...",
-                link: "" 
-            },
-            // Ô dự phòng số 4 (Bị ẩn vì chưa có name và link)
-            { 
-                name: "", 
-                author: "THLHUB", 
-                tag: "MYTHIC", 
-                tagType: "badge-mythic", 
-                img: "chilli_v10.png", 
-                desc: "Đang cập nhật...",
-                link: "" 
-            },
-            // Ô dự phòng số 5 (Bị ẩn vì chưa có name và link)
-            { 
-                name: "", 
-                author: "THLHUB", 
-                tag: "VIP", 
-                tagType: "badge-vip", 
-                img: "chilli_v10.png", 
-                desc: "Đang cập nhật...",
-                link: "" 
-            }
+            // Ô dự phòng script ẩn 1
+            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" },
+            // Ô dự phòng script ẩn 2
+            { name: "", author: "THLHUB", tag: "MYTHIC", tagType: "badge-mythic", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" },
+            // Ô dự phòng script ẩn 3
+            { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" },
+            // Ô dự phòng script ẩn 4 (Mới thêm)
+            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" },
+            // Ô dự phòng script ẩn 5 (Mới thêm)
+            { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" },
+            // Ô dự phòng script ẩn 6 (Mới thêm)
+            { name: "", author: "THLHUB", tag: "FREE", tagType: "badge-free", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" }
         ];
 
-        // DANH SÁCH FILE HACK / CLIENT (2 cái đầu hiển thị, 2 cái sau đang để trống name và link để ẩn)
+        // DANH SÁCH FILE HACK / CLIENT (Kèm 2 ô dự phòng bị ẩn, chỉ hiện khi điền name và link)
         let clientsData = [
             { name: "arceus-x-vng-2746-2.apk", author: "arceus Team", tag: "Android", tagType: "badge-mythic", img: "IMG_1449.jpeg", link: "https://link4sub.com/thlhac" },
             { name: "arcues x qt apk", author: "arceus Team", tag: "Android", tagType: "badge-vip", img: "IMG_1449.jpeg", link: "https://link4sub.com/thlhack" },
-            // Ô file hack dự phòng 1 (Bị ẩn)
             { name: "delta x qr mới nhất", author: "Delta Team", tag: "Android", tagType: "badge-mythic", img: "client_logo.png", link: "https://link4sub.com/delta" },
-            // Ô file hack dự phòng 2 (Bị ẩn)
-            { name: "delta vng mới nhất", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "client_logo.png", link: "https://link4sub.com/thlroblo" }
+            { name: "delta vng mới nhất", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "client_logo.png", link: "https://link4sub.com/thlroblo" },
+            // Ô dự phòng file hack ẩn 1 (Mới thêm)
+            { name: "", author: "Delta Team", tag: "iOS", tagType: "badge-mythic", img: "client_logo.png", link: "" },
+            // Ô dự phòng file hack ẩn 2 (Mới thêm)
+            { name: "", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "client_logo.png", link: "" }
         ];
 
         let currentFilter = 'all';
 
+        // LOGIC CHUYỂN CHẾ ĐỘ SÁNG / TỐI & MƯA ĐỎ / TUYẾT RƠI
+        let isLightMode = false;
+        const canvas = document.getElementById("weatherCanvas");
+        const ctx = canvas.getContext("2d");
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        function initParticles() {
+            particles = [];
+            const count = isLightMode ? 90 : 130;
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: isLightMode ? (Math.random() * 4 + 2) : (Math.random() * 1.5 + 1),
+                    length: isLightMode ? 0 : (Math.random() * 18 + 12),
+                    speedY: isLightMode ? (Math.random() * 1.8 + 0.8) : (Math.random() * 8 + 7),
+                    speedX: isLightMode ? (Math.random() * 1.2 - 0.6) : (Math.random() * 1.5 - 0.5),
+                    opacity: Math.random() * 0.6 + 0.3,
+                    angle: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        function drawSnowflake(x, y, r, opacity) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.strokeStyle = `rgba(9, 132, 227, ${opacity})`;
+            ctx.fillStyle = `rgba(255, 255, 255, ${opacity + 0.2})`;
+            ctx.lineWidth = 1.2;
+
+            for (let i = 0; i < 6; i++) {
+                ctx.rotate(Math.PI / 3);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(0, -r * 1.6);
+                ctx.stroke();
+            }
+            ctx.beginPath();
+            ctx.arc(0, 0, r * 0.4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function animateWeather() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let p of particles) {
+                if (!isLightMode) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(255, 45, 75, ${p.opacity})`;
+                    ctx.lineWidth = p.radius;
+                    ctx.lineCap = "round";
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p.x + p.speedX * 1.5, p.y + p.length);
+                    ctx.stroke();
+
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+                } else {
+                    p.angle += 0.02;
+                    p.x += Math.sin(p.angle) * 0.8 + p.speedX;
+                    p.y += p.speedY;
+                    drawSnowflake(p.x, p.y, p.radius, p.opacity);
+                }
+
+                if (p.y > canvas.height) {
+                    p.y = -20;
+                    p.x = Math.random() * canvas.width;
+                }
+                if (p.x > canvas.width) p.x = 0;
+                if (p.x < 0) p.x = canvas.width;
+            }
+
+            requestAnimationFrame(animateWeather);
+        }
+
+        function toggleTheme() {
+            isLightMode = !isLightMode;
+            const btn = document.getElementById("themeToggleBtn");
+            if (isLightMode) {
+                document.body.classList.add("light-mode");
+                btn.innerText = "☀️";
+            } else {
+                document.body.classList.remove("light-mode");
+                btn.innerText = "🌙";
+            }
+            initParticles();
+        }
+
         window.onload = function() {
             renderData();
+            initParticles();
+            animateWeather();
         };
 
         function toggleGameDropdown() {
@@ -680,7 +912,6 @@
             scriptGrid.innerHTML = "";
             clientGrid.innerHTML = "";
 
-            // Lọc chỉ những mục có điền tên (name) và link thì mới hiện lên web
             let filteredScripts = stealAnEggScripts.filter(item => 
                 item.name && item.link && (item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword))
             );
@@ -753,4 +984,3 @@
     </script>
 </body>
 </html>
-
