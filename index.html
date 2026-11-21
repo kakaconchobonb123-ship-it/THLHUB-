@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THL HUB HACK - Kho Chia Sẻ Script & Hack RBLX</title>
     <style>
-        * { box-sizing: border-box; transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease; }
-        
+        * { box-sizing: border-box; }
+
         body {
             margin: 0;
             padding: 0;
@@ -20,13 +20,35 @@
             padding-bottom: 50px;
             overflow-x: hidden;
             position: relative;
+            transition: background-color 0.35s ease, color 0.35s ease;
+        }
+
+        /* HIỆU ỨNG HIỆN TỪ TỪ MỜ RỒI RÕ LÊN */
+        @keyframes menuFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(14px) scale(0.99);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .fade-menu {
+            animation: menuFadeIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .fade-card {
+            opacity: 0;
+            animation: menuFadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         /* ẢNH ĐỘNG 3D HỐ ĐEN XOÁY PHÍA SAU MENU & TOÀN TRANG */
         .bg-3d-wrapper {
             position: fixed;
             inset: -14%;
-            z-index: -2;
+            z-index: 0;
             overflow: hidden;
             pointer-events: none;
             perspective: 900px;
@@ -45,7 +67,7 @@
         .bg-3d-overlay {
             position: fixed;
             inset: 0;
-            z-index: -1;
+            z-index: 1;
             pointer-events: none;
             background: radial-gradient(circle at center, rgba(6, 6, 12, 0.18) 0%, rgba(6, 6, 12, 0.68) 100%);
         }
@@ -83,10 +105,10 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
-            z-index: 9999;
+            z-index: 9998;
         }
 
         /* NÚT CHUYỂN ĐỔI MẶT TRĂNG / MẶT TRỜI */
@@ -97,7 +119,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: rgba(22, 22, 44, 0.9);
+            background: rgba(22, 22, 44, 0.92);
             border: 2px solid #ff4757;
             color: #ffffff;
             font-size: 24px;
@@ -119,12 +141,23 @@
             box-shadow: 0 0 18px rgba(9, 132, 227, 0.5);
         }
 
+        /* LỚP NỘI DUNG CHÍNH */
+        .content-layer {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         /* HEADER BANNER CHIA 2 CỘT: NỘI DUNG TRÁI + LOGO BÊN PHẢI */
         .header-banner {
             width: 92%;
             max-width: 1100px;
-            background: linear-gradient(135deg, rgba(24, 24, 47, 0.76) 0%, rgba(18, 18, 35, 0.82) 100%);
-            backdrop-filter: blur(5px);
+            background: linear-gradient(135deg, rgba(24, 24, 47, 0.78) 0%, rgba(18, 18, 35, 0.84) 100%);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border: 1px solid rgba(108, 92, 231, 0.45);
             border-radius: 18px;
             padding: 32px 38px;
@@ -140,7 +173,7 @@
             flex-wrap: wrap;
         }
         body.light-mode .header-banner {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 247, 253, 0.92) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(241, 247, 253, 0.94) 100%);
             border-color: #cfe2f3;
             box-shadow: 0 10px 30px rgba(9, 132, 227, 0.12);
         }
@@ -160,7 +193,8 @@
             box-shadow: 0 0 25px rgba(255, 71, 87, 0.35), 0 12px 24px rgba(0, 0, 0, 0.5);
             background: #101020;
             flex-shrink: 0;
-            perspective: 800px;
+            position: relative;
+            z-index: 3;
             animation: logoFloat3D 4.5s ease-in-out infinite;
         }
         body.light-mode .header-side-art {
@@ -177,10 +211,10 @@
 
         @keyframes logoFloat3D {
             0%, 100% {
-                transform: translateY(0px) rotateY(-4deg);
+                transform: translateY(0px) scale(1);
             }
             50% {
-                transform: translateY(-7px) rotateY(4deg);
+                transform: translateY(-7px) scale(1.02);
             }
         }
 
@@ -260,54 +294,59 @@
             border-color: #b6d8f8;
             color: #1e272e;
         }
-        .pill-script {
-            color: #ff6b81;
-        }
-        .pill-client {
-            color: #00cec9;
-        }
-        body.light-mode .pill-client {
-            color: #0984e3;
-        }
+        .pill-script { color: #ff6b81; }
+        .pill-client { color: #00cec9; }
+        body.light-mode .pill-client { color: #0984e3; }
 
-        /* SEARCH & GAME FILTER BAR */
+        /* SEARCH & GAME FILTER BAR HIỆN ĐẠI HƠN */
         .filter-container {
             width: 92%;
             max-width: 1100px;
             display: flex;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             flex-wrap: wrap;
             position: relative;
+            align-items: center;
         }
         .search-box {
             flex: 1;
             min-width: 240px;
             padding: 14px 20px;
-            background: rgba(19, 19, 36, 0.78);
-            backdrop-filter: blur(5px);
+            background: rgba(19, 19, 36, 0.8);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border: 1px solid rgba(108, 92, 231, 0.45);
             border-radius: 12px;
             color: white;
             font-size: 14px;
             outline: none;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
         }
         body.light-mode .search-box {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.92);
             border-color: #cbd5e1;
             color: #1e272e;
         }
-        .search-box:focus { border-color: #6c5ce7; box-shadow: 0 0 12px rgba(108, 92, 231, 0.4); }
+        .search-box:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 16px rgba(0, 255, 255, 0.22);
+        }
+        body.light-mode .search-box:focus {
+            border-color: #0984e3;
+            box-shadow: 0 0 14px rgba(9, 132, 227, 0.25);
+        }
 
         /* DROPDOWN CHỌN GAME NÚT ^ */
         .game-dropdown-wrapper {
             position: relative;
         }
         .game-select-btn {
-            background: rgba(22, 22, 44, 0.82);
-            backdrop-filter: blur(5px);
+            background: linear-gradient(135deg, rgba(22, 22, 44, 0.9), rgba(32, 28, 64, 0.9));
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             color: #00ffff;
-            border: 1px solid rgba(108, 92, 231, 0.45);
+            border: 1px solid rgba(108, 92, 231, 0.55);
             padding: 14px 22px;
             border-radius: 12px;
             font-weight: bold;
@@ -316,48 +355,91 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+            transition: transform 0.22s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .game-select-btn .arrow-icon {
+            display: inline-block;
+            transition: transform 0.25s ease;
+        }
+        .game-select-btn.open .arrow-icon {
+            transform: rotate(180deg);
         }
         body.light-mode .game-select-btn {
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.94);
             color: #0984e3;
-            border-color: #cbd5e1;
+            border-color: #90caf9;
+            box-shadow: 0 6px 16px rgba(9, 132, 227, 0.1);
         }
-        .game-select-btn:hover { background: #6c5ce7; color: white; border-color: #81ecec; }
+        .game-select-btn:hover {
+            transform: translateY(-2px);
+            background: #6c5ce7;
+            color: #ffffff;
+            border-color: #81ecec;
+            box-shadow: 0 8px 22px rgba(108, 92, 231, 0.45);
+        }
+        body.light-mode .game-select-btn:hover {
+            background: #0984e3;
+            color: #ffffff;
+            border-color: #74b9ff;
+        }
         
         .game-dropdown-menu {
-            display: none;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px) scale(0.97);
             position: absolute;
             right: 0;
-            top: 55px;
-            background: rgba(22, 22, 44, 0.95);
-            backdrop-filter: blur(8px);
+            top: 58px;
+            background: rgba(22, 22, 44, 0.96);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid #6c5ce7;
-            border-radius: 12px;
-            width: 200px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-            z-index: 100;
+            border-radius: 14px;
+            width: 215px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65);
+            z-index: 120;
             overflow: hidden;
+            transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
         }
         body.light-mode .game-dropdown-menu {
             background: #ffffff;
             border-color: #0984e3;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 26px rgba(9, 132, 227, 0.18);
         }
-        .game-dropdown-menu.show { display: block; }
+        .game-dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
         .game-option {
-            padding: 12px 18px;
+            padding: 13px 18px;
             font-size: 13px;
+            font-weight: 600;
             color: #fff;
             cursor: pointer;
-            border-bottom: 1px solid #22223b;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s ease, padding-left 0.2s ease, color 0.2s ease;
         }
+        .game-option:last-child { border-bottom: none; }
         body.light-mode .game-option {
             color: #1e272e;
             border-bottom-color: #f1f5f9;
         }
-        .game-option:hover { background: #6c5ce7; color: white; }
+        .game-option:hover {
+            background: linear-gradient(90deg, #6c5ce7, #8e7cf3);
+            color: #ffffff;
+            padding-left: 22px;
+        }
+        body.light-mode .game-option:hover {
+            background: linear-gradient(90deg, #0984e3, #00cec9);
+            color: #ffffff;
+        }
 
-        /* CATEGORY TABS */
+        /* CATEGORY TABS HIỆN ĐẠI HƠN */
         .category-tabs {
             display: flex;
             gap: 10px;
@@ -365,33 +447,56 @@
             width: 92%;
             max-width: 1100px;
             flex-wrap: wrap;
+            padding: 6px;
+            background: rgba(14, 14, 28, 0.65);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(108, 92, 231, 0.28);
+            border-radius: 14px;
         }
+        body.light-mode .category-tabs {
+            background: rgba(255, 255, 255, 0.78);
+            border-color: #cfe2f3;
+        }
+
         .cat-btn {
             background: rgba(22, 22, 44, 0.78);
-            backdrop-filter: blur(5px);
             color: #cbd5e1;
-            border: 1px solid rgba(108, 92, 231, 0.4);
+            border: 1px solid rgba(108, 92, 231, 0.35);
             padding: 10px 20px;
             border-radius: 10px;
             font-weight: bold;
             font-size: 13px;
             cursor: pointer;
+            transition: transform 0.2s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        .cat-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(108, 92, 231, 0.55);
+            color: #ffffff;
+            border-color: #81ecec;
         }
         body.light-mode .cat-btn {
-            background: rgba(255, 255, 255, 0.9);
+            background: #f8fbff;
             color: #576574;
             border-color: #cbd5e1;
         }
-        .cat-btn.active, .cat-btn:hover {
-            background: #6c5ce7;
-            color: white;
-            border-color: #81ecec;
-            box-shadow: 0 0 15px rgba(108, 92, 231, 0.5);
+        body.light-mode .cat-btn:hover {
+            background: rgba(9, 132, 227, 0.14);
+            color: #0984e3;
+            border-color: #0984e3;
         }
-        body.light-mode .cat-btn.active, body.light-mode .cat-btn:hover {
-            background: #0984e3;
-            color: white;
+        .cat-btn.active {
+            background: linear-gradient(135deg, #6c5ce7, #5641e5);
+            color: #ffffff;
+            border-color: #81ecec;
+            box-shadow: 0 0 16px rgba(108, 92, 231, 0.55);
+        }
+        body.light-mode .cat-btn.active {
+            background: linear-gradient(135deg, #0984e3, #00a8ff);
+            color: #ffffff;
             border-color: #74b9ff;
+            box-shadow: 0 4px 14px rgba(9, 132, 227, 0.3);
         }
 
         /* SECTION TITLE */
@@ -423,10 +528,11 @@
             margin-bottom: 30px;
         }
 
-        /* CARD ITEM VỚI ĐỘ TRONG SUỐT NHẸ ĐỂ THẤY ẢNH ĐỘNG SAU MENU */
+        /* CARD ITEM */
         .script-card {
             background: linear-gradient(145deg, rgba(22, 22, 45, 0.78), rgba(16, 16, 31, 0.84));
             backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             border-radius: 16px;
             border: 1px solid rgba(108, 92, 231, 0.35);
             padding: 16px;
@@ -437,7 +543,7 @@
             overflow: hidden;
             box-shadow: 0 8px 20px rgba(0,0,0,0.45);
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.35s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
         body.light-mode .script-card {
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 251, 255, 0.94));
@@ -559,7 +665,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
-            z-index: 5000;
+            z-index: 10001;
             justify-content: center;
             align-items: center;
             padding: 15px;
@@ -743,7 +849,7 @@
     </div>
     <div class="bg-3d-overlay"></div>
 
-    <!-- CANVAS HIỆU ỨNG THỜI TIẾT (MƯA ĐỎ / TUYẾT RƠI) -->
+    <!-- CANVAS HIỆU ỨNG MƯA ĐỎ / TUYẾT RƠI -->
     <canvas id="weatherCanvas"></canvas>
 
     <!-- NÚT CHUYỂN ĐỔI MẶT TRĂNG / MẶT TRỜI -->
@@ -751,66 +857,78 @@
         🌙
     </button>
 
-    <!-- BANNER CHÍNH CÓ LOGO NGAY BÊN CẠNH -->
-    <div class="header-banner">
-        <div class="header-left">
-            <div class="brand-title">THL HUB HACK</div>
-            <h1 class="main-heading">Kho chia sẻ Script<br>& Hack RBLX</h1>
-            <p class="sub-heading">Tất cả Script - Hack đã được ad kiểm chứng an toàn tuyệt đối!</p>
-            <div class="stats-row">
-                <div class="stats-badge">
-                    <span id="totalItemsCount">0</span>
-                    Tổng số mục
+    <div class="content-layer">
+        <!-- BANNER CHÍNH CÓ LOGO NGAY BÊN CẠNH -->
+        <div class="header-banner fade-menu">
+            <div class="header-left">
+                <div class="brand-title">THL HUB HACK</div>
+                <h1 class="main-heading">Kho chia sẻ Script<br>& Hack RBLX</h1>
+                <p class="sub-heading">Tất cả Script - Hack đã được ad kiểm chứng an toàn tuyệt đối!</p>
+                <div class="stats-row">
+                    <div class="stats-badge">
+                        <span id="totalItemsCount">0</span>
+                        Tổng số mục
+                    </div>
+                    <div class="breakdown-badge" id="statsBreakdown">
+                        <span class="pill-script">📜 0 Script Hack</span>
+                        <span>·</span>
+                        <span class="pill-client">🎮 0 File Hack</span>
+                    </div>
                 </div>
-                <div class="breakdown-badge" id="statsBreakdown">
-                    <span class="pill-script">📜 0 Script Hack</span>
-                    <span>·</span>
-                    <span class="pill-client">🎮 0 File Hack</span>
+            </div>
+
+            <!-- LOGO ĐẶT NGAY BÊN CẠNH -->
+            <div class="header-side-art" id="headerSideArt">
+                <img
+                    src="image_fbeeb2.png"
+                    alt="THL Roblox Delta"
+                    onerror="if(!this.dataset.f1){this.dataset.f1='1';this.src='image_fbeeb2.jpg';}else if(!this.dataset.f2){this.dataset.f2='1';this.src='image.png';}"
+                >
+            </div>
+        </div>
+
+        <!-- Ô TÌM KIẾM & NÚT CHỌN GAME ^ -->
+        <div class="filter-container fade-menu" style="animation-delay: 0.08s;">
+            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm mod, game, tác giả..." onkeyup="renderData()">
+            
+            <div class="game-dropdown-wrapper">
+                <button class="game-select-btn" id="gameSelectBtn" onclick="toggleGameDropdown()">
+                    <span id="currentGameLabel">🎮 Steal an Egg</span>
+                    <span class="arrow-icon">^</span>
+                </button>
+                <div class="game-dropdown-menu" id="gameDropdownMenu">
+                    <div class="game-option" onclick="selectGame('Steal an Egg')">
+                        <span>🥚 Steal an Egg</span>
+                        <span id="checkStealEgg">✓</span>
+                    </div>
+                    <div class="game-option" onclick="selectGame('Blox Fruit')">
+                        <span>⚔️ Blox Fruit</span>
+                        <span id="checkBloxFruit"></span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- LOGO ĐẶT NGAY BÊN CẠNH -->
-        <div class="header-side-art" id="headerSideArt">
-            <img src="image_fbeeb2.png" alt="THL Roblox Delta">
+        <!-- CÁC NÚT LỌC DANH MỤC -->
+        <div class="category-tabs fade-menu" id="categoryTabsContainer" style="animation-delay: 0.14s;">
+            <button class="cat-btn active" id="tabAll" onclick="filterCategory('all')">✨ Tất cả</button>
+            <button class="cat-btn" id="tabScript" onclick="filterCategory('script')">📜 Script</button>
+            <button class="cat-btn" id="tabClient" onclick="filterCategory('client')">🎮 Client (File Hack)</button>
         </div>
-    </div>
 
-    <!-- Ô TÌM KIẾM & NÚT CHỌN GAME ^ -->
-    <div class="filter-container">
-        <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm mod, game, tác giả..." onkeyup="renderData()">
-        
-        <div class="game-dropdown-wrapper">
-            <button class="game-select-btn" onclick="toggleGameDropdown()">
-                <span id="currentGameLabel">🎮 Steal an Egg</span>
-                <span>^</span>
-            </button>
-            <div class="game-dropdown-menu" id="gameDropdownMenu">
-                <div class="game-option" onclick="selectGame('Steal an Egg')">🥚 Steal an Egg</div>
-                <div class="game-option" onclick="selectGame('Blox Fruit')">⚔️ Blox Fruit</div>
-            </div>
+        <!-- DÒNG LỜI KÊU GỌI FOLLOW -->
+        <div class="follow-banner fade-menu" style="animation-delay: 0.2s;">
+            ❤️ Follow mình để mình lấy thêm động lực ra video script cho các bạn nhé!
         </div>
-    </div>
 
-    <!-- CÁC NÚT LỌC DANH MỤC -->
-    <div class="category-tabs" id="categoryTabsContainer">
-        <button class="cat-btn active" id="tabAll" onclick="filterCategory('all')">Tất cả</button>
-        <button class="cat-btn" id="tabScript" onclick="filterCategory('script')">Script</button>
-        <button class="cat-btn" id="tabClient" onclick="filterCategory('client')">Client (File Hack)</button>
-    </div>
+        <!-- KHU VỰC HIỂN THỊ CHÍNH -->
+        <div id="mainContentArea" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <div class="section-title fade-menu" id="titleScript">📜 Script Steal an Egg</div>
+            <div class="cards-grid" id="scriptGrid"></div>
 
-    <!-- DÒNG LỜI KÊU GỌI FOLLOW -->
-    <div class="follow-banner">
-        ❤️ Follow mình để mình lấy thêm động lực ra video script cho các bạn nhé!
-    </div>
-
-    <!-- KHU VỰC HIỂN THỊ CHÍNH (CÓ ẢNH ĐỘNG 3D PHÍA SAU) -->
-    <div id="mainContentArea" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-        <div class="section-title" id="titleScript">📜 Script Steal an Egg</div>
-        <div class="cards-grid" id="scriptGrid"></div>
-
-        <div class="section-title" id="titleClient" style="border-left-color: #00cec9;">🎮 Client & File Hack Roblox</div>
-        <div class="cards-grid" id="clientGrid"></div>
+            <div class="section-title fade-menu" id="titleClient" style="border-left-color: #00cec9;">🎮 Client & File Hack Roblox</div>
+            <div class="cards-grid" id="clientGrid"></div>
+        </div>
     </div>
 
     <!-- MODAL HIỆN BẢNG CHI TIẾT KHI BẤM VÀO SCRIPT -->
@@ -888,7 +1006,7 @@
 
         // 10 Ô SCRIPT BLOX FRUIT (Đang bị ẩn, chỉ hiện khi điền name và link)
         let bloxFruitScripts = [
-            { name: "night hub", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "IMG_1466.png", desc: "fram sự kiện đầy đủ cả fram.", link: "https://link4sub.com/gs2u8cd6" },
+            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
             { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
             { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
             { name: "", author: "THLHUB", tag: "MYTHIC", tagType: "badge-mythic", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
@@ -929,24 +1047,29 @@
         let particles = [];
 
         function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth || document.documentElement.clientWidth;
+            canvas.height = window.innerHeight || document.documentElement.clientHeight;
         }
-        window.addEventListener("resize", resizeCanvas);
+        window.addEventListener("resize", function() {
+            resizeCanvas();
+            initParticles();
+        });
         resizeCanvas();
 
         function initParticles() {
             particles = [];
-            const count = isLightMode ? 90 : 130;
+            const w = canvas.width || 1024;
+            const h = canvas.height || 768;
+            const count = isLightMode ? 95 : 135;
             for (let i = 0; i < count; i++) {
                 particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    radius: isLightMode ? (Math.random() * 4 + 2) : (Math.random() * 1.5 + 1),
-                    length: isLightMode ? 0 : (Math.random() * 18 + 12),
-                    speedY: isLightMode ? (Math.random() * 1.8 + 0.8) : (Math.random() * 8 + 7),
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    radius: isLightMode ? (Math.random() * 4.2 + 2.2) : (Math.random() * 1.6 + 1.1),
+                    length: isLightMode ? 0 : (Math.random() * 20 + 14),
+                    speedY: isLightMode ? (Math.random() * 1.8 + 0.9) : (Math.random() * 8 + 7),
                     speedX: isLightMode ? (Math.random() * 1.2 - 0.6) : (Math.random() * 1.5 - 0.5),
-                    opacity: Math.random() * 0.6 + 0.3,
+                    opacity: Math.random() * 0.55 + 0.35,
                     angle: Math.random() * Math.PI * 2
                 });
             }
@@ -956,8 +1079,8 @@
             ctx.save();
             ctx.translate(x, y);
             ctx.strokeStyle = `rgba(9, 132, 227, ${opacity})`;
-            ctx.fillStyle = `rgba(255, 255, 255, ${opacity + 0.2})`;
-            ctx.lineWidth = 1.2;
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, opacity + 0.25)})`;
+            ctx.lineWidth = 1.3;
 
             for (let i = 0; i < 6; i++) {
                 ctx.rotate(Math.PI / 3);
@@ -967,12 +1090,15 @@
                 ctx.stroke();
             }
             ctx.beginPath();
-            ctx.arc(0, 0, r * 0.4, 0, Math.PI * 2);
+            ctx.arc(0, 0, r * 0.42, 0, Math.PI * 2);
             ctx.fill();
             ctx.restore();
         }
 
         function animateWeather() {
+            if (!canvas.width || !canvas.height) {
+                resizeCanvas();
+            }
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             for (let p of particles) {
@@ -988,18 +1114,18 @@
                     p.x += p.speedX;
                     p.y += p.speedY;
                 } else {
-                    p.angle += 0.02;
-                    p.x += Math.sin(p.angle) * 0.8 + p.speedX;
+                    p.angle += 0.025;
+                    p.x += Math.sin(p.angle) * 0.85 + p.speedX;
                     p.y += p.speedY;
                     drawSnowflake(p.x, p.y, p.radius, p.opacity);
                 }
 
-                if (p.y > canvas.height) {
+                if (p.y > canvas.height + 20) {
                     p.y = -20;
                     p.x = Math.random() * canvas.width;
                 }
-                if (p.x > canvas.width) p.x = 0;
-                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width + 20) p.x = 0;
+                if (p.x < -20) p.x = canvas.width;
             }
 
             requestAnimationFrame(animateWeather);
@@ -1018,28 +1144,38 @@
             initParticles();
         }
 
-        window.onload = function() {
-            renderData();
+        window.addEventListener("DOMContentLoaded", function() {
+            resizeCanvas();
             initParticles();
+            renderData();
             animateWeather();
-        };
+        });
 
         function toggleGameDropdown() {
-            document.getElementById("gameDropdownMenu").classList.toggle("show");
+            const menu = document.getElementById("gameDropdownMenu");
+            const btn = document.getElementById("gameSelectBtn");
+            menu.classList.toggle("show");
+            btn.classList.toggle("open");
         }
 
         function selectGame(gameName) {
             selectedGame = gameName;
             document.getElementById("currentGameLabel").innerText = "🎮 " + gameName;
+            document.getElementById("checkStealEgg").innerText = gameName === "Steal an Egg" ? "✓" : "";
+            document.getElementById("checkBloxFruit").innerText = gameName === "Blox Fruit" ? "✓" : "";
             document.getElementById("gameDropdownMenu").classList.remove("show");
+            document.getElementById("gameSelectBtn").classList.remove("open");
             renderData();
         }
 
-        window.onclick = function(event) {
+        window.addEventListener("click", function(event) {
             if (!event.target.closest('.game-dropdown-wrapper')) {
-                document.getElementById("gameDropdownMenu").classList.remove("show");
+                const menu = document.getElementById("gameDropdownMenu");
+                const btn = document.getElementById("gameSelectBtn");
+                if (menu) menu.classList.remove("show");
+                if (btn) btn.classList.remove("open");
             }
-        }
+        });
 
         function filterCategory(type) {
             currentFilter = type;
@@ -1061,10 +1197,10 @@
 
             tabsContainer.style.display = "flex";
             mainArea.innerHTML = `
-                <div class="section-title" id="titleScript">${scriptSectionLabel}</div>
+                <div class="section-title fade-menu" id="titleScript">${scriptSectionLabel}</div>
                 <div class="cards-grid" id="scriptGrid"></div>
 
-                <div class="section-title" id="titleClient" style="border-left-color: #00cec9;">🎮 Client & File Hack Roblox</div>
+                <div class="section-title fade-menu" id="titleClient" style="border-left-color: #00cec9; animation-delay: 0.08s;">🎮 Client & File Hack Roblox</div>
                 <div class="cards-grid" id="clientGrid"></div>
             `;
 
@@ -1097,9 +1233,10 @@
             if (currentFilter === 'all' || currentFilter === 'script') {
                 titleScript.style.display = filteredScripts.length > 0 ? "flex" : "none";
                 scriptGrid.style.display = "grid";
-                filteredScripts.forEach((item) => {
+                filteredScripts.forEach((item, idx) => {
+                    const delay = (idx * 0.05).toFixed(2);
                     scriptGrid.innerHTML += `
-                        <div class="script-card" onclick='openScriptModal(${JSON.stringify(item)})'>
+                        <div class="script-card fade-card" style="animation-delay: ${delay}s;" onclick='openScriptModal(${JSON.stringify(item)})'>
                             <div class="card-badge ${item.tagType}">${item.tag}</div>
                             <div>
                                 <div class="card-thumbnail"><img src="${item.img}" alt="${item.name}"></div>
@@ -1118,9 +1255,10 @@
             if (currentFilter === 'all' || currentFilter === 'client') {
                 titleClient.style.display = filteredClients.length > 0 ? "flex" : "none";
                 clientGrid.style.display = "grid";
-                filteredClients.forEach((item) => {
+                filteredClients.forEach((item, idx) => {
+                    const delay = (idx * 0.05).toFixed(2);
                     clientGrid.innerHTML += `
-                        <div class="script-card" onclick="window.open('${item.link}', '_blank')">
+                        <div class="script-card fade-card" style="animation-delay: ${delay}s;" onclick="window.open('${item.link}', '_blank')">
                             <div class="card-badge ${item.tagType}">${item.tag}</div>
                             <div>
                                 <div class="card-thumbnail"><img src="${item.img}" alt="${item.name}"></div>
@@ -1139,7 +1277,7 @@
             if (selectedGame === "Blox Fruit" && filteredScripts.length === 0 && currentFilter !== 'client') {
                 mainArea.innerHTML += `
                     <div style="width:100%; display:flex; justify-content:center; margin-top: 10px;">
-                        <div class="empty-notice">
+                        <div class="empty-notice fade-menu">
                             ⚠️ <strong>Blox Fruit:</strong> Hiện chưa bật script nào! Điền <code>name</code> và <code>link</code> vào 1 trong 10 ô <code>bloxFruitScripts</code> để hiển thị ngay.
                         </div>
                     </div>
