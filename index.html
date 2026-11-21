@@ -22,7 +22,7 @@
             position: relative;
         }
 
-        /* ẢNH 3D HỐ ĐEN XOÁY DI CHUYỂN NỀN */
+        /* ẢNH 3D HỐ ĐEN XOÁY DI CHUYỂN Ở LỚP NỀN SAU */
         .bg-3d-wrapper {
             position: fixed;
             inset: -8%;
@@ -115,7 +115,7 @@
             box-shadow: 0 0 18px rgba(9, 132, 227, 0.5);
         }
 
-        /* HEADER BANNER */
+        /* HEADER BANNER CHIA 2 CỘT: NỘI DUNG TRÁI + ẢNH BÊN PHẢI */
         .header-banner {
             width: 92%;
             max-width: 1100px;
@@ -123,17 +123,61 @@
             backdrop-filter: blur(8px);
             border: 1px solid #2a2a4e;
             border-radius: 18px;
-            padding: 35px 40px;
+            padding: 32px 38px;
             margin-top: 30px;
             margin-bottom: 25px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
         }
         body.light-mode .header-banner {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(241, 247, 253, 0.95) 100%);
             border-color: #cfe2f3;
             box-shadow: 0 10px 30px rgba(9, 132, 227, 0.12);
+        }
+
+        .header-left {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        /* ẢNH ĐẶT NGAY BÊN CẠNH TRONG BANNER */
+        .header-side-art {
+            width: 195px;
+            height: 195px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 71, 87, 0.65);
+            box-shadow: 0 0 25px rgba(255, 71, 87, 0.35), 0 12px 24px rgba(0, 0, 0, 0.5);
+            background: #101020;
+            flex-shrink: 0;
+            perspective: 800px;
+            animation: logoFloat3D 4.5s ease-in-out infinite;
+        }
+        body.light-mode .header-side-art {
+            border-color: rgba(9, 132, 227, 0.65);
+            box-shadow: 0 0 22px rgba(9, 132, 227, 0.25), 0 10px 20px rgba(9, 132, 227, 0.12);
+            background: #ffffff;
+        }
+        .header-side-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        @keyframes logoFloat3D {
+            0%, 100% {
+                transform: translateY(0px) rotateY(-4deg);
+            }
+            50% {
+                transform: translateY(-7px) rotateY(4deg);
+            }
         }
 
         .brand-title {
@@ -681,7 +725,7 @@
 </head>
 <body>
 
-    <!-- ẢNH HỐ ĐEN XOÁY 3D DI CHUYỂN NỀN -->
+    <!-- ẢNH HỐ ĐEN XOÁY 3D Ở LỚP NỀN SAU -->
     <div class="bg-3d-wrapper">
         <div class="bg-3d-layer" id="bg3dLayer"></div>
     </div>
@@ -695,21 +739,28 @@
         🌙
     </button>
 
-    <!-- BANNER CHÍNH -->
+    <!-- BANNER CHÍNH CÓ ẢNH NGAY BÊN CẠNH -->
     <div class="header-banner">
-        <div class="brand-title">THL HUB HACK</div>
-        <h1 class="main-heading">Kho chia sẻ Script<br>& Hack RBLX</h1>
-        <p class="sub-heading">Tất cả Script - Hack đã được ad kiểm chứng an toàn tuyệt đối!</p>
-        <div class="stats-row">
-            <div class="stats-badge">
-                <span id="totalItemsCount">0</span>
-                Tổng số mục
+        <div class="header-left">
+            <div class="brand-title">THL HUB HACK</div>
+            <h1 class="main-heading">Kho chia sẻ Script<br>& Hack RBLX</h1>
+            <p class="sub-heading">Tất cả Script - Hack đã được ad kiểm chứng an toàn tuyệt đối!</p>
+            <div class="stats-row">
+                <div class="stats-badge">
+                    <span id="totalItemsCount">0</span>
+                    Tổng số mục
+                </div>
+                <div class="breakdown-badge" id="statsBreakdown">
+                    <span class="pill-script">📜 0 Script Hack</span>
+                    <span>·</span>
+                    <span class="pill-client">🎮 0 File Hack</span>
+                </div>
             </div>
-            <div class="breakdown-badge" id="statsBreakdown">
-                <span class="pill-script">📜 0 Script Hack</span>
-                <span>·</span>
-                <span class="pill-client">🎮 0 File Hack</span>
-            </div>
+        </div>
+
+        <!-- ẢNH ĐƯA TỪ NỀN LÊN ĐẶT NGAY BÊN CẠNH -->
+        <div class="header-side-art" id="headerSideArt">
+            <img src="image_fbeeb2.png" alt="THL Roblox Delta">
         </div>
     </div>
 
@@ -825,7 +876,7 @@
 
         // 10 Ô SCRIPT BLOX FRUIT (Đang bị ẩn, chỉ hiện khi điền name và link)
         let bloxFruitScripts = [
-            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "night hub", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_62e360.jpg", desc: "fram quái ngon fram sự kiện bay nhanh .", link: "https://link4sub.com/gs2u8cd6" },
             { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
             { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
             { name: "", author: "THLHUB", tag: "MYTHIC", tagType: "badge-mythic", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
@@ -849,7 +900,7 @@
 
         let currentFilter = 'all';
 
-        // TƯƠNG TÁC NGHIÊNG 3D NHẸ THEO CON TRỎ CHUỘT CHO HỐ ĐEN XOÁY
+        // TƯƠNG TÁC NGHIÊNG 3D NHẸ THEO CON TRỎ CHUỘT CHO NỀN HỐ ĐEN XOÁY
         document.addEventListener("mousemove", function(e) {
             const layer = document.getElementById("bg3dLayer");
             if (!layer) return;
