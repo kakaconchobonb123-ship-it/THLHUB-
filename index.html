@@ -10,7 +10,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #07070c;
+            background-color: #06060b;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
@@ -22,42 +22,46 @@
             position: relative;
         }
 
-        /* ẢNH 3D HỐ ĐEN XOÁY DI CHUYỂN Ở LỚP NỀN SAU */
+        /* ẢNH ĐỘNG 3D HỐ ĐEN XOÁY PHÍA SAU MENU & TOÀN TRANG */
         .bg-3d-wrapper {
             position: fixed;
-            inset: -8%;
+            inset: -14%;
             z-index: -2;
             overflow: hidden;
             pointer-events: none;
-            perspective: 1100px;
+            perspective: 900px;
         }
         .bg-3d-layer {
             width: 100%;
             height: 100%;
-            background-image: url('image_62e360.jpg');
+            background-image: url('image_df00cf.jpg');
             background-size: cover;
             background-position: center;
             transform-style: preserve-3d;
-            animation: vortex3DMove 18s ease-in-out infinite alternate;
-            filter: brightness(0.72) contrast(1.15);
+            will-change: transform, filter;
+            animation: blackHoleMotion3D 12s ease-in-out infinite alternate;
+            filter: brightness(0.88) contrast(1.22);
         }
         .bg-3d-overlay {
             position: fixed;
             inset: 0;
             z-index: -1;
             pointer-events: none;
-            background: radial-gradient(circle at center, rgba(10, 10, 20, 0.35) 0%, rgba(7, 7, 12, 0.85) 100%);
+            background: radial-gradient(circle at center, rgba(6, 6, 12, 0.18) 0%, rgba(6, 6, 12, 0.68) 100%);
         }
 
-        @keyframes vortex3DMove {
+        @keyframes blackHoleMotion3D {
             0% {
-                transform: scale(1.06) rotateX(6deg) rotateY(-6deg) rotateZ(0deg);
+                transform: scale(1.04) rotateX(10deg) rotateY(-10deg) rotateZ(-3deg);
+                filter: brightness(0.82) contrast(1.18);
             }
             50% {
-                transform: scale(1.14) rotateX(-4deg) rotateY(5deg) rotateZ(4deg);
+                transform: scale(1.22) rotateX(-8deg) rotateY(9deg) rotateZ(5deg);
+                filter: brightness(0.96) contrast(1.28);
             }
             100% {
-                transform: scale(1.08) rotateX(5deg) rotateY(7deg) rotateZ(-3deg);
+                transform: scale(1.10) rotateX(8deg) rotateY(11deg) rotateZ(-5deg);
+                filter: brightness(0.86) contrast(1.2);
             }
         }
 
@@ -67,11 +71,11 @@
             color: #1e272e;
         }
         body.light-mode .bg-3d-layer {
-            filter: brightness(0.95) contrast(1.02) saturate(0.6);
-            opacity: 0.32;
+            filter: brightness(1.0) contrast(1.05) saturate(0.5);
+            opacity: 0.42;
         }
         body.light-mode .bg-3d-overlay {
-            background: linear-gradient(135deg, rgba(238, 245, 252, 0.85), rgba(214, 232, 248, 0.88));
+            background: linear-gradient(135deg, rgba(238, 245, 252, 0.78), rgba(214, 232, 248, 0.85));
         }
 
         /* CANVAS HIỆU ỨNG MƯA ĐỎ / TUYẾT BAY */
@@ -115,13 +119,13 @@
             box-shadow: 0 0 18px rgba(9, 132, 227, 0.5);
         }
 
-        /* HEADER BANNER CHIA 2 CỘT: NỘI DUNG TRÁI + ẢNH BÊN PHẢI */
+        /* HEADER BANNER CHIA 2 CỘT: NỘI DUNG TRÁI + LOGO BÊN PHẢI */
         .header-banner {
             width: 92%;
             max-width: 1100px;
-            background: linear-gradient(135deg, rgba(24, 24, 47, 0.88) 0%, rgba(18, 18, 35, 0.92) 100%);
-            backdrop-filter: blur(8px);
-            border: 1px solid #2a2a4e;
+            background: linear-gradient(135deg, rgba(24, 24, 47, 0.76) 0%, rgba(18, 18, 35, 0.82) 100%);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(108, 92, 231, 0.45);
             border-radius: 18px;
             padding: 32px 38px;
             margin-top: 30px;
@@ -136,7 +140,7 @@
             flex-wrap: wrap;
         }
         body.light-mode .header-banner {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(241, 247, 253, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(241, 247, 253, 0.92) 100%);
             border-color: #cfe2f3;
             box-shadow: 0 10px 30px rgba(9, 132, 227, 0.12);
         }
@@ -146,7 +150,7 @@
             min-width: 280px;
         }
 
-        /* ẢNH ĐẶT NGAY BÊN CẠNH TRONG BANNER */
+        /* LOGO ĐẶT NGAY BÊN CẠNH TRONG BANNER */
         .header-side-art {
             width: 195px;
             height: 195px;
@@ -206,7 +210,7 @@
 
         .sub-heading {
             font-size: 14px;
-            color: #b2bec3;
+            color: #cbd5e1;
             margin-bottom: 20px;
         }
         body.light-mode .sub-heading { color: #576574; }
@@ -220,7 +224,7 @@
         }
         .stats-badge {
             display: inline-block;
-            background: #1e1e3f;
+            background: rgba(30, 30, 63, 0.85);
             border: 1px solid #3f3f74;
             border-radius: 10px;
             padding: 8px 16px;
@@ -243,7 +247,7 @@
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: rgba(22, 22, 44, 0.85);
+            background: rgba(22, 22, 44, 0.82);
             border: 1px solid #343466;
             border-radius: 10px;
             padding: 10px 16px;
@@ -280,15 +284,16 @@
             flex: 1;
             min-width: 240px;
             padding: 14px 20px;
-            background: rgba(19, 19, 36, 0.9);
-            border: 1px solid #2d2d54;
+            background: rgba(19, 19, 36, 0.78);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(108, 92, 231, 0.45);
             border-radius: 12px;
             color: white;
             font-size: 14px;
             outline: none;
         }
         body.light-mode .search-box {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.9);
             border-color: #cbd5e1;
             color: #1e272e;
         }
@@ -299,9 +304,10 @@
             position: relative;
         }
         .game-select-btn {
-            background: rgba(22, 22, 44, 0.92);
+            background: rgba(22, 22, 44, 0.82);
+            backdrop-filter: blur(5px);
             color: #00ffff;
-            border: 1px solid #2d2d54;
+            border: 1px solid rgba(108, 92, 231, 0.45);
             padding: 14px 22px;
             border-radius: 12px;
             font-weight: bold;
@@ -312,7 +318,7 @@
             gap: 10px;
         }
         body.light-mode .game-select-btn {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.92);
             color: #0984e3;
             border-color: #cbd5e1;
         }
@@ -323,7 +329,8 @@
             position: absolute;
             right: 0;
             top: 55px;
-            background: #16162c;
+            background: rgba(22, 22, 44, 0.95);
+            backdrop-filter: blur(8px);
             border: 1px solid #6c5ce7;
             border-radius: 12px;
             width: 200px;
@@ -360,9 +367,10 @@
             flex-wrap: wrap;
         }
         .cat-btn {
-            background: rgba(22, 22, 44, 0.9);
-            color: #a4b0be;
-            border: 1px solid #2d2d54;
+            background: rgba(22, 22, 44, 0.78);
+            backdrop-filter: blur(5px);
+            color: #cbd5e1;
+            border: 1px solid rgba(108, 92, 231, 0.4);
             padding: 10px 20px;
             border-radius: 10px;
             font-weight: bold;
@@ -370,7 +378,7 @@
             cursor: pointer;
         }
         body.light-mode .cat-btn {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.9);
             color: #576574;
             border-color: #cbd5e1;
         }
@@ -398,8 +406,12 @@
             gap: 10px;
             border-left: 4px solid #6c5ce7;
             padding-left: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
         }
-        body.light-mode .section-title { border-left-color: #0984e3; }
+        body.light-mode .section-title {
+            border-left-color: #0984e3;
+            text-shadow: none;
+        }
 
         /* GRID CARDS LAYOUT */
         .cards-grid {
@@ -411,30 +423,30 @@
             margin-bottom: 30px;
         }
 
-        /* CARD ITEM VỚI HIỆU ỨNG LÓE SÁNG LIÊN TỤC */
+        /* CARD ITEM VỚI ĐỘ TRONG SUỐT NHẸ ĐỂ THẤY ẢNH ĐỘNG SAU MENU */
         .script-card {
-            background: linear-gradient(145deg, rgba(22, 22, 45, 0.9), rgba(16, 16, 31, 0.94));
-            backdrop-filter: blur(6px);
+            background: linear-gradient(145deg, rgba(22, 22, 45, 0.78), rgba(16, 16, 31, 0.84));
+            backdrop-filter: blur(4px);
             border-radius: 16px;
-            border: 1px solid #2d2d54;
+            border: 1px solid rgba(108, 92, 231, 0.35);
             padding: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.45);
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.35s ease;
         }
         body.light-mode .script-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.96));
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 251, 255, 0.94));
             border-color: #d6e4f0;
             box-shadow: 0 8px 20px rgba(9, 132, 227, 0.08);
         }
         .script-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(108, 92, 231, 0.3);
+            box-shadow: 0 12px 30px rgba(108, 92, 231, 0.35);
             border-color: #6c5ce7;
         }
         body.light-mode .script-card:hover {
@@ -689,7 +701,7 @@
         .empty-notice {
             width: 92%;
             max-width: 1100px;
-            background: rgba(255, 71, 87, 0.12);
+            background: rgba(255, 71, 87, 0.14);
             border: 1px dashed #ff4757;
             border-radius: 16px;
             padding: 35px;
@@ -698,7 +710,7 @@
             font-size: 15px;
             font-weight: bold;
             margin-bottom: 30px;
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(4px);
         }
 
         /* FOLLOW NOTICE FOOTER */
@@ -707,8 +719,8 @@
             max-width: 1100px;
             text-align: center;
             padding: 15px;
-            background: rgba(108, 92, 231, 0.18);
-            backdrop-filter: blur(6px);
+            background: rgba(108, 92, 231, 0.2);
+            backdrop-filter: blur(4px);
             border: 1px dashed #6c5ce7;
             border-radius: 12px;
             color: #00ffff;
@@ -725,7 +737,7 @@
 </head>
 <body>
 
-    <!-- ẢNH HỐ ĐEN XOÁY 3D Ở LỚP NỀN SAU -->
+    <!-- ẢNH ĐỘNG 3D HỐ ĐEN XOÁY PHÍA SAU MENU & TOÀN TRANG -->
     <div class="bg-3d-wrapper">
         <div class="bg-3d-layer" id="bg3dLayer"></div>
     </div>
@@ -739,7 +751,7 @@
         🌙
     </button>
 
-    <!-- BANNER CHÍNH CÓ ẢNH NGAY BÊN CẠNH -->
+    <!-- BANNER CHÍNH CÓ LOGO NGAY BÊN CẠNH -->
     <div class="header-banner">
         <div class="header-left">
             <div class="brand-title">THL HUB HACK</div>
@@ -758,7 +770,7 @@
             </div>
         </div>
 
-        <!-- ẢNH ĐƯA TỪ NỀN LÊN ĐẶT NGAY BÊN CẠNH -->
+        <!-- LOGO ĐẶT NGAY BÊN CẠNH -->
         <div class="header-side-art" id="headerSideArt">
             <img src="image_fbeeb2.png" alt="THL Roblox Delta">
         </div>
@@ -792,7 +804,7 @@
         ❤️ Follow mình để mình lấy thêm động lực ra video script cho các bạn nhé!
     </div>
 
-    <!-- KHU VỰC HIỂN THỊ CHÍNH -->
+    <!-- KHU VỰC HIỂN THỊ CHÍNH (CÓ ẢNH ĐỘNG 3D PHÍA SAU) -->
     <div id="mainContentArea" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         <div class="section-title" id="titleScript">📜 Script Steal an Egg</div>
         <div class="cards-grid" id="scriptGrid"></div>
@@ -876,16 +888,16 @@
 
         // 10 Ô SCRIPT BLOX FRUIT (Đang bị ẩn, chỉ hiện khi điền name và link)
         let bloxFruitScripts = [
-            { name: "night hub", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_62e360.jpg", desc: "fram quái ngon fram sự kiện bay nhanh .", link: "https://link4sub.com/gs2u8cd6" },
-            { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
-            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
-            { name: "", author: "THLHUB", tag: "MYTHIC", tagType: "badge-mythic", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
-            { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
-            { name: "", author: "THLHUB", tag: "FREE", tagType: "badge-free", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
-            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
-            { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
-            { name: "", author: "THLHUB", tag: "MYTHIC", tagType: "badge-mythic", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
-            { name: "", author: "THLHUB", tag: "FREE", tagType: "badge-free", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" }
+            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "MYTHIC", tagType: "badge-mythic", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "FREE", tagType: "badge-free", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "MYTHIC", tagType: "badge-mythic", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "FREE", tagType: "badge-free", img: "image_df00cf.jpg", desc: "Đang cập nhật...", link: "" }
         ];
 
         // DANH SÁCH FILE HACK / CLIENT
@@ -904,10 +916,10 @@
         document.addEventListener("mousemove", function(e) {
             const layer = document.getElementById("bg3dLayer");
             if (!layer) return;
-            const xNorm = (e.clientX / window.innerWidth - 0.5) * 10;
-            const yNorm = (e.clientY / window.innerHeight - 0.5) * -10;
-            layer.style.marginLeft = `${-xNorm * 1.5}px`;
-            layer.style.marginTop = `${yNorm * 1.5}px`;
+            const xNorm = (e.clientX / window.innerWidth - 0.5) * 14;
+            const yNorm = (e.clientY / window.innerHeight - 0.5) * -14;
+            layer.style.marginLeft = `${-xNorm * 1.8}px`;
+            layer.style.marginTop = `${yNorm * 1.8}px`;
         });
 
         // LOGIC CHUYỂN CHẾ ĐỘ SÁNG / TỐI & MƯA ĐỎ / TUYẾT RƠI
