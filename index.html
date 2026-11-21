@@ -10,26 +10,68 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #0b0b14;
+            background-color: #07070c;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: linear-gradient(rgba(11, 11, 20, 0.9), rgba(11, 11, 20, 0.9)), url('image.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding-bottom: 50px;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ẢNH 3D HỐ ĐEN XOÁY DI CHUYỂN NỀN */
+        .bg-3d-wrapper {
+            position: fixed;
+            inset: -8%;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+            perspective: 1100px;
+        }
+        .bg-3d-layer {
+            width: 100%;
+            height: 100%;
+            background-image: url('image_62e360.jpg');
+            background-size: cover;
+            background-position: center;
+            transform-style: preserve-3d;
+            animation: vortex3DMove 18s ease-in-out infinite alternate;
+            filter: brightness(0.72) contrast(1.15);
+        }
+        .bg-3d-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at center, rgba(10, 10, 20, 0.35) 0%, rgba(7, 7, 12, 0.85) 100%);
+        }
+
+        @keyframes vortex3DMove {
+            0% {
+                transform: scale(1.06) rotateX(6deg) rotateY(-6deg) rotateZ(0deg);
+            }
+            50% {
+                transform: scale(1.14) rotateX(-4deg) rotateY(5deg) rotateZ(4deg);
+            }
+            100% {
+                transform: scale(1.08) rotateX(5deg) rotateY(7deg) rotateZ(-3deg);
+            }
         }
 
         /* CHẾ ĐỘ SÁNG (LIGHT MODE - MẶT TRỜI) */
         body.light-mode {
             background-color: #eef5fc;
             color: #1e272e;
-            background-image: linear-gradient(rgba(238, 245, 252, 0.88), rgba(220, 235, 250, 0.92)), url('image.png');
+        }
+        body.light-mode .bg-3d-layer {
+            filter: brightness(0.95) contrast(1.02) saturate(0.6);
+            opacity: 0.32;
+        }
+        body.light-mode .bg-3d-overlay {
+            background: linear-gradient(135deg, rgba(238, 245, 252, 0.85), rgba(214, 232, 248, 0.88));
         }
 
         /* CANVAS HIỆU ỨNG MƯA ĐỎ / TUYẾT BAY */
@@ -51,7 +93,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: #16162c;
+            background: rgba(22, 22, 44, 0.9);
             border: 2px solid #ff4757;
             color: #ffffff;
             font-size: 24px;
@@ -77,7 +119,8 @@
         .header-banner {
             width: 92%;
             max-width: 1100px;
-            background: linear-gradient(135deg, #18182f 0%, #121223 100%);
+            background: linear-gradient(135deg, rgba(24, 24, 47, 0.88) 0%, rgba(18, 18, 35, 0.92) 100%);
+            backdrop-filter: blur(8px);
             border: 1px solid #2a2a4e;
             border-radius: 18px;
             padding: 35px 40px;
@@ -88,7 +131,7 @@
             overflow: hidden;
         }
         body.light-mode .header-banner {
-            background: linear-gradient(135deg, #ffffff 0%, #f1f7fd 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(241, 247, 253, 0.95) 100%);
             border-color: #cfe2f3;
             box-shadow: 0 10px 30px rgba(9, 132, 227, 0.12);
         }
@@ -124,6 +167,13 @@
         }
         body.light-mode .sub-heading { color: #576574; }
 
+        /* HÀNG THỐNG KÊ TỔNG + CỤ THỂ SCRIPT & FILE HACK */
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
         .stats-badge {
             display: inline-block;
             background: #1e1e3f;
@@ -145,6 +195,33 @@
         }
         body.light-mode .stats-badge span { color: #0984e3; }
 
+        .breakdown-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(22, 22, 44, 0.85);
+            border: 1px solid #343466;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: bold;
+            flex-wrap: wrap;
+        }
+        body.light-mode .breakdown-badge {
+            background: #f0f7ff;
+            border-color: #b6d8f8;
+            color: #1e272e;
+        }
+        .pill-script {
+            color: #ff6b81;
+        }
+        .pill-client {
+            color: #00cec9;
+        }
+        body.light-mode .pill-client {
+            color: #0984e3;
+        }
+
         /* SEARCH & GAME FILTER BAR */
         .filter-container {
             width: 92%;
@@ -159,7 +236,7 @@
             flex: 1;
             min-width: 240px;
             padding: 14px 20px;
-            background: #131324;
+            background: rgba(19, 19, 36, 0.9);
             border: 1px solid #2d2d54;
             border-radius: 12px;
             color: white;
@@ -178,7 +255,7 @@
             position: relative;
         }
         .game-select-btn {
-            background: #16162c;
+            background: rgba(22, 22, 44, 0.92);
             color: #00ffff;
             border: 1px solid #2d2d54;
             padding: 14px 22px;
@@ -236,9 +313,10 @@
             margin-bottom: 20px;
             width: 92%;
             max-width: 1100px;
+            flex-wrap: wrap;
         }
         .cat-btn {
-            background: #16162c;
+            background: rgba(22, 22, 44, 0.9);
             color: #a4b0be;
             border: 1px solid #2d2d54;
             padding: 10px 20px;
@@ -291,7 +369,8 @@
 
         /* CARD ITEM VỚI HIỆU ỨNG LÓE SÁNG LIÊN TỤC */
         .script-card {
-            background: linear-gradient(145deg, #16162d, #10101f);
+            background: linear-gradient(145deg, rgba(22, 22, 45, 0.9), rgba(16, 16, 31, 0.94));
+            backdrop-filter: blur(6px);
             border-radius: 16px;
             border: 1px solid #2d2d54;
             padding: 16px;
@@ -305,7 +384,7 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.35s ease;
         }
         body.light-mode .script-card {
-            background: linear-gradient(145deg, #ffffff, #f8fbff);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.96));
             border-color: #d6e4f0;
             box-shadow: 0 8px 20px rgba(9, 132, 227, 0.08);
         }
@@ -562,19 +641,20 @@
         }
         .modal-action-btn:hover { opacity: 0.9; color: white; }
 
-        /* THÔNG BÁO CHƯA CẬP NHẬT (BLOX FRUIT) */
+        /* THÔNG BÁO CHƯA CẬP NHẬT */
         .empty-notice {
             width: 92%;
             max-width: 1100px;
-            background: rgba(255, 71, 87, 0.1);
+            background: rgba(255, 71, 87, 0.12);
             border: 1px dashed #ff4757;
             border-radius: 16px;
-            padding: 40px;
+            padding: 35px;
             text-align: center;
             color: #ff6b81;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             margin-bottom: 30px;
+            backdrop-filter: blur(6px);
         }
 
         /* FOLLOW NOTICE FOOTER */
@@ -583,7 +663,8 @@
             max-width: 1100px;
             text-align: center;
             padding: 15px;
-            background: rgba(108, 92, 231, 0.15);
+            background: rgba(108, 92, 231, 0.18);
+            backdrop-filter: blur(6px);
             border: 1px dashed #6c5ce7;
             border-radius: 12px;
             color: #00ffff;
@@ -592,13 +673,19 @@
             margin-top: 10px;
         }
         body.light-mode .follow-banner {
-            background: rgba(9, 132, 227, 0.1);
+            background: rgba(9, 132, 227, 0.12);
             border-color: #0984e3;
             color: #0984e3;
         }
     </style>
 </head>
 <body>
+
+    <!-- ẢNH HỐ ĐEN XOÁY 3D DI CHUYỂN NỀN -->
+    <div class="bg-3d-wrapper">
+        <div class="bg-3d-layer" id="bg3dLayer"></div>
+    </div>
+    <div class="bg-3d-overlay"></div>
 
     <!-- CANVAS HIỆU ỨNG THỜI TIẾT (MƯA ĐỎ / TUYẾT RƠI) -->
     <canvas id="weatherCanvas"></canvas>
@@ -613,9 +700,16 @@
         <div class="brand-title">THL HUB HACK</div>
         <h1 class="main-heading">Kho chia sẻ Script<br>& Hack RBLX</h1>
         <p class="sub-heading">Tất cả Script - Hack đã được ad kiểm chứng an toàn tuyệt đối!</p>
-        <div class="stats-badge">
-            <span id="totalItemsCount">0</span>
-            Tổng số mục
+        <div class="stats-row">
+            <div class="stats-badge">
+                <span id="totalItemsCount">0</span>
+                Tổng số mục
+            </div>
+            <div class="breakdown-badge" id="statsBreakdown">
+                <span class="pill-script">📜 0 Script Hack</span>
+                <span>·</span>
+                <span class="pill-client">🎮 0 File Hack</span>
+            </div>
         </div>
     </div>
 
@@ -683,7 +777,7 @@
     <script>
         let selectedGame = "Steal an Egg";
 
-        // DANH SÁCH SCRIPT (Kèm 6 ô dự phòng bị ẩn, chỉ hiện khi điền name và link)
+        // DANH SÁCH SCRIPT STEAL AN EGG
         let stealAnEggScripts = [
             { 
                 name: "Chilli x Venyx V10", 
@@ -721,33 +815,49 @@
                 desc: "script mới nhất fram sự kiện đầy đủ lẫn cả fram trứng.",
                 link: "https://link4sub.com/thlhua" 
             },
-            // Ô dự phòng script ẩn 1
             { name: "script divine", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "IMG_1457.png", desc: "scritp fram sự kiện và finder mạnh nhất.", link: "https://link4sub.com/thlu" },
-            // Ô dự phòng script ẩn 2
             { name: "", author: "THLHUB", tag: "MYTHIC", tagType: "badge-mythic", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" },
-            // Ô dự phòng script ẩn 3
             { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" },
-            // Ô dự phòng script ẩn 4 (Mới thêm)
             { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" },
-            // Ô dự phòng script ẩn 5 (Mới thêm)
             { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" },
-            // Ô dự phòng script ẩn 6 (Mới thêm)
             { name: "", author: "THLHUB", tag: "FREE", tagType: "badge-free", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" }
         ];
 
-        // DANH SÁCH FILE HACK / CLIENT (Kèm 2 ô dự phòng bị ẩn, chỉ hiện khi điền name và link)
+        // 10 Ô SCRIPT BLOX FRUIT (Đang bị ẩn, chỉ hiện khi điền name và link)
+        let bloxFruitScripts = [
+            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "MYTHIC", tagType: "badge-mythic", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "FREE", tagType: "badge-free", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "HOT", tagType: "badge-hot", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "VIP", tagType: "badge-vip", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "MYTHIC", tagType: "badge-mythic", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" },
+            { name: "", author: "THLHUB", tag: "FREE", tagType: "badge-free", img: "image_62e360.jpg", desc: "Đang cập nhật...", link: "" }
+        ];
+
+        // DANH SÁCH FILE HACK / CLIENT
         let clientsData = [
             { name: "arceus-x-vng-2746-2.apk", author: "arceus Team", tag: "Android", tagType: "badge-mythic", img: "IMG_1449.jpeg", link: "https://link4sub.com/thlhac" },
             { name: "arcues x qt apk", author: "arceus Team", tag: "Android", tagType: "badge-vip", img: "IMG_1449.jpeg", link: "https://link4sub.com/thlhack" },
             { name: "delta x qr mới nhất", author: "Delta Team", tag: "Android", tagType: "badge-mythic", img: "client_logo.png", link: "https://link4sub.com/delta" },
             { name: "delta vng mới nhất", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "client_logo.png", link: "https://link4sub.com/thlroblo" },
-            // Ô dự phòng file hack ẩn 1 (Mới thêm)
             { name: "delta x qt ios", author: "Delta Team", tag: "iOS", tagType: "badge-mythic", img: "client_logo.png", link: "https://link4sub.com/thla" },
-            // Ô dự phòng file hack ẩn 2 (Mới thêm)
             { name: "", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "client_logo.png", link: "" }
         ];
 
         let currentFilter = 'all';
+
+        // TƯƠNG TÁC NGHIÊNG 3D NHẸ THEO CON TRỎ CHUỘT CHO HỐ ĐEN XOÁY
+        document.addEventListener("mousemove", function(e) {
+            const layer = document.getElementById("bg3dLayer");
+            if (!layer) return;
+            const xNorm = (e.clientX / window.innerWidth - 0.5) * 10;
+            const yNorm = (e.clientY / window.innerHeight - 0.5) * -10;
+            layer.style.marginLeft = `${-xNorm * 1.5}px`;
+            layer.style.marginTop = `${yNorm * 1.5}px`;
+        });
 
         // LOGIC CHUYỂN CHẾ ĐỘ SÁNG / TỐI & MƯA ĐỎ / TUYẾT RƠI
         let isLightMode = false;
@@ -880,24 +990,15 @@
             let keyword = document.getElementById("searchInput").value.toLowerCase();
             let mainArea = document.getElementById("mainContentArea");
             let countBadge = document.getElementById("totalItemsCount");
+            let breakdownBadge = document.getElementById("statsBreakdown");
             let tabsContainer = document.getElementById("categoryTabsContainer");
 
-            if (selectedGame === "Blox Fruit") {
-                tabsContainer.style.display = "none";
-                countBadge.innerText = "0";
-                mainArea.innerHTML = `
-                    <div style="width:100%; display:flex; justify-content:center; margin-top: 30px;">
-                        <div class="empty-notice">
-                            ⚠️ <strong>Blox Fruit:</strong> Script chưa cập nhật! Ad đang phát triển và sẽ sớm cập nhật cho các bạn nhé.
-                        </div>
-                    </div>
-                `;
-                return;
-            }
+            let activeScripts = selectedGame === "Blox Fruit" ? bloxFruitScripts : stealAnEggScripts;
+            let scriptSectionLabel = selectedGame === "Blox Fruit" ? "📜 Script Blox Fruit" : "📜 Script Steal an Egg";
 
             tabsContainer.style.display = "flex";
             mainArea.innerHTML = `
-                <div class="section-title" id="titleScript">📜 Script Steal an Egg</div>
+                <div class="section-title" id="titleScript">${scriptSectionLabel}</div>
                 <div class="cards-grid" id="scriptGrid"></div>
 
                 <div class="section-title" id="titleClient" style="border-left-color: #00cec9;">🎮 Client & File Hack Roblox</div>
@@ -912,7 +1013,7 @@
             scriptGrid.innerHTML = "";
             clientGrid.innerHTML = "";
 
-            let filteredScripts = stealAnEggScripts.filter(item => 
+            let filteredScripts = activeScripts.filter(item => 
                 item.name && item.link && (item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword))
             );
 
@@ -920,7 +1021,15 @@
                 item.name && item.link && (item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword))
             );
 
-            countBadge.innerText = filteredScripts.length + filteredClients.length;
+            let visibleScriptCount = currentFilter === 'client' ? 0 : filteredScripts.length;
+            let visibleClientCount = currentFilter === 'script' ? 0 : filteredClients.length;
+
+            countBadge.innerText = visibleScriptCount + visibleClientCount;
+            breakdownBadge.innerHTML = `
+                <span class="pill-script">📜 ${visibleScriptCount} Script Hack</span>
+                <span>·</span>
+                <span class="pill-client">🎮 ${visibleClientCount} File Hack</span>
+            `;
 
             if (currentFilter === 'all' || currentFilter === 'script') {
                 titleScript.style.display = filteredScripts.length > 0 ? "flex" : "none";
@@ -962,6 +1071,16 @@
             } else {
                 titleClient.style.display = "none";
                 clientGrid.style.display = "none";
+            }
+
+            if (selectedGame === "Blox Fruit" && filteredScripts.length === 0 && currentFilter !== 'client') {
+                mainArea.innerHTML += `
+                    <div style="width:100%; display:flex; justify-content:center; margin-top: 10px;">
+                        <div class="empty-notice">
+                            ⚠️ <strong>Blox Fruit:</strong> Hiện chưa bật script nào! Điền <code>name</code> và <code>link</code> vào 1 trong 10 ô <code>bloxFruitScripts</code> để hiển thị ngay.
+                        </div>
+                    </div>
+                `;
             }
         }
 
