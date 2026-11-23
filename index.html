@@ -17,31 +17,44 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 50px;
+            padding-bottom: 60px;
             overflow-x: hidden;
             position: relative;
-            transition: background-color 0.35s ease, color 0.35s ease;
+            transition: background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1), color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* HIỆU ỨNG HIỆN TỪ TỪ MỜ RỒI RÕ LÊN */
+        /* HIỆU ỨNG HIỆN TỪ TỪ MỜ RỒI RÕ LÊN (ENTRANCE ANIMATION) */
         @keyframes menuFadeIn {
             0% {
                 opacity: 0;
-                transform: translateY(16px) scale(0.985);
+                transform: translate3d(0, 18px, 0) scale(0.985);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+        }
+
+        @keyframes cardPopIn {
+            0% {
+                opacity: 0;
+                transform: translate3d(0, 18px, 0) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translate3d(0, 0, 0) scale(1);
             }
         }
 
         .fade-menu {
             animation: menuFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+            will-change: transform, opacity;
         }
 
         .fade-card {
             opacity: 0;
-            animation: menuFadeIn 0.48s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: cardPopIn 0.46s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            will-change: transform, opacity;
         }
 
         /* ẢNH ĐỘNG 3D HỐ ĐEN XOÁY PHÍA SAU MENU & TOÀN TRANG */
@@ -61,7 +74,7 @@
             background-position: center;
             transform-style: preserve-3d;
             will-change: transform, filter;
-            animation: blackHoleMotion3D 12s ease-in-out infinite alternate;
+            animation: blackHoleMotion3D 14s ease-in-out infinite alternate;
             filter: brightness(0.88) contrast(1.22);
         }
         .bg-3d-overlay {
@@ -70,19 +83,20 @@
             z-index: 1;
             pointer-events: none;
             background: radial-gradient(circle at center, rgba(6, 6, 12, 0.18) 0%, rgba(6, 6, 12, 0.68) 100%);
+            transition: background 0.45s ease;
         }
 
         @keyframes blackHoleMotion3D {
             0% {
-                transform: scale(1.04) rotateX(10deg) rotateY(-10deg) rotateZ(-3deg);
+                transform: scale(1.04) rotateX(9deg) rotateY(-9deg) rotateZ(-2.5deg);
                 filter: brightness(0.82) contrast(1.18);
             }
             50% {
-                transform: scale(1.22) rotateX(-8deg) rotateY(9deg) rotateZ(5deg);
+                transform: scale(1.2) rotateX(-7deg) rotateY(8deg) rotateZ(4.5deg);
                 filter: brightness(0.96) contrast(1.28);
             }
             100% {
-                transform: scale(1.10) rotateX(8deg) rotateY(11deg) rotateZ(-5deg);
+                transform: scale(1.1) rotateX(7deg) rotateY(10deg) rotateZ(-4.5deg);
                 filter: brightness(0.86) contrast(1.2);
             }
         }
@@ -100,7 +114,7 @@
             background: linear-gradient(135deg, rgba(238, 245, 252, 0.78), rgba(214, 232, 248, 0.85));
         }
 
-        /* CANVAS HIỆU ỨNG MƯA ĐỎ / TUYẾT BAY */
+        /* CANVAS HIỆU ỨNG MƯA ĐỎ / TUYẾT BAY SIÊU MƯỢT */
         #weatherCanvas {
             position: fixed;
             top: 0;
@@ -109,6 +123,8 @@
             height: 100vh;
             pointer-events: none;
             z-index: 9998;
+            transform: translateZ(0);
+            will-change: contents;
         }
 
         /* NÚT CHUYỂN ĐỔI MẶT TRĂNG / MẶT TRỜI */
@@ -116,10 +132,10 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            width: 50px;
-            height: 50px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            background: rgba(22, 22, 44, 0.94);
+            background: rgba(22, 22, 44, 0.95);
             border: 2px solid #ff4757;
             color: #ffffff;
             font-size: 24px;
@@ -128,25 +144,26 @@
             align-items: center;
             cursor: pointer;
             z-index: 10000;
-            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.55);
-            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, background 0.3s ease;
+            box-shadow: 0 7px 22px rgba(255, 71, 87, 0.55);
+            transition: transform 0.32s cubic-bezier(0.22, 1.45, 0.36, 1), box-shadow 0.25s ease, background 0.35s ease, border-color 0.35s ease;
+            user-select: none;
         }
         .theme-toggle-btn:hover {
-            transform: translateY(-3px) scale(1.1) rotate(12deg);
-            box-shadow: 0 10px 26px rgba(255, 71, 87, 0.75);
+            transform: translate3d(0, -3px, 0) scale(1.1) rotate(14deg);
+            box-shadow: 0 12px 28px rgba(255, 71, 87, 0.78);
         }
         .theme-toggle-btn:active {
-            transform: translateY(2px) scale(0.92) rotate(0deg);
+            transform: translate3d(0, 2px, 0) scale(0.9) rotate(0deg);
             box-shadow: 0 2px 8px rgba(255, 71, 87, 0.35);
         }
         body.light-mode .theme-toggle-btn {
             background: #ffffff;
             border-color: #0984e3;
             color: #f39c12;
-            box-shadow: 0 6px 20px rgba(9, 132, 227, 0.45);
+            box-shadow: 0 7px 20px rgba(9, 132, 227, 0.45);
         }
         body.light-mode .theme-toggle-btn:hover {
-            box-shadow: 0 10px 26px rgba(9, 132, 227, 0.6);
+            box-shadow: 0 12px 26px rgba(9, 132, 227, 0.62);
         }
         body.light-mode .theme-toggle-btn:active {
             box-shadow: 0 2px 8px rgba(9, 132, 227, 0.25);
@@ -166,15 +183,15 @@
         .header-banner {
             width: 92%;
             max-width: 1100px;
-            background: linear-gradient(135deg, rgba(24, 24, 47, 0.84) 0%, rgba(18, 18, 35, 0.9) 100%);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(108, 92, 231, 0.48);
-            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(24, 24, 47, 0.88) 0%, rgba(18, 18, 35, 0.94) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(108, 92, 231, 0.55);
+            border-radius: 20px;
             padding: 32px 38px;
             margin-top: 30px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 22px;
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.09);
             position: relative;
             z-index: 10;
             display: flex;
@@ -182,11 +199,29 @@
             align-items: center;
             gap: 24px;
             flex-wrap: wrap;
+            overflow: hidden;
+            transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        .header-banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2.5px;
+            background: linear-gradient(90deg, transparent, #00ffff, #6c5ce7, #ff4757, transparent);
+            background-size: 200% 100%;
+            animation: borderGlowSlide 4s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes borderGlowSlide {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
         body.light-mode .header-banner {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(241, 247, 253, 0.96) 100%);
             border-color: #cfe2f3;
-            box-shadow: 0 10px 30px rgba(9, 132, 227, 0.12);
+            box-shadow: 0 12px 32px rgba(9, 132, 227, 0.14);
         }
 
         .header-left {
@@ -200,13 +235,17 @@
             height: 195px;
             border-radius: 20px;
             overflow: hidden;
-            border: 2px solid rgba(255, 71, 87, 0.7);
-            box-shadow: 0 0 25px rgba(255, 71, 87, 0.35), 0 12px 24px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 71, 87, 0.75);
+            box-shadow: 0 0 28px rgba(255, 71, 87, 0.4), 0 12px 24px rgba(0, 0, 0, 0.5);
             background: #101020;
             flex-shrink: 0;
             position: relative;
             z-index: 3;
             animation: logoFloat3D 4.5s ease-in-out infinite;
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .header-side-art:active {
+            transform: scale(0.96) !important;
         }
         body.light-mode .header-side-art {
             border-color: rgba(9, 132, 227, 0.7);
@@ -222,28 +261,45 @@
 
         @keyframes logoFloat3D {
             0%, 100% {
-                transform: translateY(0px) scale(1);
+                transform: translate3d(0, 0, 0) scale(1);
             }
             50% {
-                transform: translateY(-7px) scale(1.02);
+                transform: translate3d(0, -7px, 0) scale(1.02);
             }
         }
 
         .brand-title {
             font-size: 14px;
-            letter-spacing: 2px;
+            letter-spacing: 2.2px;
             color: #00ffff;
             font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .brand-title::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00ffff;
+            box-shadow: 0 0 10px #00ffff;
+            animation: pulseDot 1.8s infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.45); opacity: 0.6; }
         }
         body.light-mode .brand-title { color: #0984e3; }
+        body.light-mode .brand-title::before { background: #0984e3; box-shadow: 0 0 8px #0984e3; }
 
         .main-heading {
             font-size: 36px;
             font-weight: 900;
             margin: 0 0 10px 0;
-            background: linear-gradient(90deg, #ffffff, #a29bfe);
+            background: linear-gradient(90deg, #ffffff, #a29bfe, #00ffff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -269,12 +325,16 @@
         }
         .stats-badge {
             display: inline-block;
-            background: rgba(30, 30, 63, 0.88);
+            background: rgba(30, 30, 63, 0.9);
             border: 1px solid #3f3f74;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 8px 16px;
             font-size: 13px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            transition: transform 0.28s cubic-bezier(0.22, 1.45, 0.36, 1);
         }
+        .stats-badge:hover { transform: translate3d(0, -2px, 0); }
+        .stats-badge:active { transform: translate3d(0, 1px, 0) scale(0.97); }
         body.light-mode .stats-badge {
             background: #e3f2fd;
             border-color: #90caf9;
@@ -292,13 +352,14 @@
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: rgba(22, 22, 44, 0.86);
+            background: rgba(22, 22, 44, 0.88);
             border: 1px solid #343466;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 10px 16px;
             font-size: 13px;
             font-weight: bold;
             flex-wrap: wrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
         }
         body.light-mode .breakdown-badge {
             background: #f0f7ff;
@@ -314,8 +375,8 @@
             width: 92%;
             max-width: 1100px;
             display: flex;
-            gap: 15px;
-            margin-bottom: 18px;
+            gap: 12px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
             position: relative;
             z-index: 900;
@@ -325,16 +386,16 @@
             flex: 1;
             min-width: 240px;
             padding: 14px 20px;
-            background: rgba(19, 19, 36, 0.88);
+            background: rgba(19, 19, 36, 0.9);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(108, 92, 231, 0.5);
-            border-radius: 12px;
+            border: 1px solid rgba(108, 92, 231, 0.52);
+            border-radius: 14px;
             color: white;
             font-size: 14px;
             outline: none;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
-            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.28s cubic-bezier(0.22, 1.45, 0.36, 1);
         }
         body.light-mode .search-box {
             background: rgba(255, 255, 255, 0.96);
@@ -344,15 +405,45 @@
         }
         .search-box:focus {
             border-color: #00ffff;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 22px rgba(0, 255, 255, 0.22);
+            transform: translate3d(0, -2px, 0);
+            box-shadow: 0 10px 24px rgba(0, 255, 255, 0.24);
         }
         body.light-mode .search-box:focus {
             border-color: #0984e3;
             box-shadow: 0 10px 20px rgba(9, 132, 227, 0.22);
         }
 
-        /* DROPDOWN CHỌN GAME NÚT ^ VỚI HIỆU ỨNG LÚN & NỔI */
+        /* NÚT RESET BỘ LỌC NHANH */
+        .reset-filter-btn {
+            background: rgba(30, 28, 58, 0.92);
+            color: #ffd166;
+            border: 1px solid rgba(255, 209, 102, 0.45);
+            padding: 14px 16px;
+            border-radius: 14px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+            transition: transform 0.28s cubic-bezier(0.22, 1.45, 0.36, 1), background 0.22s ease, box-shadow 0.22s ease;
+            user-select: none;
+        }
+        .reset-filter-btn:hover {
+            transform: translate3d(0, -3px, 0) scale(1.03);
+            background: rgba(255, 209, 102, 0.18);
+            box-shadow: 0 10px 22px rgba(255, 209, 102, 0.25);
+        }
+        .reset-filter-btn:active {
+            transform: translate3d(0, 2px, 0) scale(0.95);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+        }
+        body.light-mode .reset-filter-btn {
+            background: #ffffff;
+            color: #d97706;
+            border-color: #fcd34d;
+            box-shadow: 0 6px 14px rgba(217, 119, 6, 0.12);
+        }
+
+        /* DROPDOWN CHỌN GAME NÚT ^ VỚI HIỆU ỨNG LÚN & NỔI SIÊU MƯỢT */
         .game-dropdown-wrapper {
             position: relative;
             z-index: 950;
@@ -362,9 +453,9 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             color: #00ffff;
-            border: 1px solid rgba(129, 236, 236, 0.55);
+            border: 1px solid rgba(129, 236, 236, 0.58);
             padding: 14px 22px;
-            border-radius: 12px;
+            border-radius: 14px;
             font-weight: bold;
             font-size: 14px;
             cursor: pointer;
@@ -372,11 +463,12 @@
             align-items: center;
             gap: 10px;
             box-shadow: 0 7px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-            transition: transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            transition: transform 0.28s cubic-bezier(0.22, 1.45, 0.36, 1), background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            user-select: none;
         }
         .game-select-btn .arrow-icon {
             display: inline-block;
-            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.32s cubic-bezier(0.22, 1.45, 0.36, 1);
         }
         .game-select-btn.open .arrow-icon {
             transform: rotate(180deg);
@@ -388,14 +480,14 @@
             box-shadow: 0 7px 18px rgba(9, 132, 227, 0.14);
         }
         .game-select-btn:hover {
-            transform: translateY(-3px) scale(1.02);
+            transform: translate3d(0, -3px, 0) scale(1.02);
             background: linear-gradient(135deg, #6c5ce7, #8172f0);
             color: #ffffff;
             border-color: #81ecec;
             box-shadow: 0 12px 26px rgba(108, 92, 231, 0.5);
         }
         .game-select-btn:active {
-            transform: translateY(2px) scale(0.96);
+            transform: translate3d(0, 2px, 0) scale(0.96);
             box-shadow: 0 2px 8px rgba(108, 92, 231, 0.35), inset 0 2px 6px rgba(0, 0, 0, 0.35);
         }
         body.light-mode .game-select-btn:hover {
@@ -405,22 +497,27 @@
             box-shadow: 0 12px 24px rgba(9, 132, 227, 0.32);
         }
         body.light-mode .game-select-btn:active {
-            transform: translateY(2px) scale(0.96);
+            transform: translate3d(0, 2px, 0) scale(0.96);
             box-shadow: 0 2px 6px rgba(9, 132, 227, 0.22);
         }
         
         .game-dropdown-menu {
-            display: none;
             position: absolute;
             right: 0;
             top: 58px;
             background: #14142b;
             border: 1.5px solid #6c5ce7;
             border-radius: 14px;
-            width: 220px;
-            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.85);
+            width: 225px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.88);
             z-index: 999;
             overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translate3d(0, -10px, 0) scale(0.96);
+            transform-origin: top right;
+            transition: opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1), transform 0.28s cubic-bezier(0.22, 1.4, 0.36, 1), visibility 0.24s ease;
         }
         body.light-mode .game-dropdown-menu {
             background: #ffffff;
@@ -428,8 +525,10 @@
             box-shadow: 0 14px 28px rgba(9, 132, 227, 0.22);
         }
         .game-dropdown-menu.show {
-            display: block;
-            animation: menuFadeIn 0.22s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translate3d(0, 0, 0) scale(1);
         }
         .game-option {
             padding: 13px 18px;
@@ -442,7 +541,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: background 0.2s ease, padding-left 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease, transform 0.15s ease;
+            transition: background 0.2s ease, padding-left 0.25s cubic-bezier(0.22, 1.45, 0.36, 1), color 0.2s ease, transform 0.15s ease;
         }
         .game-option:last-child { border-bottom: none; }
         body.light-mode .game-option {
@@ -453,7 +552,7 @@
         .game-option:hover {
             background: linear-gradient(90deg, #6c5ce7, #8e7cf3);
             color: #ffffff;
-            padding-left: 22px;
+            padding-left: 23px;
         }
         .game-option:active {
             transform: scale(0.97);
@@ -463,21 +562,21 @@
             color: #ffffff;
         }
 
-        /* CATEGORY TABS MENU NÂNG CẤP VỚI VỆT SÁNG ĐỘNG & LÚN/NỔI */
+        /* CATEGORY TABS MENU VỚI THANH TRƯỢT ÁNH SÁNG ĐÀN HỒI (SLIDING PILL) */
         .category-tabs {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             width: 92%;
             max-width: 1100px;
             flex-wrap: wrap;
-            padding: 8px;
-            background: linear-gradient(135deg, rgba(18, 18, 38, 0.88), rgba(26, 22, 54, 0.85));
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(108, 92, 231, 0.42);
+            padding: 9px;
+            background: linear-gradient(135deg, rgba(18, 18, 38, 0.9), rgba(28, 23, 58, 0.88));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(108, 92, 231, 0.48);
             border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.38);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.07);
             position: relative;
             z-index: 20;
             overflow: hidden;
@@ -489,10 +588,10 @@
             left: -120%;
             width: 60%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.08), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.11), transparent);
             transform: skewX(-20deg);
             pointer-events: none;
-            animation: tabSweep 5s ease-in-out infinite;
+            animation: tabSweep 4.5s ease-in-out infinite;
         }
         @keyframes tabSweep {
             0% { left: -120%; }
@@ -504,64 +603,150 @@
             box-shadow: 0 8px 20px rgba(9, 132, 227, 0.1);
         }
 
+        /* VIÊN THUỐC ÁNH SÁNG TRƯỢT ĐUỔI THEO TAB ĐANG CHỌN */
+        .cat-active-pill {
+            position: absolute;
+            top: 9px;
+            left: 9px;
+            height: 38px;
+            width: 90px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #6c5ce7, #5641e5);
+            border: 1px solid #81ecec;
+            box-shadow: 0 6px 18px rgba(108, 92, 231, 0.6), 0 0 16px rgba(0, 255, 255, 0.25);
+            z-index: 1;
+            pointer-events: none;
+            will-change: transform, width, height;
+            transition: transform 0.38s cubic-bezier(0.22, 1.35, 0.36, 1), width 0.38s cubic-bezier(0.22, 1.35, 0.36, 1), height 0.3s ease;
+        }
+        body.light-mode .cat-active-pill {
+            background: linear-gradient(135deg, #0984e3, #00a8ff);
+            border-color: #74b9ff;
+            box-shadow: 0 6px 16px rgba(9, 132, 227, 0.35);
+        }
+
         .cat-btn {
             position: relative;
             z-index: 2;
-            background: rgba(26, 26, 52, 0.92);
+            background: rgba(26, 26, 52, 0.55);
             color: #cbd5e1;
-            border: 1px solid rgba(108, 92, 231, 0.38);
+            border: 1px solid rgba(108, 92, 231, 0.28);
             padding: 10px 20px;
             border-radius: 11px;
             font-weight: bold;
             font-size: 13px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            transition: transform 0.26s cubic-bezier(0.22, 1.45, 0.36, 1), color 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+            user-select: none;
         }
         .cat-btn:hover {
-            transform: translateY(-3px) scale(1.03);
-            background: rgba(108, 92, 231, 0.65);
+            transform: translate3d(0, -2px, 0) scale(1.02);
             color: #ffffff;
-            border-color: #81ecec;
-            box-shadow: 0 8px 18px rgba(108, 92, 231, 0.38);
+            border-color: rgba(129, 236, 236, 0.65);
         }
         .cat-btn:active {
-            transform: translateY(2px) scale(0.95);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(0, 0, 0, 0.35);
+            transform: translate3d(0, 2px, 0) scale(0.95);
         }
         body.light-mode .cat-btn {
-            background: #f8fbff;
+            background: rgba(248, 251, 255, 0.7);
             color: #576574;
-            border-color: #cbd5e1;
-            box-shadow: 0 3px 10px rgba(9, 132, 227, 0.06);
+            border-color: rgba(203, 213, 225, 0.8);
         }
         body.light-mode .cat-btn:hover {
-            transform: translateY(-3px) scale(1.03);
-            background: rgba(9, 132, 227, 0.14);
             color: #0984e3;
             border-color: #0984e3;
         }
-        body.light-mode .cat-btn:active {
-            transform: translateY(2px) scale(0.95);
-            box-shadow: 0 1px 4px rgba(9, 132, 227, 0.15), inset 0 2px 4px rgba(9, 132, 227, 0.15);
-        }
         .cat-btn.active {
-            background: linear-gradient(135deg, #6c5ce7, #5641e5);
+            background: transparent;
             color: #ffffff;
-            border-color: #81ecec;
-            box-shadow: 0 6px 18px rgba(108, 92, 231, 0.6), 0 0 14px rgba(0, 255, 255, 0.22);
-        }
-        .cat-btn.active:hover {
-            transform: translateY(-3px) scale(1.03);
-        }
-        .cat-btn.active:active {
-            transform: translateY(2px) scale(0.95);
+            border-color: transparent;
         }
         body.light-mode .cat-btn.active {
-            background: linear-gradient(135deg, #0984e3, #00a8ff);
+            background: transparent;
             color: #ffffff;
+            border-color: transparent;
+        }
+
+        /* THANH LỌC TAG PHỤ BÊN TRONG VỚI THANH TRƯỢT MƯỢT */
+        .tag-filter-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+            width: 92%;
+            max-width: 1100px;
+            flex-wrap: wrap;
+            align-items: center;
+            position: relative;
+            z-index: 15;
+            padding: 4px 0;
+        }
+        .tag-filter-label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #a4b0be;
+            margin-right: 4px;
+            position: relative;
+            z-index: 2;
+        }
+        body.light-mode .tag-filter-label { color: #576574; }
+
+        .tag-active-pill {
+            position: absolute;
+            top: 4px;
+            left: 0;
+            height: 30px;
+            width: 64px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #ff4757, #6c5ce7);
+            border: 1px solid #81ecec;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.45);
+            z-index: 1;
+            pointer-events: none;
+            will-change: transform, width;
+            transition: transform 0.36s cubic-bezier(0.22, 1.38, 0.36, 1), width 0.36s cubic-bezier(0.22, 1.38, 0.36, 1);
+        }
+        body.light-mode .tag-active-pill {
+            background: linear-gradient(90deg, #0984e3, #00cec9);
             border-color: #74b9ff;
-            box-shadow: 0 6px 16px rgba(9, 132, 227, 0.35);
+            box-shadow: 0 5px 14px rgba(9, 132, 227, 0.32);
+        }
+
+        .tag-chip-btn {
+            position: relative;
+            z-index: 2;
+            background: rgba(20, 20, 42, 0.72);
+            color: #cbd5e1;
+            border: 1px solid rgba(108, 92, 231, 0.32);
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.24s cubic-bezier(0.22, 1.45, 0.36, 1), color 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+            user-select: none;
+        }
+        .tag-chip-btn:hover {
+            transform: translate3d(0, -2px, 0) scale(1.03);
+            border-color: #00ffff;
+            color: #ffffff;
+        }
+        .tag-chip-btn:active {
+            transform: translate3d(0, 2px, 0) scale(0.94);
+        }
+        .tag-chip-btn.active {
+            background: transparent;
+            color: #ffffff;
+            border-color: transparent;
+        }
+        body.light-mode .tag-chip-btn {
+            background: rgba(255, 255, 255, 0.85);
+            color: #4b5563;
+            border-color: #cbd5e1;
+        }
+        body.light-mode .tag-chip-btn.active {
+            background: transparent;
+            color: #ffffff;
+            border-color: transparent;
         }
 
         /* SECTION TITLE */
@@ -575,7 +760,7 @@
             align-items: center;
             gap: 10px;
             border-left: 4px solid #6c5ce7;
-            padding-left: 10px;
+            padding-left: 12px;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
         }
         body.light-mode .section-title {
@@ -595,20 +780,20 @@
 
         /* CARD ITEM NÂNG CẤP VỚI HIỆU ỨNG NỔI KHI THẢ & LÚN KHI ẤN */
         .script-card {
-            background: linear-gradient(145deg, rgba(24, 24, 50, 0.86), rgba(16, 16, 33, 0.92));
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            background: linear-gradient(145deg, rgba(24, 24, 50, 0.88), rgba(16, 16, 33, 0.94));
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-radius: 16px;
-            border: 1px solid rgba(108, 92, 231, 0.42);
+            border: 1px solid rgba(108, 92, 231, 0.45);
             padding: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 22px rgba(0,0,0,0.48);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
             cursor: pointer;
-            transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+            transition: transform 0.28s cubic-bezier(0.22, 1.45, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease;
         }
         body.light-mode .script-card {
             background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.98));
@@ -616,12 +801,12 @@
             box-shadow: 0 8px 20px rgba(9, 132, 227, 0.08);
         }
         .script-card:hover {
-            transform: translateY(-7px) scale(1.015);
-            box-shadow: 0 16px 34px rgba(108, 92, 231, 0.45);
+            transform: translate3d(0, -7px, 0) scale(1.015);
+            box-shadow: 0 16px 36px rgba(108, 92, 231, 0.48);
             border-color: #81ecec;
         }
         .script-card:active {
-            transform: translateY(2px) scale(0.975);
+            transform: translate3d(0, 2px, 0) scale(0.975);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
         body.light-mode .script-card:hover {
@@ -629,7 +814,7 @@
             border-color: #0984e3;
         }
         body.light-mode .script-card:active {
-            transform: translateY(2px) scale(0.975);
+            transform: translate3d(0, 2px, 0) scale(0.975);
             box-shadow: 0 3px 10px rgba(9, 132, 227, 0.14);
         }
 
@@ -677,7 +862,7 @@
             width: 100%;
             height: 115px;
             background: #1e1e36;
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -694,6 +879,10 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .script-card:hover .card-thumbnail img {
+            transform: scale(1.05);
         }
         
         .card-title {
@@ -732,33 +921,42 @@
             width: 100%;
             padding: 10px;
             border: none;
-            border-radius: 8px;
+            border-radius: 9px;
             font-weight: bold;
             font-size: 12px;
             cursor: pointer;
             text-align: center;
-            transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.25s cubic-bezier(0.22, 1.45, 0.36, 1), filter 0.2s ease, box-shadow 0.2s ease;
         }
-        .card-btn:hover { filter: brightness(1.08); transform: translateY(-2px); }
-        .card-btn:active { transform: translateY(2px) scale(0.96); filter: brightness(0.94); }
+        .card-btn:hover { filter: brightness(1.08); transform: translate3d(0, -2px, 0); }
+        .card-btn:active { transform: translate3d(0, 2px, 0) scale(0.96); filter: brightness(0.94); }
         .btn-script { background: linear-gradient(90deg, #ff4757, #ff6b81); color: white; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.42); }
         .btn-script:active { box-shadow: 0 2px 6px rgba(255, 71, 87, 0.25); }
         .btn-link { background: linear-gradient(90deg, #00cec9, #55efc4); color: #000; box-shadow: 0 5px 15px rgba(0, 206, 201, 0.42); }
         .btn-link:active { box-shadow: 0 2px 6px rgba(0, 206, 201, 0.25); }
 
-        /* MODAL CHI TIẾT SCRIPT NÂNG CẤP */
+        /* MODAL CHI TIẾT SCRIPT NÂNG CẤP MƯỢT */
         .modal-overlay {
-            display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 10001;
+            display: flex;
             justify-content: center;
             align-items: center;
             padding: 15px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.26s ease, visibility 0.26s ease;
         }
-        .modal-overlay.show { display: flex; }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
         
         .modal-box {
             background: #16162a;
@@ -768,17 +966,17 @@
             max-width: 450px;
             overflow: hidden;
             box-shadow: 0 0 45px rgba(255, 71, 87, 0.55);
-            animation: modalPop 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translate3d(0, 16px, 0) scale(0.94);
+            transition: transform 0.32s cubic-bezier(0.22, 1.4, 0.36, 1);
             position: relative;
+        }
+        .modal-overlay.show .modal-box {
+            transform: translate3d(0, 0, 0) scale(1);
         }
         body.light-mode .modal-box {
             background: #ffffff;
             border-color: #0984e3;
             box-shadow: 0 0 40px rgba(9, 132, 227, 0.35);
-        }
-        @keyframes modalPop {
-            0% { transform: scale(0.92); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
         }
 
         .modal-header {
@@ -801,10 +999,10 @@
             padding: 5px 11px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+            transition: transform 0.24s cubic-bezier(0.22, 1.45, 0.36, 1), box-shadow 0.2s ease;
         }
-        .modal-close-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); }
-        .modal-close-btn:active { transform: translateY(1px) scale(0.94); }
+        .modal-close-btn:hover { transform: translate3d(0, -2px, 0); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); }
+        .modal-close-btn:active { transform: translate3d(0, 1px, 0) scale(0.94); }
         body.light-mode .modal-close-btn { color: #0984e3; }
 
         .modal-body {
@@ -891,15 +1089,15 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(108, 92, 231, 0.25);
-            transition: background 0.2s ease, transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+            transition: background 0.2s ease, transform 0.25s cubic-bezier(0.22, 1.45, 0.36, 1), box-shadow 0.2s ease;
         }
         .modal-copy-btn:hover {
             background: rgba(108, 92, 231, 0.45);
-            transform: translateY(-2px);
+            transform: translate3d(0, -2px, 0);
             box-shadow: 0 8px 18px rgba(108, 92, 231, 0.35);
         }
         .modal-copy-btn:active {
-            transform: translateY(2px) scale(0.95);
+            transform: translate3d(0, 2px, 0) scale(0.95);
             box-shadow: 0 2px 6px rgba(108, 92, 231, 0.2);
         }
         body.light-mode .modal-copy-btn {
@@ -923,14 +1121,14 @@
             text-align: center;
             display: inline-block;
             text-decoration: none;
-            transition: opacity 0.2s ease, transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+            transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.22, 1.45, 0.36, 1), box-shadow 0.2s ease;
         }
         body.light-mode .modal-action-btn {
             background: linear-gradient(90deg, #0984e3, #00cec9);
             box-shadow: 0 6px 18px rgba(9, 132, 227, 0.4);
         }
-        .modal-action-btn:hover { opacity: 0.96; color: white; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(255, 71, 87, 0.62); }
-        .modal-action-btn:active { transform: translateY(2px) scale(0.96); box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3); }
+        .modal-action-btn:hover { opacity: 0.96; color: white; transform: translate3d(0, -2px, 0); box-shadow: 0 10px 24px rgba(255, 71, 87, 0.62); }
+        .modal-action-btn:active { transform: translate3d(0, 2px, 0) scale(0.96); box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3); }
 
         /* THÔNG BÁO CHƯA CẬP NHẬT */
         .empty-notice {
@@ -954,17 +1152,18 @@
             max-width: 1100px;
             text-align: center;
             padding: 15px;
-            background: rgba(108, 92, 231, 0.22);
-            backdrop-filter: blur(5px);
+            background: rgba(108, 92, 231, 0.24);
+            backdrop-filter: blur(6px);
             border: 1px dashed #6c5ce7;
-            border-radius: 12px;
+            border-radius: 14px;
             color: #00ffff;
             font-size: 14px;
             font-weight: bold;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top: 8px;
+            margin-bottom: 12px;
             position: relative;
             z-index: 10;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
         }
         body.light-mode .follow-banner {
             background: rgba(9, 132, 227, 0.12);
@@ -981,7 +1180,7 @@
     </div>
     <div class="bg-3d-overlay"></div>
 
-    <!-- CANVAS HIỆU ỨNG THỜI TIẾT (MƯA ĐỎ / TUYẾT RƠI) -->
+    <!-- CANVAS HIỆU ỨNG THỜI TIẾT (MƯA ĐỎ / TUYẾT RƠI SIÊU MƯỢT) -->
     <canvas id="weatherCanvas"></canvas>
 
     <!-- NÚT CHUYỂN ĐỔI MẶT TRĂNG / MẶT TRỜI -->
@@ -991,7 +1190,7 @@
 
     <div class="content-layer">
         <!-- BANNER CHÍNH CÓ LOGO NGAY BÊN CẠNH -->
-        <div class="header-banner fade-menu">
+        <div class="header-banner fade-menu" style="animation-delay: 0.04s;">
             <div class="header-left">
                 <div class="brand-title">THL HUB HACK</div>
                 <h1 class="main-heading">Kho chia sẻ Script<br>& Hack RBLX</h1>
@@ -1019,9 +1218,12 @@
             </div>
         </div>
 
-        <!-- Ô TÌM KIẾM & NÚT CHỌN GAME ^ -->
-        <div class="filter-container fade-menu" style="animation-delay: 0.08s;">
+        <!-- Ô TÌM KIẾM, RESET & NÚT CHỌN GAME ^ -->
+        <div class="filter-container fade-menu" style="animation-delay: 0.12s;">
             <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm mod, game, tác giả..." onkeyup="renderData()">
+            <button type="button" class="reset-filter-btn" id="resetFilterBtn" onclick="resetAllFilters()" title="Đặt lại tìm kiếm & bộ lọc">
+                🔄 Reset
+            </button>
             
             <div class="game-dropdown-wrapper">
                 <button class="game-select-btn" id="gameSelectBtn" onclick="toggleGameDropdown()">
@@ -1041,15 +1243,28 @@
             </div>
         </div>
 
-        <!-- CÁC NÚT LỌC DANH MỤC -->
-        <div class="category-tabs fade-menu" id="categoryTabsContainer" style="animation-delay: 0.14s;">
+        <!-- CÁC NÚT LỌC DANH MỤC CÓ THANH TRƯỢT MƯỢT -->
+        <div class="category-tabs fade-menu" id="categoryTabsContainer" style="animation-delay: 0.18s;">
+            <div class="cat-active-pill" id="catActivePill"></div>
             <button class="cat-btn active" id="tabAll" onclick="filterCategory('all')">✨ Tất cả</button>
             <button class="cat-btn" id="tabScript" onclick="filterCategory('script')">📜 Script</button>
             <button class="cat-btn" id="tabClient" onclick="filterCategory('client')">🎮 Client (File Hack)</button>
         </div>
 
+        <!-- THANH CHỌN TAG NHANH BÊN TRONG CÓ THANH TRƯỢT MƯỢT -->
+        <div class="tag-filter-bar fade-menu" id="tagFilterBar" style="animation-delay: 0.24s;">
+            <div class="tag-active-pill" id="tagActivePill"></div>
+            <span class="tag-filter-label">🏷️ Lọc nhanh:</span>
+            <button type="button" class="tag-chip-btn active" data-tag="ALL" onclick="filterByTag('ALL', this)">Tất cả</button>
+            <button type="button" class="tag-chip-btn" data-tag="HOT" onclick="filterByTag('HOT', this)">🔥 HOT</button>
+            <button type="button" class="tag-chip-btn" data-tag="VIP" onclick="filterByTag('VIP', this)">👑 VIP</button>
+            <button type="button" class="tag-chip-btn" data-tag="MYTHIC" onclick="filterByTag('MYTHIC', this)">⚡ MYTHIC</button>
+            <button type="button" class="tag-chip-btn" data-tag="Android" onclick="filterByTag('Android', this)">🤖 Android</button>
+            <button type="button" class="tag-chip-btn" data-tag="iOS" onclick="filterByTag('iOS', this)">🍏 iOS</button>
+        </div>
+
         <!-- DÒNG LỜI KÊU GỌI FOLLOW -->
-        <div class="follow-banner fade-menu" style="animation-delay: 0.2s;">
+        <div class="follow-banner fade-menu" style="animation-delay: 0.3s;">
             ❤️ Follow mình để mình lấy thêm động lực ra video script cho các bạn nhé!
         </div>
 
@@ -1064,7 +1279,7 @@
     </div>
 
     <!-- MODAL HIỆN BẢNG CHI TIẾT KHI BẤM VÀO SCRIPT -->
-    <div class="modal-overlay" id="scriptModal">
+    <div class="modal-overlay" id="scriptModal" onclick="if(event.target === this) closeModal()">
         <div class="modal-box">
             <div class="modal-header">
                 <span id="modalTagTitle" style="font-weight:900;">🔥 HOT</span>
@@ -1093,6 +1308,8 @@
     <script>
         let selectedGame = "Steal an Egg";
         let currentModalLink = "";
+        let currentTagFilter = "ALL";
+        let currentFilter = 'all';
 
         // DANH SÁCH SCRIPT STEAL AN EGG
         let stealAnEggScripts = [
@@ -1140,7 +1357,7 @@
             { name: "", author: "THLHUB", tag: "FREE", tagType: "badge-free", img: "chilli_v10.png", desc: "Đang cập nhật...", link: "" }
         ];
 
-        // 10 Ô SCRIPT BLOX FRUIT (Ô đầu đã cập nhật: night hub | fram nhanh sự kiện đầy đủ | IMG_1466.png | https://link4sub.com/gs2u8cd6)
+        // 10 Ô SCRIPT BLOX FRUIT
         let bloxFruitScripts = [
             {
                 name: "night hub",
@@ -1172,104 +1389,211 @@
             { name: "", author: "Delta Team", tag: "Android", tagType: "badge-vip", img: "client_logo.png", link: "" }
         ];
 
-        let currentFilter = 'all';
+        function escapeAttr(str) {
+            return String(str || "")
+                .replace(/&/g, "&amp;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
 
-        // TƯƠNG TÁC NGHIÊNG 3D NHẸ THEO CON TRỎ CHUỘT CHO NỀN HỐ ĐEN XOÁY
+        // CẬP NHẬT VỊ TRÍ THANH TRƯỢT MƯỢT CHO MENU DANH MỤC & TAG
+        function updateSlidingIndicators() {
+            const catContainer = document.getElementById("categoryTabsContainer");
+            const activeCatBtn = catContainer ? catContainer.querySelector(".cat-btn.active") : null;
+            const catPill = document.getElementById("catActivePill");
+            if (catContainer && activeCatBtn && catPill) {
+                catPill.style.width = `${activeCatBtn.offsetWidth}px`;
+                catPill.style.height = `${activeCatBtn.offsetHeight}px`;
+                catPill.style.transform = `translate3d(${activeCatBtn.offsetLeft - 9}px, ${activeCatBtn.offsetTop - 9}px, 0)`;
+            }
+
+            const tagContainer = document.getElementById("tagFilterBar");
+            const activeTagBtn = tagContainer ? tagContainer.querySelector(".tag-chip-btn.active") : null;
+            const tagPill = document.getElementById("tagActivePill");
+            if (tagContainer && activeTagBtn && tagPill) {
+                tagPill.style.width = `${activeTagBtn.offsetWidth}px`;
+                tagPill.style.height = `${activeTagBtn.offsetHeight}px`;
+                tagPill.style.transform = `translate3d(${activeTagBtn.offsetLeft}px, ${activeTagBtn.offsetTop - 4}px, 0)`;
+            }
+        }
+
+        // TƯƠNG TÁC NGHIÊNG 3D MƯỢT THEO CON TRỎ CHUỘT (LERP MƯỢT)
+        let mouseTargetX = 0, mouseTargetY = 0;
+        let mouseCurrentX = 0, mouseCurrentY = 0;
+        let windOffset = 0;
+
         document.addEventListener("mousemove", function(e) {
-            const layer = document.getElementById("bg3dLayer");
-            if (!layer) return;
-            const xNorm = (e.clientX / window.innerWidth - 0.5) * 14;
-            const yNorm = (e.clientY / window.innerHeight - 0.5) * -14;
-            layer.style.marginLeft = `${-xNorm * 1.8}px`;
-            layer.style.marginTop = `${yNorm * 1.8}px`;
+            mouseTargetX = (e.clientX / window.innerWidth - 0.5);
+            mouseTargetY = (e.clientY / window.innerHeight - 0.5);
         });
 
-        // LOGIC CHUYỂN CHẾ ĐỘ SÁNG / TỐI & MƯA ĐỎ / TUYẾT RƠI
+        // HỆ THỐNG MƯA ĐỎ & TUYẾT RƠI SIÊU MƯỢT (HIGH-DPI + DELTA-TIME + SPRITE CACHE)
         let isLightMode = false;
         const canvas = document.getElementById("weatherCanvas");
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d", { alpha: true });
         let particles = [];
+        let viewW = window.innerWidth;
+        let viewH = window.innerHeight;
+        let dpr = 1;
+        let lastFrameTime = performance.now();
+
+        // TẠO SPRITE BÔNG TUYẾT & GIỌT MƯA SẴN TRONG BỘ NHỚ ĐỆM ĐỂ RENDER 120FPS
+        const snowSprite = document.createElement("canvas");
+        snowSprite.width = 48;
+        snowSprite.height = 48;
+        (function buildSnowSprite() {
+            const sctx = snowSprite.getContext("2d");
+            const cx = 24, cy = 24;
+            const grad = sctx.createRadialGradient(cx, cy, 1, cx, cy, 20);
+            grad.addColorStop(0, "rgba(255, 255, 255, 1)");
+            grad.addColorStop(0.45, "rgba(180, 226, 255, 0.85)");
+            grad.addColorStop(1, "rgba(9, 132, 227, 0)");
+            sctx.fillStyle = grad;
+            sctx.beginPath();
+            sctx.arc(cx, cy, 20, 0, Math.PI * 2);
+            sctx.fill();
+
+            sctx.save();
+            sctx.translate(cx, cy);
+            sctx.strokeStyle = "rgba(9, 132, 227, 0.78)";
+            sctx.lineWidth = 1.6;
+            sctx.lineCap = "round";
+            for (let i = 0; i < 6; i++) {
+                sctx.rotate(Math.PI / 3);
+                sctx.beginPath();
+                sctx.moveTo(0, 0);
+                sctx.lineTo(0, -13);
+                sctx.moveTo(0, -8);
+                sctx.lineTo(-3, -11);
+                sctx.moveTo(0, -8);
+                sctx.lineTo(3, -11);
+                sctx.stroke();
+            }
+            sctx.restore();
+        })();
 
         function resizeCanvas() {
-            canvas.width = window.innerWidth || document.documentElement.clientWidth;
-            canvas.height = window.innerHeight || document.documentElement.clientHeight;
+            viewW = window.innerWidth || document.documentElement.clientWidth;
+            viewH = window.innerHeight || document.documentElement.clientHeight;
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = Math.floor(viewW * dpr);
+            canvas.height = Math.floor(viewH * dpr);
+            canvas.style.width = viewW + "px";
+            canvas.style.height = viewH + "px";
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
+
         window.addEventListener("resize", function() {
             resizeCanvas();
             initParticles();
+            updateSlidingIndicators();
         });
         resizeCanvas();
 
         function initParticles() {
             particles = [];
-            const w = canvas.width || 1024;
-            const h = canvas.height || 768;
-            const count = isLightMode ? 95 : 135;
+            const count = isLightMode ? 90 : 140;
             for (let i = 0; i < count; i++) {
+                // Tạo 3 tầng chiều sâu (z: 0.45 -> 1.15) để hạt xa-gần có tốc độ và kích thước khác nhau
+                const depth = 0.45 + Math.random() * 0.7;
                 particles.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    radius: isLightMode ? (Math.random() * 4.2 + 2.2) : (Math.random() * 1.6 + 1.1),
-                    length: isLightMode ? 0 : (Math.random() * 20 + 14),
-                    speedY: isLightMode ? (Math.random() * 1.8 + 0.9) : (Math.random() * 8 + 7),
-                    speedX: isLightMode ? (Math.random() * 1.2 - 0.6) : (Math.random() * 1.5 - 0.5),
-                    opacity: Math.random() * 0.55 + 0.35,
-                    angle: Math.random() * Math.PI * 2
+                    x: Math.random() * (viewW + 80) - 40,
+                    y: Math.random() * (viewH + 80) - 40,
+                    depth: depth,
+                    size: isLightMode ? (8 + depth * 12) : (0.9 + depth * 1.1),
+                    length: isLightMode ? 0 : (14 + depth * 18),
+                    speedY: isLightMode ? (38 + depth * 58) : (420 + depth * 360),
+                    speedX: isLightMode ? ((Math.random() - 0.5) * 18) : (-45 - depth * 35),
+                    opacity: 0.28 + depth * 0.52,
+                    phase: Math.random() * Math.PI * 2,
+                    freq: 1.1 + Math.random() * 1.4,
+                    amp: 14 + depth * 22
                 });
             }
         }
 
-        function drawSnowflake(x, y, r, opacity) {
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.strokeStyle = `rgba(9, 132, 227, ${opacity})`;
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, opacity + 0.25)})`;
-            ctx.lineWidth = 1.3;
+        function animateWeather(now) {
+            const rawDt = (now - lastFrameTime) / 1000;
+            lastFrameTime = now;
+            // Giới hạn dt để tránh nhảy hạt khi chuyển tab trình duyệt
+            const dt = Math.min(rawDt, 0.05);
 
-            for (let i = 0; i < 6; i++) {
-                ctx.rotate(Math.PI / 3);
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(0, -r * 1.6);
-                ctx.stroke();
+            // Làm mượt chuyển động nền 3D theo chuột
+            mouseCurrentX += (mouseTargetX - mouseCurrentX) * Math.min(1, dt * 6);
+            mouseCurrentY += (mouseTargetY - mouseCurrentY) * Math.min(1, dt * 6);
+            const layer = document.getElementById("bg3dLayer");
+            if (layer) {
+                layer.style.transform = `translate3d(${(-mouseCurrentX * 26).toFixed(2)}px, ${(-mouseCurrentY * 26).toFixed(2)}px, 0) scale(1.12)`;
             }
-            ctx.beginPath();
-            ctx.arc(0, 0, r * 0.42, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-        }
 
-        function animateWeather() {
-            if (!canvas.width || !canvas.height) {
-                resizeCanvas();
-            }
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            windOffset = mouseCurrentX * (isLightMode ? 45 : 95);
+            ctx.clearRect(0, 0, viewW, viewH);
 
-            for (let p of particles) {
-                if (!isLightMode) {
+            if (!isLightMode) {
+                // VẼ MƯA ĐỎ NEON MƯỢT VỚI GRADIENT ĐUÔI MƯA
+                ctx.lineCap = "round";
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    const vx = (p.speedX + windOffset * p.depth);
+                    const vy = p.speedY;
+
+                    p.x += vx * dt;
+                    p.y += vy * dt;
+
+                    const tailX = p.x - vx * 0.032;
+                    const tailY = p.y - p.length;
+
+                    const grad = ctx.createLinearGradient(tailX, tailY, p.x, p.y);
+                    grad.addColorStop(0, "rgba(255, 45, 75, 0)");
+                    grad.addColorStop(0.5, `rgba(255, 45, 75, ${(p.opacity * 0.55).toFixed(2)})`);
+                    grad.addColorStop(1, `rgba(255, 95, 118, ${p.opacity.toFixed(2)})`);
+
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(255, 45, 75, ${p.opacity})`;
-                    ctx.lineWidth = p.radius;
-                    ctx.lineCap = "round";
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(p.x + p.speedX * 1.5, p.y + p.length);
+                    ctx.strokeStyle = grad;
+                    ctx.lineWidth = p.size;
+                    ctx.moveTo(tailX, tailY);
+                    ctx.lineTo(p.x, p.y);
                     ctx.stroke();
 
-                    p.x += p.speedX;
-                    p.y += p.speedY;
-                } else {
-                    p.angle += 0.025;
-                    p.x += Math.sin(p.angle) * 0.85 + p.speedX;
-                    p.y += p.speedY;
-                    drawSnowflake(p.x, p.y, p.radius, p.opacity);
+                    if (p.y - p.length > viewH + 20) {
+                        p.y = -20 - Math.random() * 40;
+                        p.x = Math.random() * (viewW + 120) - 60;
+                    }
+                    if (p.x > viewW + 60) p.x = -50;
+                    if (p.x < -60) p.x = viewW + 50;
                 }
+            } else {
+                // VẼ TUYẾT RƠI BẰNG SPRITE ĐÃ CACHE SẴN (CỰC MƯỢT)
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    p.phase += p.freq * dt;
+                    const swayX = Math.sin(p.phase) * p.amp;
 
-                if (p.y > canvas.height + 20) {
-                    p.y = -20;
-                    p.x = Math.random() * canvas.width;
+                    p.x += (p.speedX + windOffset * p.depth) * dt;
+                    p.y += p.speedY * dt;
+
+                    const drawX = p.x + swayX;
+                    const drawY = p.y;
+
+                    ctx.globalAlpha = Math.min(1, p.opacity);
+                    ctx.drawImage(
+                        snowSprite,
+                        drawX - p.size * 0.5,
+                        drawY - p.size * 0.5,
+                        p.size,
+                        p.size
+                    );
+
+                    if (p.y > viewH + 25) {
+                        p.y = -25;
+                        p.x = Math.random() * (viewW + 80) - 40;
+                    }
+                    if (p.x > viewW + 50) p.x = -40;
+                    if (p.x < -50) p.x = viewW + 40;
                 }
-                if (p.x > canvas.width + 20) p.x = 0;
-                if (p.x < -20) p.x = canvas.width;
+                ctx.globalAlpha = 1;
             }
 
             requestAnimationFrame(animateWeather);
@@ -1286,13 +1610,16 @@
                 btn.innerText = "🌙";
             }
             initParticles();
+            requestAnimationFrame(updateSlidingIndicators);
         }
 
         window.addEventListener("DOMContentLoaded", function() {
             resizeCanvas();
             initParticles();
             renderData();
-            animateWeather();
+            requestAnimationFrame(updateSlidingIndicators);
+            lastFrameTime = performance.now();
+            requestAnimationFrame(animateWeather);
         });
 
         function toggleGameDropdown() {
@@ -1326,6 +1653,29 @@
             document.getElementById('tabAll').className = type === 'all' ? 'cat-btn active' : 'cat-btn';
             document.getElementById('tabScript').className = type === 'script' ? 'cat-btn active' : 'cat-btn';
             document.getElementById('tabClient').className = type === 'client' ? 'cat-btn active' : 'cat-btn';
+            updateSlidingIndicators();
+            renderData();
+        }
+
+        function filterByTag(tagName, btnEl) {
+            currentTagFilter = tagName;
+            document.querySelectorAll('.tag-chip-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            updateSlidingIndicators();
+            renderData();
+        }
+
+        function resetAllFilters() {
+            document.getElementById("searchInput").value = "";
+            currentFilter = 'all';
+            currentTagFilter = 'ALL';
+            document.getElementById('tabAll').className = 'cat-btn active';
+            document.getElementById('tabScript').className = 'cat-btn';
+            document.getElementById('tabClient').className = 'cat-btn';
+            document.querySelectorAll('.tag-chip-btn').forEach((b, idx) => {
+                b.classList.toggle('active', idx === 0);
+            });
+            updateSlidingIndicators();
             renderData();
         }
 
@@ -1356,17 +1706,19 @@
             scriptGrid.innerHTML = "";
             clientGrid.innerHTML = "";
 
-            let filteredScripts = activeScripts.filter(item => 
-                item.name && item.link && (
+            let filteredScripts = activeScripts.filter(item => {
+                const matchTag = currentTagFilter === 'ALL' || (item.tag && item.tag.toUpperCase() === currentTagFilter.toUpperCase());
+                return item.name && item.link && matchTag && (
                     item.name.toLowerCase().includes(keyword) ||
                     item.author.toLowerCase().includes(keyword) ||
                     (item.desc && item.desc.toLowerCase().includes(keyword))
-                )
-            );
+                );
+            });
 
-            let filteredClients = clientsData.filter(item => 
-                item.name && item.link && (item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword))
-            );
+            let filteredClients = clientsData.filter(item => {
+                const matchTag = currentTagFilter === 'ALL' || (item.tag && item.tag.toUpperCase() === currentTagFilter.toUpperCase());
+                return item.name && item.link && matchTag && (item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword));
+            });
 
             let visibleScriptCount = currentFilter === 'client' ? 0 : filteredScripts.length;
             let visibleClientCount = currentFilter === 'script' ? 0 : filteredClients.length;
@@ -1383,14 +1735,15 @@
                 scriptGrid.style.display = "grid";
                 filteredScripts.forEach((item, idx) => {
                     const delay = (idx * 0.05).toFixed(2);
+                    const safePayload = escapeAttr(JSON.stringify(item));
                     scriptGrid.innerHTML += `
-                        <div class="script-card fade-card" style="animation-delay: ${delay}s;" onclick='openScriptModal(${JSON.stringify(item)})'>
-                            <div class="card-badge ${item.tagType}">${item.tag}</div>
+                        <div class="script-card fade-card" style="animation-delay: ${delay}s;" data-item="${safePayload}" onclick="openScriptModalFromEl(this)">
+                            <div class="card-badge ${escapeAttr(item.tagType)}">${escapeAttr(item.tag)}</div>
                             <div>
-                                <div class="card-thumbnail"><img src="${item.img}" alt="${item.name}"></div>
-                                <div class="card-title" title="${item.name}">${item.name}</div>
-                                <div class="card-sub-desc" title="${item.desc || ''}">${item.desc || ''}</div>
-                                <div class="card-author">Roblox - bởi <span>${item.author}</span></div>
+                                <div class="card-thumbnail"><img src="${escapeAttr(item.img)}" alt="${escapeAttr(item.name)}"></div>
+                                <div class="card-title" title="${escapeAttr(item.name)}">${escapeAttr(item.name)}</div>
+                                <div class="card-sub-desc" title="${escapeAttr(item.desc || '')}">${escapeAttr(item.desc || '')}</div>
+                                <div class="card-author">Roblox - bởi <span>${escapeAttr(item.author)}</span></div>
                             </div>
                             <button class="card-btn btn-script">🔗 Xem & Lấy Script</button>
                         </div>
@@ -1407,12 +1760,12 @@
                 filteredClients.forEach((item, idx) => {
                     const delay = (idx * 0.05).toFixed(2);
                     clientGrid.innerHTML += `
-                        <div class="script-card fade-card" style="animation-delay: ${delay}s;" onclick="window.open('${item.link}', '_blank')">
-                            <div class="card-badge ${item.tagType}">${item.tag}</div>
+                        <div class="script-card fade-card" style="animation-delay: ${delay}s;" onclick="window.open('${escapeAttr(item.link)}', '_blank')">
+                            <div class="card-badge ${escapeAttr(item.tagType)}">${escapeAttr(item.tag)}</div>
                             <div>
-                                <div class="card-thumbnail"><img src="${item.img}" alt="${item.name}"></div>
-                                <div class="card-title" title="${item.name}">${item.name}</div>
-                                <div class="card-author">Roblox - bởi <span>${item.author}</span></div>
+                                <div class="card-thumbnail"><img src="${escapeAttr(item.img)}" alt="${escapeAttr(item.name)}"></div>
+                                <div class="card-title" title="${escapeAttr(item.name)}">${escapeAttr(item.name)}</div>
+                                <div class="card-author">Roblox - bởi <span>${escapeAttr(item.author)}</span></div>
                             </div>
                             <button class="card-btn btn-link">📥 Tải Xuống</button>
                         </div>
@@ -1431,6 +1784,19 @@
                         </div>
                     </div>
                 `;
+            }
+
+            requestAnimationFrame(updateSlidingIndicators);
+        }
+
+        function openScriptModalFromEl(el) {
+            try {
+                const raw = el.getAttribute("data-item");
+                if (raw) {
+                    openScriptModal(JSON.parse(raw));
+                }
+            } catch (e) {
+                console.error(e);
             }
         }
 
