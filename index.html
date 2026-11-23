@@ -17,7 +17,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 60px;
+            padding-bottom: 72px;
             overflow-x: hidden;
             position: relative;
             transition: background-color 0.45s cubic-bezier(0.22, 1, 0.36, 1), color 0.45s cubic-bezier(0.22, 1, 0.36, 1);
@@ -603,7 +603,6 @@
             box-shadow: 0 8px 20px rgba(9, 132, 227, 0.1);
         }
 
-        /* VIÊN THUỐC ÁNH SÁNG TRƯỢT ĐUỔI THEO TAB ĐANG CHỌN */
         .cat-active-pill {
             position: absolute;
             top: 9px;
@@ -835,6 +834,43 @@
             100% { transform: translateY(100%) rotate(30deg); }
         }
 
+        .card-top-actions {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 3;
+            display: flex;
+            gap: 6px;
+        }
+
+        .fav-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(12, 12, 26, 0.78);
+            color: #ff6b81;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.24s cubic-bezier(0.22, 1.45, 0.36, 1), background 0.2s ease, border-color 0.2s ease;
+        }
+        .fav-btn:hover {
+            transform: scale(1.14);
+            border-color: #ff6b81;
+            background: rgba(255, 71, 87, 0.25);
+        }
+        .fav-btn:active {
+            transform: scale(0.9);
+        }
+        .fav-btn.is-fav {
+            background: rgba(255, 71, 87, 0.35);
+            border-color: #ff4757;
+            box-shadow: 0 0 10px rgba(255, 71, 87, 0.45);
+        }
+
         .card-badge {
             position: absolute;
             top: 12px;
@@ -917,8 +953,14 @@
             font-weight: bold;
         }
 
+        .card-footer-actions {
+            display: flex;
+            gap: 8px;
+            align-items: stretch;
+        }
+
         .card-btn {
-            width: 100%;
+            flex: 1;
             padding: 10px;
             border: none;
             border-radius: 9px;
@@ -934,6 +976,32 @@
         .btn-script:active { box-shadow: 0 2px 6px rgba(255, 71, 87, 0.25); }
         .btn-link { background: linear-gradient(90deg, #00cec9, #55efc4); color: #000; box-shadow: 0 5px 15px rgba(0, 206, 201, 0.42); }
         .btn-link:active { box-shadow: 0 2px 6px rgba(0, 206, 201, 0.25); }
+
+        .card-quick-copy {
+            flex: 0 0 auto;
+            padding: 0 11px;
+            border-radius: 9px;
+            border: 1px solid rgba(108, 92, 231, 0.55);
+            background: rgba(25, 25, 55, 0.9);
+            color: #00ffff;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.24s cubic-bezier(0.22, 1.45, 0.36, 1), background 0.2s ease, border-color 0.2s ease;
+        }
+        .card-quick-copy:hover {
+            transform: translate3d(0, -2px, 0);
+            background: rgba(108, 92, 231, 0.45);
+            border-color: #81ecec;
+        }
+        .card-quick-copy:active {
+            transform: translate3d(0, 2px, 0) scale(0.94);
+        }
+        body.light-mode .card-quick-copy {
+            background: #eef6ff;
+            color: #0984e3;
+            border-color: #90caf9;
+        }
 
         /* MODAL CHI TIẾT SCRIPT NÂNG CẤP MƯỢT */
         .modal-overlay {
@@ -1170,6 +1238,36 @@
             border-color: #0984e3;
             color: #0984e3;
         }
+
+        /* TOAST THÔNG BÁO NHANH */
+        .toast-notice {
+            position: fixed;
+            bottom: 22px;
+            left: 50%;
+            transform: translate3d(-50%, 24px, 0);
+            background: rgba(20, 20, 44, 0.96);
+            color: #00ffff;
+            border: 1px solid #00ffff;
+            padding: 11px 20px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            z-index: 10005;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.22, 1.4, 0.36, 1);
+        }
+        .toast-notice.show {
+            opacity: 1;
+            transform: translate3d(-50%, 0, 0);
+        }
+        body.light-mode .toast-notice {
+            background: #ffffff;
+            color: #0984e3;
+            border-color: #0984e3;
+            box-shadow: 0 10px 24px rgba(9, 132, 227, 0.22);
+        }
     </style>
 </head>
 <body>
@@ -1220,7 +1318,7 @@
 
         <!-- Ô TÌM KIẾM, RESET & NÚT CHỌN GAME ^ -->
         <div class="filter-container fade-menu" style="animation-delay: 0.12s;">
-            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm mod, game, tác giả..." onkeyup="renderData()">
+            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Tìm mod, game, tác giả..." oninput="renderData()">
             <button type="button" class="reset-filter-btn" id="resetFilterBtn" onclick="resetAllFilters()" title="Đặt lại tìm kiếm & bộ lọc">
                 🔄 Reset
             </button>
@@ -1249,6 +1347,7 @@
             <button class="cat-btn active" id="tabAll" onclick="filterCategory('all')">✨ Tất cả</button>
             <button class="cat-btn" id="tabScript" onclick="filterCategory('script')">📜 Script</button>
             <button class="cat-btn" id="tabClient" onclick="filterCategory('client')">🎮 Client (File Hack)</button>
+            <button class="cat-btn" id="tabFav" onclick="filterCategory('fav')">❤️ Yêu thích</button>
         </div>
 
         <!-- THANH CHỌN TAG NHANH BÊN TRONG CÓ THANH TRƯỢT MƯỢT -->
@@ -1299,17 +1398,47 @@
 
                 <div class="modal-btn-group">
                     <button type="button" class="modal-copy-btn" id="modalCopyBtn" onclick="copyModalLink()">📋 Copy Link</button>
-                    <a id="modalActionBtn" href="#" target="_blank" class="modal-action-btn">🚀 Lấy Script (Vượt Link)</a>
+                    <a id="modalActionBtn" href="#" target="_blank" rel="noopener noreferrer" class="modal-action-btn">🚀 Lấy Script (Vượt Link)</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="toast-notice" id="toastNotice">✅ Đã sao chép link!</div>
 
     <script>
         let selectedGame = "Steal an Egg";
         let currentModalLink = "";
         let currentTagFilter = "ALL";
         let currentFilter = 'all';
+        let favorites = loadFavorites();
+        let toastTimer = null;
+
+        function loadFavorites() {
+            try {
+                const raw = localStorage.getItem("thl_hub_favs");
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveFavorites() {
+            try {
+                localStorage.setItem("thl_hub_favs", JSON.stringify(favorites));
+            } catch (e) {}
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toastNotice");
+            if (!toast) return;
+            toast.innerText = message;
+            toast.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 1900);
+        }
 
         // DANH SÁCH SCRIPT STEAL AN EGG
         let stealAnEggScripts = [
@@ -1398,6 +1527,56 @@
                 .replace(/>/g, "&gt;");
         }
 
+        function getItemKey(item) {
+            return `${item.name || ""}::${item.link || ""}`;
+        }
+
+        function isFavorite(item) {
+            return favorites.includes(getItemKey(item));
+        }
+
+        function toggleFavorite(event, itemKey) {
+            event.stopPropagation();
+            const idx = favorites.indexOf(itemKey);
+            if (idx >= 0) {
+                favorites.splice(idx, 1);
+                showToast("💔 Đã bỏ khỏi Yêu thích");
+            } else {
+                favorites.push(itemKey);
+                showToast("❤️ Đã thêm vào Yêu thích");
+            }
+            saveFavorites();
+            renderData();
+        }
+
+        function quickCopyLink(event, link) {
+            event.stopPropagation();
+            if (!link) return;
+            copyText(link, () => showToast("✅ Đã copy link thành công!"));
+        }
+
+        function copyText(text, onDone) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    if (onDone) onDone();
+                }).catch(() => {
+                    fallbackCopy(text, onDone);
+                });
+            } else {
+                fallbackCopy(text, onDone);
+            }
+        }
+
+        function fallbackCopy(text, onDone) {
+            const tempInput = document.createElement("input");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            if (onDone) onDone();
+        }
+
         // CẬP NHẬT VỊ TRÍ THANH TRƯỢT MƯỢT CHO MENU DANH MỤC & TAG
         function updateSlidingIndicators() {
             const catContainer = document.getElementById("categoryTabsContainer");
@@ -1439,7 +1618,6 @@
         let dpr = 1;
         let lastFrameTime = performance.now();
 
-        // TẠO SPRITE BÔNG TUYẾT & GIỌT MƯA SẴN TRONG BỘ NHỚ ĐỆM ĐỂ RENDER 120FPS
         const snowSprite = document.createElement("canvas");
         snowSprite.width = 48;
         snowSprite.height = 48;
@@ -1496,7 +1674,6 @@
             particles = [];
             const count = isLightMode ? 90 : 140;
             for (let i = 0; i < count; i++) {
-                // Tạo 3 tầng chiều sâu (z: 0.45 -> 1.15) để hạt xa-gần có tốc độ và kích thước khác nhau
                 const depth = 0.45 + Math.random() * 0.7;
                 particles.push({
                     x: Math.random() * (viewW + 80) - 40,
@@ -1517,10 +1694,8 @@
         function animateWeather(now) {
             const rawDt = (now - lastFrameTime) / 1000;
             lastFrameTime = now;
-            // Giới hạn dt để tránh nhảy hạt khi chuyển tab trình duyệt
             const dt = Math.min(rawDt, 0.05);
 
-            // Làm mượt chuyển động nền 3D theo chuột
             mouseCurrentX += (mouseTargetX - mouseCurrentX) * Math.min(1, dt * 6);
             mouseCurrentY += (mouseTargetY - mouseCurrentY) * Math.min(1, dt * 6);
             const layer = document.getElementById("bg3dLayer");
@@ -1532,7 +1707,6 @@
             ctx.clearRect(0, 0, viewW, viewH);
 
             if (!isLightMode) {
-                // VẼ MƯA ĐỎ NEON MƯỢT VỚI GRADIENT ĐUÔI MƯA
                 ctx.lineCap = "round";
                 for (let i = 0; i < particles.length; i++) {
                     const p = particles[i];
@@ -1565,7 +1739,6 @@
                     if (p.x < -60) p.x = viewW + 50;
                 }
             } else {
-                // VẼ TUYẾT RƠI BẰNG SPRITE ĐÃ CACHE SẴN (CỰC MƯỢT)
                 for (let i = 0; i < particles.length; i++) {
                     const p = particles[i];
                     p.phase += p.freq * dt;
@@ -1648,11 +1821,22 @@
             }
         });
 
+        window.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                closeModal();
+                const menu = document.getElementById("gameDropdownMenu");
+                const btn = document.getElementById("gameSelectBtn");
+                if (menu) menu.classList.remove("show");
+                if (btn) btn.classList.remove("open");
+            }
+        });
+
         function filterCategory(type) {
             currentFilter = type;
             document.getElementById('tabAll').className = type === 'all' ? 'cat-btn active' : 'cat-btn';
             document.getElementById('tabScript').className = type === 'script' ? 'cat-btn active' : 'cat-btn';
             document.getElementById('tabClient').className = type === 'client' ? 'cat-btn active' : 'cat-btn';
+            document.getElementById('tabFav').className = type === 'fav' ? 'cat-btn active' : 'cat-btn';
             updateSlidingIndicators();
             renderData();
         }
@@ -1672,11 +1856,13 @@
             document.getElementById('tabAll').className = 'cat-btn active';
             document.getElementById('tabScript').className = 'cat-btn';
             document.getElementById('tabClient').className = 'cat-btn';
+            document.getElementById('tabFav').className = 'cat-btn';
             document.querySelectorAll('.tag-chip-btn').forEach((b, idx) => {
                 b.classList.toggle('active', idx === 0);
             });
             updateSlidingIndicators();
             renderData();
+            showToast("🔄 Đã đặt lại bộ lọc");
         }
 
         function renderData() {
@@ -1708,7 +1894,8 @@
 
             let filteredScripts = activeScripts.filter(item => {
                 const matchTag = currentTagFilter === 'ALL' || (item.tag && item.tag.toUpperCase() === currentTagFilter.toUpperCase());
-                return item.name && item.link && matchTag && (
+                const matchFav = currentFilter !== 'fav' || isFavorite(item);
+                return item.name && item.link && matchTag && matchFav && (
                     item.name.toLowerCase().includes(keyword) ||
                     item.author.toLowerCase().includes(keyword) ||
                     (item.desc && item.desc.toLowerCase().includes(keyword))
@@ -1717,7 +1904,8 @@
 
             let filteredClients = clientsData.filter(item => {
                 const matchTag = currentTagFilter === 'ALL' || (item.tag && item.tag.toUpperCase() === currentTagFilter.toUpperCase());
-                return item.name && item.link && matchTag && (item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword));
+                const matchFav = currentFilter !== 'fav' || isFavorite(item);
+                return item.name && item.link && matchTag && matchFav && (item.name.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword));
             });
 
             let visibleScriptCount = currentFilter === 'client' ? 0 : filteredScripts.length;
@@ -1730,14 +1918,22 @@
                 <span class="pill-client">🎮 ${visibleClientCount} File Hack</span>
             `;
 
-            if (currentFilter === 'all' || currentFilter === 'script') {
+            const showScriptSection = currentFilter === 'all' || currentFilter === 'script' || currentFilter === 'fav';
+            const showClientSection = currentFilter === 'all' || currentFilter === 'client' || currentFilter === 'fav';
+
+            if (showScriptSection) {
                 titleScript.style.display = filteredScripts.length > 0 ? "flex" : "none";
                 scriptGrid.style.display = "grid";
                 filteredScripts.forEach((item, idx) => {
                     const delay = (idx * 0.05).toFixed(2);
                     const safePayload = escapeAttr(JSON.stringify(item));
+                    const fav = isFavorite(item);
+                    const keyAttr = escapeAttr(getItemKey(item));
                     scriptGrid.innerHTML += `
                         <div class="script-card fade-card" style="animation-delay: ${delay}s;" data-item="${safePayload}" onclick="openScriptModalFromEl(this)">
+                            <div class="card-top-actions">
+                                <button type="button" class="fav-btn ${fav ? 'is-fav' : ''}" title="${fav ? 'Bỏ yêu thích' : 'Lưu yêu thích'}" onclick="toggleFavorite(event, '${keyAttr}')">${fav ? '❤️' : '🤍'}</button>
+                            </div>
                             <div class="card-badge ${escapeAttr(item.tagType)}">${escapeAttr(item.tag)}</div>
                             <div>
                                 <div class="card-thumbnail"><img src="${escapeAttr(item.img)}" alt="${escapeAttr(item.name)}"></div>
@@ -1745,7 +1941,10 @@
                                 <div class="card-sub-desc" title="${escapeAttr(item.desc || '')}">${escapeAttr(item.desc || '')}</div>
                                 <div class="card-author">Roblox - bởi <span>${escapeAttr(item.author)}</span></div>
                             </div>
-                            <button class="card-btn btn-script">🔗 Xem & Lấy Script</button>
+                            <div class="card-footer-actions">
+                                <button type="button" class="card-btn btn-script">🔗 Xem & Lấy Script</button>
+                                <button type="button" class="card-quick-copy" title="Copy Link" onclick="quickCopyLink(event, '${escapeAttr(item.link)}')">📋</button>
+                            </div>
                         </div>
                     `;
                 });
@@ -1754,20 +1953,28 @@
                 scriptGrid.style.display = "none";
             }
 
-            if (currentFilter === 'all' || currentFilter === 'client') {
+            if (showClientSection) {
                 titleClient.style.display = filteredClients.length > 0 ? "flex" : "none";
                 clientGrid.style.display = "grid";
                 filteredClients.forEach((item, idx) => {
                     const delay = (idx * 0.05).toFixed(2);
+                    const fav = isFavorite(item);
+                    const keyAttr = escapeAttr(getItemKey(item));
                     clientGrid.innerHTML += `
-                        <div class="script-card fade-card" style="animation-delay: ${delay}s;" onclick="window.open('${escapeAttr(item.link)}', '_blank')">
+                        <div class="script-card fade-card" style="animation-delay: ${delay}s;" onclick="window.open('${escapeAttr(item.link)}', '_blank', 'noopener,noreferrer')">
+                            <div class="card-top-actions">
+                                <button type="button" class="fav-btn ${fav ? 'is-fav' : ''}" title="${fav ? 'Bỏ yêu thích' : 'Lưu yêu thích'}" onclick="toggleFavorite(event, '${keyAttr}')">${fav ? '❤️' : '🤍'}</button>
+                            </div>
                             <div class="card-badge ${escapeAttr(item.tagType)}">${escapeAttr(item.tag)}</div>
                             <div>
                                 <div class="card-thumbnail"><img src="${escapeAttr(item.img)}" alt="${escapeAttr(item.name)}"></div>
                                 <div class="card-title" title="${escapeAttr(item.name)}">${escapeAttr(item.name)}</div>
                                 <div class="card-author">Roblox - bởi <span>${escapeAttr(item.author)}</span></div>
                             </div>
-                            <button class="card-btn btn-link">📥 Tải Xuống</button>
+                            <div class="card-footer-actions">
+                                <button type="button" class="card-btn btn-link">📥 Tải Xuống</button>
+                                <button type="button" class="card-quick-copy" title="Copy Link" onclick="quickCopyLink(event, '${escapeAttr(item.link)}')">📋</button>
+                            </div>
                         </div>
                     `;
                 });
@@ -1776,7 +1983,15 @@
                 clientGrid.style.display = "none";
             }
 
-            if (selectedGame === "Blox Fruit" && filteredScripts.length === 0 && currentFilter !== 'client') {
+            if (currentFilter === 'fav' && filteredScripts.length === 0 && filteredClients.length === 0) {
+                mainArea.innerHTML += `
+                    <div style="width:100%; display:flex; justify-content:center; margin-top: 10px;">
+                        <div class="empty-notice fade-menu">
+                            ❤️ Chưa có mục nào trong danh sách <strong>Yêu thích</strong>. Bấm biểu tượng 🤍 trên thẻ bất kỳ để lưu nhanh!
+                        </div>
+                    </div>
+                `;
+            } else if (selectedGame === "Blox Fruit" && filteredScripts.length === 0 && currentFilter !== 'client' && currentFilter !== 'fav') {
                 mainArea.innerHTML += `
                     <div style="width:100%; display:flex; justify-content:center; margin-top: 10px;">
                         <div class="empty-notice fade-menu">
@@ -1820,29 +2035,13 @@
         function copyModalLink() {
             if (!currentModalLink) return;
             const copyBtn = document.getElementById("modalCopyBtn");
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(currentModalLink).then(() => {
+            copyText(currentModalLink, () => {
+                if (copyBtn) {
                     copyBtn.innerText = "✅ Đã Copy";
                     setTimeout(() => { copyBtn.innerText = "📋 Copy Link"; }, 1800);
-                }).catch(() => {
-                    fallbackCopy(currentModalLink, copyBtn);
-                });
-            } else {
-                fallbackCopy(currentModalLink, copyBtn);
-            }
-        }
-
-        function fallbackCopy(text, btn) {
-            const tempInput = document.createElement("input");
-            tempInput.value = text;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
-            if (btn) {
-                btn.innerText = "✅ Đã Copy";
-                setTimeout(() => { btn.innerText = "📋 Copy Link"; }, 1800);
-            }
+                }
+                showToast("✅ Đã copy link script!");
+            });
         }
 
         function closeModal() {
